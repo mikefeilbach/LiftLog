@@ -49,6 +49,7 @@ public class MainActivity extends ActionBarActivity {
 
     //*************************************************************************
     //* To log different Activity life cycles.
+    //*
     //*************************************************************************
     @Override
     protected void onStart() {

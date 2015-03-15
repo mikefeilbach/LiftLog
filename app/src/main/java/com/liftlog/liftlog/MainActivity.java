@@ -6,7 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.util.Log;        // Added. Able to use Log now.
 
-
+//paul did this
 public class MainActivity extends ActionBarActivity {
 
     private static final String TAG = "testMessage";

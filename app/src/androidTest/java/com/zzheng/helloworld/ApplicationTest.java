@@ -1,4 +1,4 @@
-package com.liftlog.liftlog;
+package com.zzheng.helloworld;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

@@ -1,18 +1,10 @@
-package com.zzheng.helloworld;
+package com.Arnold.LiftLog;
 
-import android.app.ActionBar;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity {
     public final static String EXTRA_MESSAGE = "com.zzheng.helloworld.MESSAGE";
@@ -26,10 +18,9 @@ public class MainActivity extends ActionBarActivity {
         button1.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(MainActivity.this, "RelativeLayoutButton clicked", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(MainActivity.this, NewLogActivity.class);
-
                 startActivity(intent);
+                //Once pressed on the button1 it triggers NewLogActivity
             }
         });
 
@@ -42,9 +33,9 @@ public class MainActivity extends ActionBarActivity {
         button2.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(MainActivity.this, "RelativeLayoutButton clicked", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(MainActivity.this, ViewHistoryActivity.class);
                 startActivity(intent);
+                //Once pressed on the button2 it triggers ViewHistoryActivity
             }
         });
         button2.setText(R.id.test_button_text2, "View");
@@ -56,9 +47,9 @@ public class MainActivity extends ActionBarActivity {
         button3.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(MainActivity.this, "RelativeLayoutButton clicked", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(MainActivity.this, EditBubbleActivity.class);
                 startActivity(intent);
+                //Once pressed on the button3 it triggers EditBubbleActivity
             }
         });
         button3.setText(R.id.test_button_text2, "Edit");

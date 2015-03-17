@@ -1,4 +1,4 @@
-package com.zzheng.helloworld;
+package com.Arnold.LiftLog;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;

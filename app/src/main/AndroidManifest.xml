@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zzheng.helloworld" >
+    package="com.Arnold.LiftLog" >
 
     <application
         android:allowBackup="true"
@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name="com.Arnold.LiftLog.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,34 +19,34 @@
         <activity
             android:name=".DisplayMessageActivity"
             android:label="@string/title_activity_display_message"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName="com.Arnold.LiftLog.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.zzheng.helloworld.MainActivity" />
+                android:value="com.Arnold.LiftLog.MainActivity" />
         </activity>
         <activity
-            android:name=".NewLogActivity"
+            android:name="com.Arnold.LiftLog.NewLogActivity"
             android:label="@string/title_activity_new_log"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName="com.Arnold.LiftLog.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.zzheng.helloworld.MainActivity" />
+                android:value="com.Arnold.LiftLog.MainActivity" />
         </activity>
         <activity
-            android:name=".ViewHistoryActivity"
+            android:name="com.Arnold.LiftLog.ViewHistoryActivity"
             android:label="@string/title_activity_view_history"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName="com.Arnold.LiftLog.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.zzheng.helloworld.MainActivity" />
+                android:value="com.Arnold.LiftLog.MainActivity" />
         </activity>
         <activity
-            android:name=".EditBubbleActivity"
+            android:name="com.Arnold.LiftLog.EditBubbleActivity"
             android:label="@string/title_activity_edit_bubble"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName="com.Arnold.LiftLog.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.zzheng.helloworld.MainActivity" />
+                android:value="com.Arnold.LiftLog.MainActivity" />
         </activity>
     </application>
 

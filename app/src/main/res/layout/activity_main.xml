@@ -1,3 +1,6 @@
+<!--
+    layout of home screen
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,6 +13,13 @@
         android:layout_weight="1"
         android:layout_height="0dp">
         </include>
+    <!--
+    "include" here stands for the "customized button" element.
+    It is extended from "@layout/button_layout"
+    the contents of customized button are initialized  in "OnCreate" of activity "MainActivity"
+    "include" cannot be set with a OnClick.
+    The button listener can only be set by setOnClickListener in "OnCreate" of activity "MainActivity".
+    -->
     <include
         android:id="@+id/button2"
         layout="@layout/button_layout"

@@ -7,7 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class MainActivity extends ActionBarActivity {
-    public final static String EXTRA_MESSAGE = "com.zzheng.helloworld.MESSAGE";
+    public final static String EXTRA_MESSAGE = "com.Arnold.LiftLog.MESSAGE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {// main function oncreate
         super.onCreate(savedInstanceState);
@@ -26,7 +26,7 @@ public class MainActivity extends ActionBarActivity {
 
         button1.setText(R.id.test_button_text2, "New");
         button1.setText(R.id.test_button_text1, "Log");
-        int id1 = getResources().getIdentifier("com.zzheng.helloworld:mipmap/button1", null, null);
+        int id1 = getResources().getIdentifier("com.Arnold.LiftLog:mipmap/button1", null, null);
         button1.setImageResource(R.id.test_button_image, id1);
 
         RelativeLayoutButton button2 = new RelativeLayoutButton(this,R.id.button2);
@@ -40,7 +40,7 @@ public class MainActivity extends ActionBarActivity {
         });
         button2.setText(R.id.test_button_text2, "View");
         button2.setText(R.id.test_button_text1, "History");
-        int id2 = getResources().getIdentifier("com.zzheng.helloworld:mipmap/button2", null, null);
+        int id2 = getResources().getIdentifier("com.Arnold.LiftLog:mipmap/button2", null, null);
         button2.setImageResource(R.id.test_button_image, id2);
 
         RelativeLayoutButton button3 = new RelativeLayoutButton(this,R.id.button3);
@@ -54,7 +54,7 @@ public class MainActivity extends ActionBarActivity {
         });
         button3.setText(R.id.test_button_text2, "Edit");
         button3.setText(R.id.test_button_text1, "Bubble");
-        int id3 = getResources().getIdentifier("com.zzheng.helloworld:mipmap/button3", null, null);
+        int id3 = getResources().getIdentifier("com.Arnold.LiftLog:mipmap/button3", null, null);
         button3.setImageResource(R.id.test_button_image, id3);
 
     }

@@ -10,8 +10,11 @@
     <string name="newlog">New Log</string>
     <string name="visithistory">Visit\n History</string>
     <string name="editbubble">Edit Bubble</string>
-    <string name="title_activity_new_log">NewLogActivity</string>
-    <string name="title_activity_view_history">ViewHistoryActivity</string>
-    <string name="title_activity_edit_bubble">EditBubbleActivity</string>
-
+    <string name="title_activity_new_log">New Log</string>
+    <string name="title_activity_view_history">View History</string>
+    <string name="title_activity_edit_bubble">Edit Bubble</string>
+    <string name="text_save_log">Save Log</string>
+    <string name="text_save_bubble">Save Bubble</string>
+    <string name="hint_log_title">Log Title (Max. 40 characters)</string>
+    <string name="hint_log_body">Log Body | Add your workout log here \n\nPlease, write one instruction per line</string>
 </resources>

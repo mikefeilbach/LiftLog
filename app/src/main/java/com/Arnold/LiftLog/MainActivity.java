@@ -7,8 +7,12 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class MainActivity extends ActionBarActivity {
     public final static String EXTRA_MESSAGE = "com.Arnold.LiftLog.MESSAGE";
@@ -120,14 +124,14 @@ public class MainActivity extends ActionBarActivity {
         // Start test.
         Log.v(TAG, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
                 + "@@@@@@@@@@");
-        Log.v(TAG, "@@ START: Database Test");
+        Log.v(TAG, "@@ START: Database Test.");
         Log.v(TAG, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
                 + "@@@@@@@@@@");
 
         Log.v(TAG, "Deleting all Bubbles in the Bubble table.");
         db.deleteAllBubbles();
 
-        Log.v(TAG, "Inserting: Mike, Paul, Zheng, Lauro");
+        Log.v(TAG, "Inserting: Mike, Paul, Zheng, Lauro.");
         db.addBubble(new Bubble("Mike"));
         db.addBubble(new Bubble("Paul"));
         db.addBubble(new Bubble("Zheng"));
@@ -136,7 +140,7 @@ public class MainActivity extends ActionBarActivity {
         Log.v(TAG, "Checking there are four records in Bubble table.");
         if (db.getAllBubbles().size() == 4)
         {
-            Log.v(TAG, "Passed!");
+            Log.v(TAG, "Passed");
         }
         else
         {
@@ -147,7 +151,7 @@ public class MainActivity extends ActionBarActivity {
         // Print out all Bubbles in Bubble table.
         List<Bubble> bubbles = db.getAllBubbles();
 
-        Log.v(TAG, "Bubbles in table printed below. Should be Mike, Paul, Zheng, Lauro");
+        Log.v(TAG, "Bubbles in table printed below. Should be Mike, Paul, Zheng, Lauro.");
         for (Bubble bubble : bubbles)
         {
             String log = "ID: " + bubble.getBubbleID()
@@ -250,6 +254,28 @@ public class MainActivity extends ActionBarActivity {
             return;
         }
 
+        Log.v(TAG, "Trying to insert Mike. Shouldn't work, no duplicates allowed.");
+        if (!db.addBubble(new Bubble("Mike")))
+        {
+            Log.v(TAG, "Passed");
+        }
+        else
+        {
+            Log.v(TAG, "**************** FAILED");
+            return;
+        }
+
+        Log.v(TAG, "Trying to insert Zheng. Shouldn't work, no duplicates allowed.");
+        if (!db.addBubble(new Bubble("Zheng")))
+        {
+            Log.v(TAG, "Passed");
+        }
+        else
+        {
+            Log.v(TAG, "**************** FAILED");
+            return;
+        }
+
         Log.v(TAG, "Add three new records: Ke$ha, Wiz Khalifa, Demi Lovato.");
         db.addBubble(new Bubble("Ke$ha"));
         db.addBubble(new Bubble("Wiz Khalifa"));
@@ -284,8 +310,24 @@ public class MainActivity extends ActionBarActivity {
         // fail, they return right away.
         Log.v(TAG, "********************************************************"
                 + "**********");
-        Log.v(TAG, "** END: Database Test");
+        Log.v(TAG, "** END: Database Test. All tests passed!");
         Log.v(TAG, "********************************************************"
                 + "**********");
+
+
+
+        Date currentDate = new Date(System.currentTimeMillis());
+        Log.v(TAG, currentDate.toString());
+
+        // Get user's current time zone.
+        TimeZone tz = TimeZone.getDefault();
+
+        // Get current date information.
+        SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
+
+        // Change timezone of current date information.
+        date.setTimeZone(tz);
+
+        Log.v(TAG, date.toString());
     }
 }

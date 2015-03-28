@@ -3,7 +3,7 @@ package com.Arnold.LiftLog;
 /**
  * Created by Mike Feilbach on 3/21/2015.
  * This class describes a Bubble object. Bubbles will be held in a Bubble
- * database.
+ * table within the app's database.
  */
 public class Bubble
 {

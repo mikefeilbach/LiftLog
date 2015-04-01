@@ -5,9 +5,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
 import android.content.ContentValues;
 import android.database.Cursor;
-
 import java.util.ArrayList;
 import java.util.List;
+import android.util.Log;
 
 /**
  * Created by Mike Feilbach on 3/21/2015.
@@ -17,6 +17,9 @@ import java.util.List;
  */
 public class DatabaseHandler extends SQLiteOpenHelper
 {
+    // For tagging messages in Log Cat.
+    private static final String TAG = "MyActivity";
+
     //*************************************************************************
     // Database attributes.
     //*************************************************************************
@@ -31,7 +34,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
     private static final String TABLE_BUBBLES = "bubbles";
 
     // Columns in the Bubble table.
-    public static final String COLUMN_BUBBLE_ID = "id";
+    public static final String COLUMN_BUBBLE_ID = "bubbleId";
     public static final String COLUMN_BUBBLE_CONTENT = "bubbleContent";
 
     //*************************************************************************
@@ -42,7 +45,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
     private static final String TABLE_LOGS = "logs";
 
     // Columns in the Bubble table.
-    public static final String COLUMN_LOG_ID = "id";
+    public static final String COLUMN_LOG_ID = "logId";
     public static final String COLUMN_LOG_TITLE = "logTitle";
     public static final String COLUMN_LOG_BODY = "logBody";
     public static final String COLUMN_LOG_DATE = "logDate";
@@ -62,6 +65,12 @@ public class DatabaseHandler extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db)
     {
+        Log.v(TAG, "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
+                + "$$$$$$$$$$");
+        Log.v(TAG, "$$ onCreate called: creating database.");
+        Log.v(TAG, "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
+                + "$$$$$$$$$$");
+
         // The Bubble table is created when the database is first initialized.
         String CREATE_BUBBLES_TABLE = "CREATE TABLE " +
                 TABLE_BUBBLES + "("
@@ -93,6 +102,31 @@ public class DatabaseHandler extends SQLiteOpenHelper
 
         // Create fresh tables.
         onCreate(db);
+    }
+
+    /**
+     * Delete the entire database (all tables) and recreates it.
+     *
+     * @param context the app's context. See the following:
+     * http://stackoverflow.com/questions/7917947/get-context-in-android
+     */
+    public void recreateDatabase(Context context)
+    {
+        Log.v(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+                + "!!!!!!!!!!");
+        Log.v(TAG, "!! recreateDatabase called: deleting database.");
+        Log.v(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+                + "!!!!!!!!!!");
+
+        // Close the SQLiteOpenHelper. This kills any open connections to the
+        // database.
+        this.close();
+
+        // Delete this database.
+        context.deleteDatabase(DATABASE_NAME);
+
+        // Force the database to recreate.
+        SQLiteDatabase dummy = this.getWritableDatabase();
     }
 
 

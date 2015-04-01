@@ -1,18 +1,14 @@
 package com.Arnold.LiftLog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
+
 
 public class MainActivity extends ActionBarActivity {
     public final static String EXTRA_MESSAGE = "com.Arnold.LiftLog.MESSAGE";
@@ -75,6 +71,8 @@ public class MainActivity extends ActionBarActivity {
         //*********************************************************************
         // START: Exercise database to check functionality.
         //*********************************************************************
+
+
         testDatabase(this);
 
         //*********************************************************************
@@ -120,6 +118,9 @@ public class MainActivity extends ActionBarActivity {
         // Bubbles, etc. It also does all Log interaction, with similar
         // functions.
         DatabaseHandler db = new DatabaseHandler(context);
+
+        // Delete & recreate the database.
+        db.recreateDatabase(context);
 
         // Start test.
         Log.v(TAG, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
@@ -313,21 +314,5 @@ public class MainActivity extends ActionBarActivity {
         Log.v(TAG, "** END: Database Test. All tests passed!");
         Log.v(TAG, "********************************************************"
                 + "**********");
-
-
-
-        Date currentDate = new Date(System.currentTimeMillis());
-        Log.v(TAG, currentDate.toString());
-
-        // Get user's current time zone.
-        TimeZone tz = TimeZone.getDefault();
-
-        // Get current date information.
-        SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
-
-        // Change timezone of current date information.
-        date.setTimeZone(tz);
-
-        Log.v(TAG, date.toString());
     }
 }

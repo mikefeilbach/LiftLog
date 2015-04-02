@@ -1,22 +1,92 @@
 package com.Arnold.LiftLog;
 
+import android.app.ActionBar;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Locale;
 
+/**
+ * Created by Paul Theis.  This class is the view history screen, where users will be able to scroll
+ * through their previous logs (sorted by date), click on any log, and view its contents.
+ */
 public class ViewHistoryActivity extends ActionBarActivity {
 
-     //ArrayList<Log> logHistory = new ArrayList<Log>;
+    //list holding the pre-sorted logs stored in database
+     ArrayList<Log> logHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_view_history);
 
-    }
+        logHistory = new ArrayList<Log>();
 
+        //Call database to get all logs
+
+        // I'm assuming that the log will already be in order in the arraylist, so I will just be
+        // printing straight from it.  That can be adjusted later if possible.
+
+        //****************************This is for testing only***********************************
+        Log log1 = new Log("Abs", "Trial1");
+        Log log2 = new Log("Ab", "Trial2");
+        Log log3 = new Log("Abss", "Trial3");
+        Log log4 = new Log("Abbs", "Trial4");
+        Log log5 = new Log("Aabs", "Trial5");
+        logHistory.add(log1);
+        logHistory.add(log2);
+        logHistory.add(log3);
+        logHistory.add(log4);
+        logHistory.add(log5);
+        //***************************************************************************************
+
+        //loop that creates buttons based on the number of logs stored in the database
+        //these buttons will be scrollable because of the xml file. Clicking on a button will
+        //bring you to another activity in which you can see the contents of the log
+        for(int i = 0;i<5;i++) {
+
+            //new button being created for log
+            Button myButton = new Button(this);
+
+            //set the text of the log to be the logs title (will add date later)
+            myButton.setText(logHistory.get(i).getLogTitle() + "\n\n\n\n\n\n");
+            //myButton.setText(log1.getLogTitle() + "\n\n\n\n\n\n");
+
+            //allows user to click on it
+            myButton.setClickable(true);
+
+            //when the button is click on by the user, starts the new activity with the detailed
+            //log information.  Right now, when clicked on the log just returns to the main page
+            myButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Intent intent = new Intent(ViewHistoryActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+            });
+
+            //gets the layout of this class, which has been nested inside a scrollable interface
+            LinearLayout layout = (LinearLayout) findViewById(R.id.View_History);
+
+            //sets button parameters
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+            //adds button to the layout
+            layout.addView(myButton, lp);
+        }
+
+
+
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -39,4 +109,6 @@ public class ViewHistoryActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

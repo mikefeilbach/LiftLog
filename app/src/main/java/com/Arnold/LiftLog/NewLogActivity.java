@@ -1,5 +1,6 @@
 package com.Arnold.LiftLog;
 
+import android.content.Intent;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -19,6 +20,9 @@ public class NewLogActivity extends ActionBarActivity {
 
     private EditText logTitleInput;
     private EditText logBodyInput;
+    private boolean newLog;
+    private Log oldLog;
+    private String stringOldLogID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +33,32 @@ public class NewLogActivity extends ActionBarActivity {
         this.logTitleInput = (EditText) findViewById(R.id.log_title);
         this.logBodyInput = (EditText) findViewById(R.id.log_body);
 
-        /*Set empty string for both inputs*/
-        this.logTitleInput.setText("");
-        this.logBodyInput.setText("");
+
+        Intent intent = getIntent();
+
+        //attempts to get the intents extra message if sent from view history
+        stringOldLogID = intent.getStringExtra("logID");
+
+        //if no extra message was sent, then this is a new log
+        if(stringOldLogID == null) {
+            /*Set empty string for both inputs*/
+            this.logTitleInput.setText("");
+            this.logBodyInput.setText("");
+
+            //sets new log to true because no extra message was sent with intent
+            newLog = true;
+        }
+        else {
+
+            //a message was sent, which means this is a previous log, not a new one
+            newLog = false;
+
+            //get log from database
+
+            //for testing purposes
+            this.logTitleInput.setText("Test Abs");
+            this.logBodyInput.setText("Test something here");
+        }
     }
 
 

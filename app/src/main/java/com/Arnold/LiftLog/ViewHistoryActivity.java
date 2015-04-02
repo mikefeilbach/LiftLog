@@ -19,9 +19,9 @@ import java.util.Locale;
  * through their previous logs (sorted by date), click on any log, and view its contents.
  */
 public class ViewHistoryActivity extends ActionBarActivity {
-
+   //  public final static String EXTRA_MESSAGE = "com.Arnold.LiftLog.MESSAGE";
     //list holding the pre-sorted logs stored in database
-     ArrayList<WorkoutLog> logHistory;
+     private ArrayList<WorkoutLog> logHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +61,9 @@ public class ViewHistoryActivity extends ActionBarActivity {
             myButton.setText(logHistory.get(i).getLogTitle() + "\n\n\n\n\n\n");
             //myButton.setText(log1.getLogTitle() + "\n\n\n\n\n\n");
 
+            //needed because logHistory was complaining below for intent.putExtra(...)
+            final int test = i;
+
             //allows user to click on it
             myButton.setClickable(true);
 
@@ -68,7 +71,8 @@ public class ViewHistoryActivity extends ActionBarActivity {
             //log information.  Right now, when clicked on the log just returns to the main page
             myButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    Intent intent = new Intent(ViewHistoryActivity.this, MainActivity.class);
+                    Intent intent = new Intent(ViewHistoryActivity.this, NewLogActivity.class);
+                    intent.putExtra("logID",String.valueOf(logHistory.get(test).getLogID()));
                     startActivity(intent);
                 }
             });

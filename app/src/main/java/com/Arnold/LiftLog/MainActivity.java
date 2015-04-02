@@ -1,14 +1,12 @@
 package com.Arnold.LiftLog;
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import java.util.List;
-
 
 public class MainActivity extends ActionBarActivity {
     public final static String EXTRA_MESSAGE = "com.Arnold.LiftLog.MESSAGE";
@@ -18,8 +16,6 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {// main function oncreate
-
-
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -71,14 +67,11 @@ public class MainActivity extends ActionBarActivity {
         //*********************************************************************
         // START: Exercise database to check functionality.
         //*********************************************************************
-
-
-        testDatabase(this);
+        //testDatabase(this);
 
         //*********************************************************************
         // DONE: Exercise database to check functionality.
         //*********************************************************************
-
     }
 
      /*@Override
@@ -120,7 +113,22 @@ public class MainActivity extends ActionBarActivity {
         DatabaseHandler db = new DatabaseHandler(context);
 
         // Delete & recreate the database.
-        db.recreateDatabase(context);
+        //db.recreateDatabase(context);
+
+        db.addLog(new WorkoutLog("Abs", "10 reps"));
+        db.addLog(new WorkoutLog("Chest", "50 reps"));
+        db.addLog(new WorkoutLog("Chest Again", "70 reps"));
+
+        List<WorkoutLog> logs = db.getAllWorkoutLogs();
+
+        for (int i = 0; i < logs.size(); i++)
+        {
+            Log.v(TAG, logs.get(i).toString());
+        }
+
+        // Testing.
+        if (true)
+            return;
 
         // Start test.
         Log.v(TAG, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"

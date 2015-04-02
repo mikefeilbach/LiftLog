@@ -27,7 +27,7 @@ public class Bubble
     /**
      * Bubble constructor.
      *
-     * @param bubbleContent - the Bubble's content.
+     * @param bubbleContent The Bubble's content.
      */
     public Bubble(String bubbleContent)
     {
@@ -47,7 +47,7 @@ public class Bubble
      * only be used by the database's internal code. Do not use this method
      * elsewhere.
      *
-     * @param bubbleID the ID to give this Bubble.
+     * @param bubbleID The ID to give this Bubble.
      */
     public void setBubbleID(int bubbleID)
     {

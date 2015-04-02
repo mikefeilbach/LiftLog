@@ -21,7 +21,7 @@ import java.util.Locale;
 public class ViewHistoryActivity extends ActionBarActivity {
 
     //list holding the pre-sorted logs stored in database
-     ArrayList<Log> logHistory;
+     ArrayList<WorkoutLog> logHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class ViewHistoryActivity extends ActionBarActivity {
 
         setContentView(R.layout.activity_view_history);
 
-        logHistory = new ArrayList<Log>();
+        logHistory = new ArrayList<WorkoutLog>();
 
         //Call database to get all logs
 
@@ -37,11 +37,11 @@ public class ViewHistoryActivity extends ActionBarActivity {
         // printing straight from it.  That can be adjusted later if possible.
 
         //****************************This is for testing only***********************************
-        Log log1 = new Log("Abs", "Trial1");
-        Log log2 = new Log("Ab", "Trial2");
-        Log log3 = new Log("Abss", "Trial3");
-        Log log4 = new Log("Abbs", "Trial4");
-        Log log5 = new Log("Aabs", "Trial5");
+        WorkoutLog log1 = new WorkoutLog("Abs", "Trial1");
+        WorkoutLog log2 = new WorkoutLog("Ab", "Trial2");
+        WorkoutLog log3 = new WorkoutLog("Abss", "Trial3");
+        WorkoutLog log4 = new WorkoutLog("Abbs", "Trial4");
+        WorkoutLog log5 = new WorkoutLog("Aabs", "Trial5");
         logHistory.add(log1);
         logHistory.add(log2);
         logHistory.add(log3);

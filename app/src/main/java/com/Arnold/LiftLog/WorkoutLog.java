@@ -4,47 +4,49 @@ import java.util.Calendar;
 
 /**
  * Created by Mike Feilbach on 3/21/2015.
- * This class describes a Log object. Logs will be held in a Log
- * Table within the app's database.
+ * This class describes a WorkoutLog object. WorkoutLogs will be held in a
+ * WorkoutLog table within the app's database.
  */
-public class Log
+public class WorkoutLog
 {
-    // Log ID. Unique among Logs. This field is assigned (within
-    // the database) when this Log is added to the database. Until
-    // this Log is pulled from the database, this field will be invalid.
+    // WorkoutLog ID. Unique among WorkoutLogs. This field is assigned (within
+    // the database) when this WorkoutLog is added to the database. Until
+    // this WorkoutLog is pulled from the database, this field will be invalid.
     private int _logID;
 
-    // Log's title and body.
+    // WorkoutLog's title and body.
     private String _logTitle;
     private String _logBody;
 
-    // Millisecond description of this Log's date (milliseconds since
-    // epoch). This field is assigned when this Log is first placed
+    // Millisecond description of this WorkoutLog's date (milliseconds since
+    // epoch). This field is assigned when this WorkoutLog is first placed
     // in the database (until then, this field is invalid).
     private long _logDateMilliseconds;
 
-    // String description of Log's date. This field is assigned when
-    // this Log is first pulled from the database (this field will
+    // String description of WorkoutLog's date. This field is assigned when
+    // this WorkoutLog is first pulled from the database (this field will
     // be invalid until then).
     private String _logDateString;
 
+
     /**
-     * Default Log constructor. Note that this constructor will
+     * Default WorkoutLog constructor. Note that this constructor will
      * assign default (invalid) values to all Log fields.
      */
-    public Log()
+    public WorkoutLog()
     {
     }
 
+
     /**
-     * Log constructor. Note that the Log's date in milliseconds (since
+     * Log constructor. Note that the WorkoutLog's date in milliseconds (since
      * epoch) is assigned automatically within this constructor.
      *
-     * @param logTitle - the Log's title.
+     * @param logTitle The WorkoutLog's title.
      *
-     * @param logBody - the Log's body.
+     * @param logBody The WorkoutLog's body.
      */
-    public Log(String logTitle, String logBody)
+    public WorkoutLog(String logTitle, String logBody)
     {
         this._logTitle = logTitle;
         this._logBody = logBody;
@@ -60,16 +62,23 @@ public class Log
         this._logDateMilliseconds = calendar.getTimeInMillis();
     }
 
+
     //*************************************************************************
-    // Access Log ID.
+    // Modify or access WorkoutLog ID.
     //*************************************************************************
     public int getLogID()
     {
         return this._logID;
     }
 
+    public void setLogID(int ID)
+    {
+        this._logID = ID;
+    }
+
+
     //*************************************************************************
-    // Modify or access Log title.
+    // Modify or access WorkoutLog title.
     //*************************************************************************
     public void setLogTitle(String logTitle)
     {
@@ -81,8 +90,9 @@ public class Log
         return this._logTitle;
     }
 
+
     //*************************************************************************
-    // Modify or access Log body.
+    // Modify or access WorkoutLog body.
     //*************************************************************************
     public void setLogBody(String logBody)
     {
@@ -94,19 +104,46 @@ public class Log
         return this._logBody;
     }
 
+
     //*************************************************************************
-    // Access Log millisecond date description.
+    // Modify or access WorkoutLog millisecond date description.
     //*************************************************************************
     public long getLogDateMilliseconds()
     {
         return this._logDateMilliseconds;
     }
 
+    public void setLogDateMilliseconds(long dateMilliseconds)
+    {
+        this._logDateMilliseconds = dateMilliseconds;
+    }
+
+
     //*************************************************************************
-    // Access Log String date description.
+    // Modify or access WorkoutLog String date description.
     //*************************************************************************
     public String getLogDateString()
     {
         return this._logDateString;
+    }
+
+    public void setLogDateString(String dateString)
+    {
+        this._logDateString = dateString;
+    }
+
+
+    //*************************************************************************
+    // Misc.
+    //*************************************************************************
+
+    @Override
+    public String toString()
+    {
+        return "ID: " + getLogID() + ",  "
+                + "Title: " + getLogTitle() + ",  "
+                + "Body: " + getLogBody() + ",  "
+                + "msec Date: " + getLogDateMilliseconds() + ",  "
+                + "String Date: " + getLogDateString();
     }
 }

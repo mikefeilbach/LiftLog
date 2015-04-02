@@ -38,17 +38,17 @@ public class DatabaseHandler extends SQLiteOpenHelper
     public static final String COLUMN_BUBBLE_CONTENT = "bubbleContent";
 
     //*************************************************************************
-    // Log table attributes.
+    // WorkoutLog table attributes.
     //*************************************************************************
 
-    // Name of the Log table within the database.
-    private static final String TABLE_LOGS = "logs";
+    // Name of the WorkoutLog table within the database.
+    private static final String TABLE_WORKOUT_LOGS = "workoutLogs";
 
     // Columns in the Bubble table.
     public static final String COLUMN_LOG_ID = "logId";
     public static final String COLUMN_LOG_TITLE = "logTitle";
     public static final String COLUMN_LOG_BODY = "logBody";
-    public static final String COLUMN_LOG_DATE = "logDate";
+    public static final String COLUMN_LOG_DATE_SEC = "logDateSeconds";
 
     /**
      * Default constructor.
@@ -71,21 +71,23 @@ public class DatabaseHandler extends SQLiteOpenHelper
         Log.v(TAG, "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
                 + "$$$$$$$$$$");
 
-        // The Bubble table is created when the database is first initialized.
+        // The Bubble table.
         String CREATE_BUBBLES_TABLE = "CREATE TABLE " +
                 TABLE_BUBBLES + "("
                 + COLUMN_BUBBLE_ID + " INTEGER PRIMARY KEY,"
                 + COLUMN_BUBBLE_CONTENT + " TEXT)";
-        db.execSQL(CREATE_BUBBLES_TABLE);
 
-        // The Log table is created when the database is first initialized.
-        String CREATE_LOGS_TABLE = "CREATE TABLE " +
-                TABLE_LOGS + "("
+        // The Log table.
+        String CREATE_WORKOUT_LOGS_TABLE = "CREATE TABLE " +
+                TABLE_WORKOUT_LOGS + "("
                 + COLUMN_LOG_ID + " INTEGER PRIMARY KEY,"
                 + COLUMN_LOG_TITLE + " TEXT,"
                 + COLUMN_LOG_BODY + " TEXT,"
-                + COLUMN_LOG_DATE + " INT)";
-        db.execSQL(CREATE_LOGS_TABLE);
+                + COLUMN_LOG_DATE_SEC + " INTEGER)";
+
+        // All tables are created when database is initialized.
+        db.execSQL(CREATE_WORKOUT_LOGS_TABLE);
+        db.execSQL(CREATE_BUBBLES_TABLE);
     }
 
 
@@ -97,8 +99,8 @@ public class DatabaseHandler extends SQLiteOpenHelper
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
-        // Delete all of database's tables.
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_BUBBLES + TABLE_LOGS);
+        // Delete all tables.
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_BUBBLES + TABLE_WORKOUT_LOGS);
 
         // Create fresh tables.
         onCreate(db);
@@ -208,7 +210,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 
         // Query to find the Bubble with the given content.
         String query = "SELECT * FROM " + TABLE_BUBBLES + " WHERE "
-                + COLUMN_BUBBLE_CONTENT + " =  \"" + bubbleContent + "\"";
+                + COLUMN_BUBBLE_CONTENT + " = \"" + bubbleContent + "\"";
 
         Cursor cursor = db.rawQuery(query, null);
 
@@ -295,7 +297,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 
         // The query within the Bubble Table.
         String query = "Select * FROM " + TABLE_BUBBLES + " WHERE "
-                + COLUMN_BUBBLE_CONTENT + " =  \"" + bubbleContent + "\"";
+                + COLUMN_BUBBLE_CONTENT + " = \"" + bubbleContent + "\"";
 
         // Get a reference of our database.
         SQLiteDatabase db = this.getWritableDatabase();
@@ -345,7 +347,277 @@ public class DatabaseHandler extends SQLiteOpenHelper
 
 
     //*************************************************************************
-    // Log Table operations.
+    // WorkoutLog Table operations.
     //*************************************************************************
+
+    /**
+     * Add a single WorkoutLog to the WorkoutLog table. Adding a duplicate
+     * WorkoutLog is not allowed and will return false.
+     *
+     * Note that this will properly assign a unique ID for the WorkoutLog.
+     * An ID should not be assigned when a WorkoutLog object is created, and
+     * is done at the time the WorkoutLog is added to the WorkoutLog table.
+     *
+     * @param log The WorkoutLog to add to the WorkoutLog table.
+     *
+     * @return true iff the WorkoutLog was added successfully to the
+     *         WorkoutLog table, else false.
+     */
+    public boolean addLog(WorkoutLog log)
+    {
+        // Assume Log insertion will be successful.
+        boolean retVal = true;
+
+        // Check if this Log is within the Log table already.
+        // If so, return false, add nothing to the Log table.
+        if (getWorkoutLog(log.getLogTitle(), log.getLogBody()) != null)
+        {
+            return false;
+        }
+
+        // Get a reference to our database.
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Create key-value pairs for the columns in the Log table.
+        ContentValues values = new ContentValues();
+
+        // Note: do not use the Log's ID. The Log table will
+        // automatically generate it, since it is the primary key.
+
+        // Log title and body.
+        values.put(COLUMN_LOG_TITLE, log.getLogTitle());
+        values.put(COLUMN_LOG_BODY, log.getLogBody());
+
+        // Testing.
+        Log.v(TAG, "inserting TITLE: " + log.getLogTitle());
+        Log.v(TAG, "inserting BODY: " + log.getLogBody());
+        Log.v(TAG, "inserting MS: " + log.getLogDateMilliseconds());
+
+        // Store millisecond data as seconds in the database.
+        // This makes pulling a String description out, using SQLite functions,
+        // much easier.
+        values.put(COLUMN_LOG_DATE_SEC, (log.getLogDateMilliseconds() / 1000));
+
+        // Insert new row (a single WorkoutLog) into the WorkoutLog table. If
+        // insertion fails, return false.
+        if (db.insert(TABLE_WORKOUT_LOGS, null, values) == -1)
+        {
+            retVal = false;
+        }
+
+        // Close out database.
+        db.close();
+
+        return retVal;
+    }
+
+
+    /**
+     * Returns the WorkoutLog whose title and body field is given. If no such
+     * WorkoutLog is found, null is returned.
+     *
+     * @param title The title of the WorkoutLog being searched for.
+     *
+     * @param body The body of the WorkoutLog being searched for.
+     *
+     * @return null if the WorkoutLog was not found, else a WorkoutLog object,
+     *         filled with the WorkoutLogs's data, which is pulled from
+     *         the database.
+     */
+    public WorkoutLog getWorkoutLog(String title, String body)
+    {
+        // Create a WorkoutLog to put the matching WorkoutLog's data in.
+        // This is the return value.
+        // Note: We will return the first matching WorkoutLog we find,
+        //       however, there should not be duplicates--this is
+        //       an invariant.
+        WorkoutLog log = new WorkoutLog();
+
+        // Get a reference to our database.
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Query to find the WorkoutLog with the given content. A
+        // unique WorkoutLog has a distinct title, body combination.
+        String query = "SELECT * FROM " + TABLE_WORKOUT_LOGS + " WHERE ("
+                + COLUMN_LOG_TITLE + " = \"" + title + "\" AND "
+                + COLUMN_LOG_BODY + " = \"" + body + "\")";
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        // Find the first matching WorkoutLog.
+        if (cursor.moveToFirst())
+        {
+            // ID is in column 0.
+            log.setLogID(Integer.parseInt(cursor.getString(0)));
+
+            // Title is in column 1.
+            log.setLogTitle(cursor.getString(1));
+
+            // Body is in column 2.
+            log.setLogBody(cursor.getString(2));
+
+            // The millisecond date field is in column 3, stored as seconds.
+            // Multiply by 1000 to convert to seconds.
+            log.setLogDateMilliseconds(cursor.getLong(3) * 1000);
+
+            // Convert the seconds date field, using the Unix Epoch date
+            // system, to get a textual description of the date. Convert
+            // the seconds date field to local time. This is taking the seconds
+            // date field and converting it to a textual description to show
+            // the user.
+            Cursor stringDateCursor = db.rawQuery("SELECT strftime('%d/%m/%Y %H:%M', " + cursor.getLong(3) + ", 'unixepoch', 'localtime')", null);
+
+            // TODO TODO TODO TODO ... Cast the millisecond value to a double first, divide by 1000, then cast back to a long, before storing.
+            // TODO there are some precision issues as is. Use casting to obtain the accurate times.
+
+            // This is necessary to get the results of the query.
+            stringDateCursor.moveToFirst();
+
+            // Store this WorkoutLog's String date description.
+            log.setLogDateString(stringDateCursor.getString(0));
+        }
+        else
+        {
+            // No WorkoutLog found. Return null.
+            log = null;
+        }
+
+        // Close out the database and cursor.
+        db.close();
+        cursor.close();
+
+        return log;
+    }
+
+
+    /**
+     * Returns a List<WorkoutLog> with all of the WorkoutLogs in the
+     * WorkoutLog table.
+     *
+     * @return a List<WorkoutLog> with all of the WorkoutLogs in the
+     *         WorkoutLog table.
+     */
+    public List<WorkoutLog> getAllWorkoutLogs()
+    {
+        // Return value.
+        List<WorkoutLog> workoutLogs = new ArrayList<WorkoutLog>();
+
+        // Get a reference to our database.
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Query to select all rows of Bubble table.
+        String query = "Select * FROM " + TABLE_WORKOUT_LOGS;
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        // Loop through all rows, adding WorkoutLogs to our list as we go.
+        if (cursor.moveToFirst())
+        {
+            do
+            {
+                WorkoutLog log = new WorkoutLog();
+
+                // ID is in column 0.
+                log.setLogID(Integer.parseInt(cursor.getString(0)));
+
+                // Title is in column 1.
+                log.setLogTitle(cursor.getString(1));
+
+                // Body is in column 2.
+                log.setLogBody(cursor.getString(2));
+
+                // The millisecond date field is in column 3, stored as seconds.
+                // Multiply by 1000 to convert to seconds.
+                log.setLogDateMilliseconds(cursor.getLong(3) * 1000);
+
+                // Convert the seconds date field, using the Unix Epoch date
+                // system, to get a textual description of the date. Convert
+                // the seconds date field to local time. This is taking the seconds
+                // date field and converting it to a textual description to show
+                // the user.
+                Cursor stringDateCursor = db.rawQuery("SELECT strftime('%d/%m/%Y %H:%M', " + cursor.getLong(3) + ", 'unixepoch', 'localtime')", null);
+
+                // This is necessary to get the results of the query.
+                stringDateCursor.moveToFirst();
+
+                // Store this WorkoutLog's String date description.
+                log.setLogDateString(stringDateCursor.getString(0));
+
+                // Add this WorkoutLog to the list.
+                workoutLogs.add(log);
+            }
+            while (cursor.moveToNext());
+        }
+
+        // Close out database and cursor.
+        db.close();
+        cursor.close();
+
+        return workoutLogs;
+    }
+
+
+//    /**
+//     * Deletes the Bubble, specified by content, within the Bubble table.
+//     *
+//     * @param bubbleContent the Bubble to be deleted from the
+//     *                      Bubble table.
+//     *
+//     * @return true iff this Bubble was deleted, else false.
+//     */
+//    public boolean deleteBubble(String bubbleContent)
+//    {
+//        // Assume we won't find this Bubble.
+//        boolean result = false;
+//
+//        // The query within the Bubble Table.
+//        String query = "Select * FROM " + TABLE_BUBBLES + " WHERE "
+//                + COLUMN_BUBBLE_CONTENT + " =  \"" + bubbleContent + "\"";
+//
+//        // Get a reference of our database.
+//        SQLiteDatabase db = this.getWritableDatabase();
+//
+//        // For scanning the Bubble table.
+//        Cursor cursor = db.rawQuery(query, null);
+//
+//        // Find the first instance of this Bubble.
+//        // Note: duplicates Bubbles are now allowed, so there should only
+//        //       ever be one of each Bubble in the Bubble table.
+//        if (cursor.moveToFirst())
+//        {
+//            // Delete the Bubble whose ID matche the first found Bubble.
+//            int numDeleted = db.delete(TABLE_BUBBLES, COLUMN_BUBBLE_ID + " = ?",
+//                    new String[] { String.valueOf(Integer.parseInt(cursor.getString(0))) });
+//
+//            // We found a Bubble to delete, and it was deleted.
+//            if (numDeleted > 0)
+//            {
+//                result = true;
+//            }
+//        }
+//
+//        // Close database and cursor.
+//        db.close();
+//        cursor.close();
+//
+//        return result;
+//    }
+//
+//
+//    /**
+//     * Deletes all Bubbles in the Bubble Table.
+//     *
+//     * @return true iff all Bubbles are deleted from the Bubble table.
+//     */
+//    public boolean deleteAllBubbles()
+//    {
+//        // Get a reference of our database.
+//        SQLiteDatabase db = this.getWritableDatabase();
+//
+//        // Delete all records from Bubble table.
+//        db.execSQL("DELETE FROM " + TABLE_BUBBLES);
+//
+//        return true;
+//    }
 
 }

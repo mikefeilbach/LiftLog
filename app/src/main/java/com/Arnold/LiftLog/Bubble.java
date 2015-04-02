@@ -24,6 +24,7 @@ public class Bubble
     {
     }
 
+
     /**
      * Bubble constructor.
      *
@@ -33,6 +34,7 @@ public class Bubble
     {
         this._bubbleContent = bubbleContent;
     }
+
 
     //*************************************************************************
     // Modify or access Bubble ID.
@@ -53,6 +55,7 @@ public class Bubble
     {
         this._bubbleID = bubbleID;
     }
+
 
     //*************************************************************************
     // Modify or access Bubble content.

@@ -9,7 +9,7 @@ import java.util.Calendar;
  */
 public class WorkoutLog
 {
-    // WOrkoutLog ID. Unique among WorkoutLogs. This field is assigned (within
+    // WorkoutLog ID. Unique among WorkoutLogs. This field is assigned (within
     // the database) when this WorkoutLog is added to the database. Until
     // this WorkoutLog is pulled from the database, this field will be invalid.
     private int _logID;
@@ -28,6 +28,7 @@ public class WorkoutLog
     // be invalid until then).
     private String _logDateString;
 
+
     /**
      * Default WorkoutLog constructor. Note that this constructor will
      * assign default (invalid) values to all Log fields.
@@ -35,6 +36,7 @@ public class WorkoutLog
     public WorkoutLog()
     {
     }
+
 
     /**
      * Log constructor. Note that the WorkoutLog's date in milliseconds (since
@@ -60,6 +62,7 @@ public class WorkoutLog
         this._logDateMilliseconds = calendar.getTimeInMillis();
     }
 
+
     //*************************************************************************
     // Modify or access WorkoutLog ID.
     //*************************************************************************
@@ -72,6 +75,7 @@ public class WorkoutLog
     {
         this._logID = ID;
     }
+
 
     //*************************************************************************
     // Modify or access WorkoutLog title.
@@ -86,6 +90,7 @@ public class WorkoutLog
         return this._logTitle;
     }
 
+
     //*************************************************************************
     // Modify or access WorkoutLog body.
     //*************************************************************************
@@ -98,6 +103,7 @@ public class WorkoutLog
     {
         return this._logBody;
     }
+
 
     //*************************************************************************
     // Modify or access WorkoutLog millisecond date description.
@@ -112,6 +118,7 @@ public class WorkoutLog
         this._logDateMilliseconds = dateMilliseconds;
     }
 
+
     //*************************************************************************
     // Modify or access WorkoutLog String date description.
     //*************************************************************************
@@ -124,6 +131,7 @@ public class WorkoutLog
     {
         this._logDateString = dateString;
     }
+
 
     //*************************************************************************
     // Misc.

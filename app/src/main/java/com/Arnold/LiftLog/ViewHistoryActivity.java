@@ -8,10 +8,13 @@ import android.view.MenuItem;
 
 public class ViewHistoryActivity extends ActionBarActivity {
 
+     //ArrayList<Log> logHistory = new ArrayList<Log>;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_history);
+
     }
 
 

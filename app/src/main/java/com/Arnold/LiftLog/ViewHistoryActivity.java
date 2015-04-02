@@ -10,9 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
+import java.util.List;
 
 /**
  * Created by Paul Theis.  This class is the view history screen, where users will be able to scroll
@@ -31,7 +30,32 @@ public class ViewHistoryActivity extends ActionBarActivity {
 
         logHistory = new ArrayList<WorkoutLog>();
 
-        //Call database to get all logs
+        // Call database to get all logs
+
+
+        //*********************************************************************
+        // START Mike's comments.
+        // Paul, here are the lines of code that will give you a sorted
+        // ArrayList<WorkoutLog>.
+        //*********************************************************************
+
+        // Create database handler. This allows easy interaction with
+        // the app's database.
+        DatabaseHandler db = new DatabaseHandler(this);
+
+        // Get sorted (by date) ArrayList of WorkoutLogs.
+        List<WorkoutLog> logs = db.getAllWorkoutLogs();
+
+        // Now, if you want to get the String date & time description, here
+        // is how you would do that, for example, on the first WorkoutLog in the
+        // List.
+        String dateOfFirstLog = logs.get(0).getLogDateString();
+
+        //*********************************************************************
+        // END Mike's comments.
+        //*********************************************************************
+
+
 
         // I'm assuming that the log will already be in order in the arraylist, so I will just be
         // printing straight from it.  That can be adjusted later if possible.

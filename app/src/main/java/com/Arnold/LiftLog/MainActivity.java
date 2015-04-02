@@ -67,6 +67,7 @@ public class MainActivity extends ActionBarActivity {
         //*********************************************************************
         // START: Exercise database to check functionality.
         //*********************************************************************
+
         //testDatabase(this);
 
         //*********************************************************************
@@ -115,6 +116,7 @@ public class MainActivity extends ActionBarActivity {
         // Delete & recreate the database.
         //db.recreateDatabase(context);
 
+        Log.v(TAG, "Starting tests.");
         db.addLog(new WorkoutLog("Abs", "10 reps"));
         db.addLog(new WorkoutLog("Chest", "50 reps"));
         db.addLog(new WorkoutLog("Chest Again", "70 reps"));

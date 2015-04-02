@@ -492,7 +492,8 @@ public class DatabaseHandler extends SQLiteOpenHelper
 
     /**
      * Returns a List<WorkoutLog> with all of the WorkoutLogs in the
-     * WorkoutLog table.
+     * WorkoutLog table, sorted by date (and time) created. The first
+     * item in the list will be the most recent.
      *
      * @return a List<WorkoutLog> with all of the WorkoutLogs in the
      *         WorkoutLog table.
@@ -506,7 +507,8 @@ public class DatabaseHandler extends SQLiteOpenHelper
         SQLiteDatabase db = this.getWritableDatabase();
 
         // Query to select all rows of Bubble table.
-        String query = "Select * FROM " + TABLE_WORKOUT_LOGS;
+        String query = "Select * FROM " + TABLE_WORKOUT_LOGS + " ORDER BY "
+                + COLUMN_LOG_DATE_SEC + " ASC";
 
         Cursor cursor = db.rawQuery(query, null);
 

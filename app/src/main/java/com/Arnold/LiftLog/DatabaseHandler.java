@@ -554,6 +554,22 @@ public class DatabaseHandler extends SQLiteOpenHelper
         return workoutLogs;
     }
 
+    /**
+     * Returns the WorkoutLog whose ID is given. If no such WorkoutLog is
+     * found, null is returned.
+     *
+     * @param ID The ID of the WorkoutLog being searched for.
+     *
+     * @return null if the WorkoutLog was not found, else a WorkoutLog object,
+     *         filled with the WorkoutLogs's data, which is pulled from
+     *         the database.
+     */
+    public WorkoutLog getWorkoutLog(int ID)
+    {
+        // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+        return null;
+    }
+
 
 //    /**
 //     * Deletes the Bubble, specified by content, within the Bubble table.

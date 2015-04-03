@@ -388,15 +388,14 @@ public class DatabaseHandler extends SQLiteOpenHelper
         values.put(COLUMN_LOG_TITLE, log.getLogTitle());
         values.put(COLUMN_LOG_BODY, log.getLogBody());
 
-        // Testing.
-        Log.v(TAG, "inserting TITLE: " + log.getLogTitle());
-        Log.v(TAG, "inserting BODY: " + log.getLogBody());
-        Log.v(TAG, "inserting MS: " + log.getLogDateMilliseconds());
-
         // Store millisecond data as seconds in the database.
         // This makes pulling a String description out, using SQLite functions,
-        // much easier.
-        values.put(COLUMN_LOG_DATE_SEC, (log.getLogDateMilliseconds() / 1000));
+        // much easier. First, cast the integer value (of milliseconds) to a
+        // double, so when we divide by 1000, higher granularity is kept
+        // (compared to integer division). This is crucial in keeping the
+        // correct minute the Log was stored in the database.
+        double ms = log.getLogDateMilliseconds();
+        values.put(COLUMN_LOG_DATE_SEC, ((int)(ms / 1000)));
 
         // Insert new row (a single WorkoutLog) into the WorkoutLog table. If
         // insertion fails, return false.
@@ -466,9 +465,6 @@ public class DatabaseHandler extends SQLiteOpenHelper
             // date field and converting it to a textual description to show
             // the user.
             Cursor stringDateCursor = db.rawQuery("SELECT strftime('%d/%m/%Y %H:%M', " + cursor.getLong(3) + ", 'unixepoch', 'localtime')", null);
-
-            // TODO TODO TODO TODO ... Cast the millisecond value to a double first, divide by 1000, then cast back to a long, before storing.
-            // TODO there are some precision issues as is. Use casting to obtain the accurate times.
 
             // This is necessary to get the results of the query.
             stringDateCursor.moveToFirst();

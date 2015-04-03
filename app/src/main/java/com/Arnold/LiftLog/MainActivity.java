@@ -120,6 +120,9 @@ public class MainActivity extends ActionBarActivity {
         db.addLog(new WorkoutLog("Abs", "10 reps"));
         db.addLog(new WorkoutLog("Chest", "50 reps"));
         db.addLog(new WorkoutLog("Chest Again", "70 reps"));
+        db.addLog(new WorkoutLog("Chest Again1", "70 reps"));
+        db.addLog(new WorkoutLog("Chest Again2", "70 reps"));
+        db.addLog(new WorkoutLog("Chest Again3", "70 reps"));
 
         List<WorkoutLog> logs = db.getAllWorkoutLogs();
 

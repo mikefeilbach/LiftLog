@@ -363,7 +363,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
      * @return true iff the WorkoutLog was added successfully to the
      *         WorkoutLog table, else false.
      */
-    public boolean addLog(WorkoutLog log)
+    public boolean addWorkoutLog(WorkoutLog log)
     {
         // Assume Log insertion will be successful.
         boolean retVal = true;
@@ -464,7 +464,8 @@ public class DatabaseHandler extends SQLiteOpenHelper
             // the seconds date field to local time. This is taking the seconds
             // date field and converting it to a textual description to show
             // the user.
-            Cursor stringDateCursor = db.rawQuery("SELECT strftime('%d/%m/%Y %H:%M', " + cursor.getLong(3) + ", 'unixepoch', 'localtime')", null);
+            Cursor stringDateCursor = db.rawQuery("SELECT strftime('%d/%m/%Y %H:%M', "
+                    + cursor.getLong(3) + ", 'unixepoch', 'localtime')", null);
 
             // This is necessary to get the results of the query.
             stringDateCursor.moveToFirst();
@@ -502,7 +503,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
         // Get a reference to our database.
         SQLiteDatabase db = this.getWritableDatabase();
 
-        // Query to select all rows of Bubble table.
+        // Query to select all rows of WorkoutLog table.
         String query = "Select * FROM " + TABLE_WORKOUT_LOGS + " ORDER BY "
                 + COLUMN_LOG_DATE_SEC + " ASC";
 
@@ -554,6 +555,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
         return workoutLogs;
     }
 
+
     /**
      * Returns the WorkoutLog whose ID is given. If no such WorkoutLog is
      * found, null is returned.
@@ -566,72 +568,154 @@ public class DatabaseHandler extends SQLiteOpenHelper
      */
     public WorkoutLog getWorkoutLog(int ID)
     {
-        // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-        return null;
+        // Create a WorkoutLog to put the matching WorkoutLog's data in.
+        // This is the return value.
+        // Note: We will return the first matching WorkoutLog we find,
+        //       however, there should not be duplicates--this is
+        //       an invariant that each WorkoutLog has a unique ID.
+        WorkoutLog log = new WorkoutLog();
+
+        // Get a reference to our database.
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Query to find the WorkoutLog with the given ID. There should
+        // only be one (or none at all).
+        String query = "SELECT * FROM " + TABLE_WORKOUT_LOGS + " WHERE "
+                + COLUMN_LOG_ID + " = " +  String.valueOf(ID);
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        // Find the first matching WorkoutLog.
+        if (cursor.moveToFirst())
+        {
+            // ID is in column 0.
+            log.setLogID(Integer.parseInt(cursor.getString(0)));
+
+            // Title is in column 1.
+            log.setLogTitle(cursor.getString(1));
+
+            // Body is in column 2.
+            log.setLogBody(cursor.getString(2));
+
+            // The millisecond date field is in column 3, stored as seconds.
+            // Multiply by 1000 to convert to seconds.
+            log.setLogDateMilliseconds(cursor.getLong(3) * 1000);
+
+            // Convert the seconds date field, using the Unix Epoch date
+            // system, to get a textual description of the date. Convert
+            // the seconds date field to local time. This is taking the seconds
+            // date field and converting it to a textual description to show
+            // the user.
+            Cursor stringDateCursor = db.rawQuery("SELECT strftime('%d/%m/%Y %H:%M', "
+                    + cursor.getLong(3) + ", 'unixepoch', 'localtime')", null);
+
+            // This is necessary to get the results of the query.
+            stringDateCursor.moveToFirst();
+
+            // Store this WorkoutLog's String date description.
+            log.setLogDateString(stringDateCursor.getString(0));
+        }
+        else
+        {
+            // No WorkoutLog found. Return null.
+            log = null;
+        }
+
+        // Close out the database and cursor.
+        db.close();
+        cursor.close();
+
+        return log;
     }
 
 
-//    /**
-//     * Deletes the Bubble, specified by content, within the Bubble table.
-//     *
-//     * @param bubbleContent the Bubble to be deleted from the
-//     *                      Bubble table.
-//     *
-//     * @return true iff this Bubble was deleted, else false.
-//     */
-//    public boolean deleteBubble(String bubbleContent)
-//    {
-//        // Assume we won't find this Bubble.
-//        boolean result = false;
-//
-//        // The query within the Bubble Table.
-//        String query = "Select * FROM " + TABLE_BUBBLES + " WHERE "
-//                + COLUMN_BUBBLE_CONTENT + " =  \"" + bubbleContent + "\"";
-//
-//        // Get a reference of our database.
-//        SQLiteDatabase db = this.getWritableDatabase();
-//
-//        // For scanning the Bubble table.
-//        Cursor cursor = db.rawQuery(query, null);
-//
-//        // Find the first instance of this Bubble.
-//        // Note: duplicates Bubbles are now allowed, so there should only
-//        //       ever be one of each Bubble in the Bubble table.
-//        if (cursor.moveToFirst())
-//        {
-//            // Delete the Bubble whose ID matche the first found Bubble.
-//            int numDeleted = db.delete(TABLE_BUBBLES, COLUMN_BUBBLE_ID + " = ?",
-//                    new String[] { String.valueOf(Integer.parseInt(cursor.getString(0))) });
-//
-//            // We found a Bubble to delete, and it was deleted.
-//            if (numDeleted > 0)
-//            {
-//                result = true;
-//            }
-//        }
-//
-//        // Close database and cursor.
-//        db.close();
-//        cursor.close();
-//
-//        return result;
-//    }
-//
-//
-//    /**
-//     * Deletes all Bubbles in the Bubble Table.
-//     *
-//     * @return true iff all Bubbles are deleted from the Bubble table.
-//     */
-//    public boolean deleteAllBubbles()
-//    {
-//        // Get a reference of our database.
-//        SQLiteDatabase db = this.getWritableDatabase();
-//
-//        // Delete all records from Bubble table.
-//        db.execSQL("DELETE FROM " + TABLE_BUBBLES);
-//
-//        return true;
-//    }
+    /**
+     * Deletes the WorkoutLog, specified by body and title, from the
+     * WorkoutLog table.
+     *
+     * @param title The title of the WorkoutLog to be deleted from the
+     *              WorkoutLog table.
+     *
+     * @param body The body of the WorkoutLog to be deleted from the
+     *             WorkoutLog table.
+     *
+     * @return true iff this WorkoutLog was deleted, else false.
+     */
+    public boolean deleteWorkoutLog(String title, String body)
+    {
+        // Assume we won't find this WorkoutLog.
+        boolean result = false;
+
+        // The query within the WorkoutLog table.
+        String query = "SELECT * FROM " + TABLE_WORKOUT_LOGS + " WHERE ("
+                + COLUMN_LOG_TITLE + " = \"" + title + "\" AND "
+                + COLUMN_LOG_BODY + " = \"" + body + "\")";
+
+        // Get a reference of our database.
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // For scanning the WorkoutLog table.
+        Cursor cursor = db.rawQuery(query, null);
+
+        // Find the first instance of this WorkoutLog.
+        // Note: duplicates WorkoutLogs are now allowed, so there should only
+        //       ever be one of each WorkoutLog (of each title, body
+        //       combination) in the WorkoutLog table.
+        if (cursor.moveToFirst())
+        {
+            // Delete the WorkoutLog whose body and title match the given arguments
+            // to this method.
+            int numDeleted = db.delete(TABLE_WORKOUT_LOGS, COLUMN_LOG_TITLE + " = ? AND "
+                            + COLUMN_LOG_BODY + " = ?", new String[] { title, body});
+
+            // We found a WorkoutLog to delete, and it was successfully deleted.
+            if (numDeleted > 0)
+            {
+                result = true;
+            }
+        }
+
+        // Close database and cursor.
+        db.close();
+        cursor.close();
+
+        return result;
+    }
+
+
+    /**
+     * Deletes all WorkoutLogs in the WorkoutLog Table.
+     *
+     * @return true iff all WorkoutLogs are deleted from the WorkoutLog table.
+     */
+    public boolean deleteAllWorkoutLogs()
+    {
+        // Get a reference of our database.
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Delete all records from WorkoutLog table.
+        db.execSQL("DELETE FROM " + TABLE_WORKOUT_LOGS);
+
+        return true;
+    }
+
+
+    /**
+     * Updates the WorkoutLog with the given ID with the body and title
+     * of the given WorkoutLog.
+     *
+     * @param ID The ID of the WorkoutLog to update.
+     *
+     * @param log The WorkoutLog whose title and body are to be the updated
+     *            fields of the WorkoutLog to update.
+     *
+     * @return true iff the WorkoutLog specified by the given ID is updated
+     *         with the title and body of the given WorkoutLog, else false.
+     */
+    public boolean updatwWorkoutLog(int ID, WorkoutLog log)
+    {
+        return false;
+        // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+    }
 
 }

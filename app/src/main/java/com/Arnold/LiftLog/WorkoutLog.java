@@ -71,6 +71,7 @@ public class WorkoutLog
         return this._logID;
     }
 
+
     public void setLogID(int ID)
     {
         this._logID = ID;
@@ -84,6 +85,7 @@ public class WorkoutLog
     {
         this._logTitle = logTitle;
     }
+
 
     public String getLogTitle()
     {
@@ -99,6 +101,7 @@ public class WorkoutLog
         this._logBody = logBody;
     }
 
+
     public String getLogBody()
     {
         return this._logBody;
@@ -113,6 +116,7 @@ public class WorkoutLog
         return this._logDateMilliseconds;
     }
 
+
     public void setLogDateMilliseconds(long dateMilliseconds)
     {
         this._logDateMilliseconds = dateMilliseconds;
@@ -126,6 +130,7 @@ public class WorkoutLog
     {
         return this._logDateString;
     }
+
 
     public void setLogDateString(String dateString)
     {

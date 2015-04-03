@@ -106,6 +106,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
         onCreate(db);
     }
 
+
     /**
      * Delete the entire database (all tables) and recreates it.
      *

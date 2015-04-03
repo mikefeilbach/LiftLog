@@ -44,6 +44,7 @@ public class Bubble
         return this._bubbleID;
     }
 
+
     /**
      * Sets this Bubble's ID to the given value. Note that this method should
      * only be used by the database's internal code. Do not use this method
@@ -66,6 +67,7 @@ public class Bubble
 
         // Make this change within the database.
     }
+
 
     public String getBubbleContent()
     {

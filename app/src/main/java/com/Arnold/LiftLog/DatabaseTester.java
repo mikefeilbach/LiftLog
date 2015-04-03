@@ -18,11 +18,13 @@ public class DatabaseTester
     private Context context;
 
     /**
-     * Default constructor. Do not use.
+     * Default constructor. Do not use, we must populate context when
+     * instantiating this class.
      */
     public DatabaseTester()
     {
     }
+
 
     /**
      * Constructor that initializes the context field. The context must

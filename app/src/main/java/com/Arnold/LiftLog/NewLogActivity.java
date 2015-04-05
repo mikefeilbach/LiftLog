@@ -20,9 +20,10 @@ public class NewLogActivity extends ActionBarActivity {
 
     private EditText logTitleInput;
     private EditText logBodyInput;
-    private boolean newLog;
-    private Log oldLog;
-    private String stringOldLogID;
+    private boolean newLog;                 //flag that states whether this is an old log or new log
+    private Log oldLog;                     //the old log clicked on from View History, will be null if newLog is true
+    private String stringOldLogID;          //the old log's ID in string form, will be null if newlog is true
+    private int oldLogID;                   //the old log's ID in int form, will be -1 if newlog is true
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +42,17 @@ public class NewLogActivity extends ActionBarActivity {
 
         //if no extra message was sent, then this is a new log
         if(stringOldLogID == null) {
+
             /*Set empty string for both inputs*/
             this.logTitleInput.setText("");
             this.logBodyInput.setText("");
 
-            //sets new log to true because no extra message was sent with intent
+            //sets all variables used for old log
+            stringOldLogID = null;
+            oldLog = null;
+            oldLogID = -1;
+
+            //sets new log to true because no extra message was sent with the intent
             newLog = true;
         }
         else {
@@ -53,11 +60,17 @@ public class NewLogActivity extends ActionBarActivity {
             //a message was sent, which means this is a previous log, not a new one
             newLog = false;
 
-            //get log from database
+            //get get ID of log
+            oldLogID = Integer.parseInt(stringOldLogID);
 
-            //for testing purposes
+            //oldLog = database.getWorkoutLog(oldLogID);
+            //this.logTitleInput.setText(oldLog.getLogTitle());
+            //this.logBodyInput.setText(oldLog.getLogBody());
+
+            //******************for testing purposes***********************************************
             this.logTitleInput.setText("Test Abs");
             this.logBodyInput.setText("Test something here");
+            //*************************************************************************************
         }
     }
 

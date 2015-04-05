@@ -14,11 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Paul Theis.  This class is the view history screen, where users will be able to scroll
- * through their previous logs (sorted by date), click on any log, and view its contents.
+ * Created by Paul Theis.
+ * This class is the view history screen, where users will be able to scroll
+ * through their previous logs (sorted by date), click on any log and it will transfer them to the
+ * logs main details.
  */
 public class ViewHistoryActivity extends ActionBarActivity {
-   //  public final static String EXTRA_MESSAGE = "com.Arnold.LiftLog.MESSAGE";
+
     //list holding the pre-sorted logs stored in database
      private ArrayList<WorkoutLog> logHistory;
 
@@ -41,15 +43,15 @@ public class ViewHistoryActivity extends ActionBarActivity {
 
         // Create database handler. This allows easy interaction with
         // the app's database.
-        DatabaseHandler db = new DatabaseHandler(this);
+       // DatabaseHandler db = new DatabaseHandler(this);
 
         // Get sorted (by date) ArrayList of WorkoutLogs.
-        List<WorkoutLog> logs = db.getAllWorkoutLogs();
+        //List<WorkoutLog> logs = db.getAllWorkoutLogs();
 
         // Now, if you want to get the String date & time description, here
         // is how you would do that, for example, on the first WorkoutLog in the
         // List.
-        String dateOfFirstLog = logs.get(0).getLogDateString();
+       // String dateOfFirstLog = logs.get(0).getLogDateString();
 
         //*********************************************************************
         // END Mike's comments.

@@ -30,7 +30,7 @@ public class MainActivity extends ActionBarActivity {
         });
 
         button1.setText(R.id.test_button_text2, "New");
-        button1.setText(R.id.test_button_text1, "Log");
+        button1.setText(R.id.test_button_text1, "Workout Log");
         int id1 = getResources().getIdentifier("com.Arnold.LiftLog:mipmap/button1", null, null);
         button1.setImageResource(R.id.test_button_image, id1);
 
@@ -58,7 +58,7 @@ public class MainActivity extends ActionBarActivity {
             }
         });
         button3.setText(R.id.test_button_text2, "Edit");
-        button3.setText(R.id.test_button_text1, "Bubble");
+        button3.setText(R.id.test_button_text1, "Bubbles");
         int id3 = getResources().getIdentifier("com.Arnold.LiftLog:mipmap/button3", null, null);
         button3.setImageResource(R.id.test_button_image, id3);
 

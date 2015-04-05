@@ -18,7 +18,15 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //*********************************************************************
+        // BUTTON 1: NEW WORKOUT LOG
+        //*********************************************************************
         RelativeLayoutButton button1 = new RelativeLayoutButton(this,R.id.button1);
+
+        button1.setText(R.id.test_button_text2, "New");
+        button1.setText(R.id.test_button_text1, "Workout Log");
+        int id1 = getResources().getIdentifier("com.Arnold.LiftLog:mipmap/button1", null, null);
+        button1.setImageResource(R.id.test_button_image, id1);
 
         button1.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -29,12 +37,16 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-        button1.setText(R.id.test_button_text2, "New");
-        button1.setText(R.id.test_button_text1, "Workout Log");
-        int id1 = getResources().getIdentifier("com.Arnold.LiftLog:mipmap/button1", null, null);
-        button1.setImageResource(R.id.test_button_image, id1);
-
+        //*********************************************************************
+        // BUTTON 2: VIEW HISTORY
+        //*********************************************************************
         RelativeLayoutButton button2 = new RelativeLayoutButton(this,R.id.button2);
+
+        button2.setText(R.id.test_button_text2, "View");
+        button2.setText(R.id.test_button_text1, "History");
+        int id2 = getResources().getIdentifier("com.Arnold.LiftLog:mipmap/button2", null, null);
+        button2.setImageResource(R.id.test_button_image, id2);
+
         button2.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,12 +55,17 @@ public class MainActivity extends ActionBarActivity {
                 //Once pressed on the button2 it triggers ViewHistoryActivity
             }
         });
-        button2.setText(R.id.test_button_text2, "View");
-        button2.setText(R.id.test_button_text1, "History");
-        int id2 = getResources().getIdentifier("com.Arnold.LiftLog:mipmap/button2", null, null);
-        button2.setImageResource(R.id.test_button_image, id2);
 
+        //*********************************************************************
+        // BUTTON 3: EDIT BUBBLES
+        //*********************************************************************
         RelativeLayoutButton button3 = new RelativeLayoutButton(this,R.id.button3);
+
+        button3.setText(R.id.test_button_text2, "Edit");
+        button3.setText(R.id.test_button_text1, "Bubbles");
+        int id3 = getResources().getIdentifier("com.Arnold.LiftLog:mipmap/button3", null, null);
+        button3.setImageResource(R.id.test_button_image, id3);
+
         button3.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,10 +74,7 @@ public class MainActivity extends ActionBarActivity {
                 //Once pressed on the button3 it triggers EditBubbleActivity
             }
         });
-        button3.setText(R.id.test_button_text2, "Edit");
-        button3.setText(R.id.test_button_text1, "Bubbles");
-        int id3 = getResources().getIdentifier("com.Arnold.LiftLog:mipmap/button3", null, null);
-        button3.setImageResource(R.id.test_button_image, id3);
+
 
         //*********************************************************************
         // START: Exercise database to check functionality.

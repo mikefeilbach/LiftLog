@@ -713,7 +713,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
      * @return true iff the WorkoutLog specified by the given ID is updated
      *         with the title and body of the given WorkoutLog, else false.
      */
-    public boolean updatwWorkoutLog(int ID, WorkoutLog log)
+    public boolean updateWorkoutLog(int ID, WorkoutLog log)
     {
         return false;
         // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO

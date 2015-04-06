@@ -20,6 +20,7 @@ public class NewLogActivity extends ActionBarActivity {
 
     private EditText logTitleInput;
     private EditText logBodyInput;
+    DatabaseHandler db = new DatabaseHandler(this);
 
 
     @Override
@@ -31,17 +32,15 @@ public class NewLogActivity extends ActionBarActivity {
         this.logTitleInput = (EditText) findViewById(R.id.log_title);
         this.logBodyInput = (EditText) findViewById(R.id.log_body);
 
-            /*Set empty string for both inputs*/
-            this.logTitleInput.setText("");
-            this.logBodyInput.setText("");
-
-
+        /*Set empty string for both inputs*/
+        this.logTitleInput.setText("");
+        this.logBodyInput.setText("");
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        /*Add button save log to the menu bar*/
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_new_log, menu);
         return super.onCreateOptionsMenu(menu);
@@ -66,17 +65,16 @@ public class NewLogActivity extends ActionBarActivity {
         String logTitle = this.logTitleInput.getText().toString();
         String logBody = this.logBodyInput.getText().toString();
 
-        //Calendar date = Calendar.getInstance();
-        //Log log = new Log(logTitle, logBody, date.getTime);
-        //DataSource db = new DataSource(this);
-
+        /*Verify if log title is empty or bigger than 40 char*/
         if (logTitle.equals("") || logTitle.length()>40){
-            this.logTitleInput.setError("Log Title cannot be empty and the maximum length is 40 characters.");
+            this.logTitleInput.setError("Log Title content cannot be empty or exceed 40 characters.");
             this.logTitleInput.setText("");
             return;
         }
 
-        boolean success = true;//db.save(logTitle, logBody);
+        /*Add log to database, if success displays success message and close,
+          otherwise show error and stays in the screen*/
+        boolean success = this.db.addWorkoutLog(new WorkoutLog(logTitle, logBody));
         if (success) {
             Toast.makeText(this, "Yeah, Log Saved!", Toast.LENGTH_SHORT).show();
             this.finish();

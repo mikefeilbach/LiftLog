@@ -60,21 +60,26 @@ public class EditBubbleActivity extends ActionBarActivity {
         this.bubbleContentInput = (EditText) findViewById(R.id.save_bubble_content);
         this.bubbleContentInput.setText("");
 
+        //Updates the list of bubbles
+        this.updateBubbles();
+
         // Initialize the 'Save Bubble' button
         Button save_button = (Button) findViewById(R.id.save_bubble_button);
 
-        save_button.setOnClickListener( new View.OnClickListener() {
+        save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 saveBubble();
-                Intent intent = new Intent(EditBubbleActivity.this, MainActivity.class);
-                startActivity(intent);
+                /*Intent intent = new Intent(EditBubbleActivity.this, MainActivity.class);
+                startActivity(intent);*/
             }
         });
+    }
 
+    public void updateBubbles(){
         // For testing
-        Bubble bubble1 = new Bubble("Bubble 1");
+        /*Bubble bubble1 = new Bubble("Bubble 1");
         Bubble bubble2 = new Bubble("Bubble 2");
         Bubble bubble3 = new Bubble("Bubble 3");
         Bubble bubble4 = new Bubble("Bubble 4");
@@ -83,12 +88,14 @@ public class EditBubbleActivity extends ActionBarActivity {
         bubbles.add(bubble2);
         bubbles.add(bubble3);
         bubbles.add(bubble4);
-        bubbles.add(bubble5);
-
+        bubbles.add(bubble5);*/
+        GridLayout gridView = (GridLayout) findViewById(R.id.View_Bubbles);
+        gridView.removeAllViews();
+        this.bubbles = db.getAllBubbles();
         //loop that creates buttons based on the number of logs stored in the database
         //these buttons will be scrollable because of the xml file. Clicking on a button will
         //bring you to another activity in which you can see the contents of the log
-        for(int i = 0;i<5;i++) {
+        for(int i = 0;i<bubbles.size();i++) {
 
             //new button being created for log
             Button myButton = new Button(this);
@@ -110,7 +117,7 @@ public class EditBubbleActivity extends ActionBarActivity {
             //ArrayAdapter<String> array_adapter = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1);
 
             // Set up the gridview for laying out the bubbles
-            GridLayout gridView = (GridLayout) findViewById(R.id.View_Bubbles);
+
 
             /* All GridView changes are commented out for the time being as I figure out
                how to properly use it. For now, I'll use the GridLayout which behaves similarly
@@ -146,15 +153,18 @@ public class EditBubbleActivity extends ActionBarActivity {
             this.bubbleContentInput.setError("Bubble content cannot be empty or exceed 20 characters.");
             this.bubbleContentInput.setText("");
 
-            Intent intent = new Intent(EditBubbleActivity.this, EditBubbleActivity.class);
-            startActivity(intent);
+            /*Intent intent = new Intent(EditBubbleActivity.this, EditBubbleActivity.class);
+            startActivity(intent);*/
+            return;
         }
 
-        boolean success = true;//db.addBubble(new Bubble(bubbleContent))
+        boolean success = db.addBubble(new Bubble(bubbleContent));
 
         if (success) {
             Toast.makeText(this, "Yeah, Bubble Saved!", Toast.LENGTH_SHORT).show();
-            this.finish();
+            //this.finish();
+            this.bubbleContentInput.setText("");
+            this.updateBubbles();
         }
         else {
             Toast.makeText(this, "Error Saving Bubble. Please, try again.", Toast.LENGTH_SHORT).show();

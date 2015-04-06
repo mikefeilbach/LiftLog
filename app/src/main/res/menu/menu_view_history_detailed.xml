@@ -4,9 +4,17 @@
     tools:context="com.Arnold.LiftLog.ViewHistoryDetailed">
 
     <item
-        android:id="@+id/edit_log"
+        android:id="@+id/VHD_edit_log"
         android:title="@string/text_edit_log"
         android:orderInCategory="100"
         app:showAsAction="ifRoom"
         android:icon="@mipmap/button3"/>
+
+    <item
+        android:id="@+id/VHD_save_log"
+        android:title="@string/text_save_log"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom"
+        android:visible="false"
+        android:icon="@drawable/ic_action_save"/>
 </menu>

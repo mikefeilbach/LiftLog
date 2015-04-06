@@ -14,6 +14,8 @@
     <string name="title_activity_edit_bubble">Edit Bubble</string>
     <string name="text_save_log">Save Log</string>
     <string name="text_save_bubble">New Bubble</string>
+    <string name="text_edit_log">Edit Log</string>
     <string name="hint_log_title">Log Title (Max. 40 characters)</string>
     <string name="hint_log_body">Log Body | Add your workout log here \n\nPlease, write one instruction per line</string>
+    <string name="title_activity_view_history_detailed">ViewHistoryDetailed</string>
 </resources>

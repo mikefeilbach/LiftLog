@@ -97,7 +97,7 @@ public class ViewHistoryActivity extends ActionBarActivity {
             //log information.  Right now, when clicked on the log just returns to the main page
             myButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    Intent intent = new Intent(ViewHistoryActivity.this, NewLogActivity.class);
+                    Intent intent = new Intent(ViewHistoryActivity.this, ViewHistoryDetailed.class);
                     intent.putExtra("logID",String.valueOf(logHistory.get(test).getLogID()));
                     startActivity(intent);
                 }

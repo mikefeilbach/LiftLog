@@ -17,8 +17,8 @@ import org.w3c.dom.Text;
 
 public class ViewHistoryDetailed extends ActionBarActivity {
 
-    private TextView logTitleInput;
-    private TextView logBodyInput;
+
+
     private WorkoutLog oldLog;              //the old log clicked on from View History, will be null if newLog is true
     private String stringOldLogID;          //the old log's ID in string form, will be null if newlog is true
     private int oldLogID;                   //the old log's ID in int form, will be -1 if newlog is true
@@ -30,8 +30,8 @@ public class ViewHistoryDetailed extends ActionBarActivity {
 
 
         /*Create new objects for the inputs*/
-        this.logTitleInput = (TextView) findViewById(R.id.log_title);
-        this.logBodyInput = (TextView) findViewById(R.id.log_body);
+        TextView logTitleInput = (TextView) findViewById(R.id.old_log_title);
+        TextView logBodyInput = (TextView) findViewById(R.id.old_log_body);
 
 
         Intent intent = getIntent();
@@ -53,8 +53,8 @@ public class ViewHistoryDetailed extends ActionBarActivity {
             //this.logBodyInput.setText(oldLog.getLogBody());
 
             //******************for testing purposes***********************************************
-            this.logTitleInput.setText("Title: " + "Test Abs");
-            this.logBodyInput.setText("Test something here");
+            logTitleInput.setText("Title: " + "Test Abs");
+            logBodyInput.setText("Test something here");
             //*************************************************************************************
         }
     }
@@ -74,8 +74,8 @@ public class ViewHistoryDetailed extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.edit_log:
-                //this.saveLog();
-                Toast.makeText(this, "Yeah, Log Saved!", Toast.LENGTH_SHORT).show();
+                editLog();
+             //   Toast.makeText(this, "Yeah, Log Saved!", Toast.LENGTH_SHORT).show();
                // editLog();
                 return true;
             default:
@@ -84,18 +84,18 @@ public class ViewHistoryDetailed extends ActionBarActivity {
     }
 
     public void editLog() {
-//        TextView oldBody = (TextView) findViewById(R.id.old_log_body);
-//        TextView oldTitle = (TextView) findViewById(R.id.old_log_title);
-//        EditText newBody = (EditText) findViewById(R.id.new_log_body);
-//        EditText newTitle = (EditText) findViewById(R.id.new_log_title);
-//
-//        oldBody.setVisibility(View.GONE);
-//        oldTitle.setVisibility(View.GONE);
-//
-//        newBody.setVisibility(View.VISIBLE);
-//        newTitle.setVisibility(View.VISIBLE);
-//        newBody.setText("Test - Body");
-//        newTitle.setText("Test - Title");
+        TextView oldBody = (TextView) findViewById(R.id.old_log_body);
+        TextView oldTitle = (TextView) findViewById(R.id.old_log_title);
+        EditText newBody = (EditText) findViewById(R.id.new_log_body);
+        EditText newTitle = (EditText) findViewById(R.id.new_log_title);
+
+        oldBody.setVisibility(View.GONE);
+        oldTitle.setVisibility(View.GONE);
+
+        newBody.setVisibility(View.VISIBLE);
+        newTitle.setVisibility(View.VISIBLE);
+        newBody.setText("Test - Body");
+        newTitle.setText("Test - Title");
 
 
 

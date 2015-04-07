@@ -23,6 +23,7 @@ public class ViewHistoryDetailed extends ActionBarActivity {
     private String stringOldLogID;          //the old log's ID in string form, will be null if newlog is true
     private int oldLogID;                   //the old log's ID in int form, will be -1 if newlog is true
     private boolean editLog;                //if true, log is being edited by user, not just viewed
+    private DatabaseHandler db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,9 @@ public class ViewHistoryDetailed extends ActionBarActivity {
 
         //starts false, meaning user is just viewing previous log
         editLog = false;
+
+        //gets the database
+        db = new DatabaseHandler(this);
 
         /*Create new objects for the inputs*/
         TextView logTitleInput = (TextView) findViewById(R.id.old_log_title);
@@ -59,13 +63,13 @@ public class ViewHistoryDetailed extends ActionBarActivity {
             //get get ID of log
             oldLogID = Integer.parseInt(stringOldLogID);
 
-            //oldLog = database.getWorkoutLog(oldLogID);
-            //this.logTitleInput.setText(oldLog.getLogTitle());
-            //this.logBodyInput.setText(oldLog.getLogBody());
+            oldLog = db.getWorkoutLog(oldLogID);
+            logTitleInput.setText(oldLog.getLogTitle());
+            logBodyInput.setText(oldLog.getLogBody());
 
             //******************for testing purposes***********************************************
-            logTitleInput.setText("Title: " + "Test Abs");
-            logBodyInput.setText("Test something here");
+            //logTitleInput.setText("Title: " + "Test Abs");
+            //logBodyInput.setText("Test something here");
             //*************************************************************************************
         }
     }
@@ -103,7 +107,7 @@ public class ViewHistoryDetailed extends ActionBarActivity {
             //if the edit log button was pressed, do this
             case R.id.VHD_edit_log:
                 //test purposes only
-                Toast.makeText(this, "Edit log", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Edit log", Toast.LENGTH_SHORT).show();
 
                 //makes the text editable
                 editLog();
@@ -113,7 +117,10 @@ public class ViewHistoryDetailed extends ActionBarActivity {
             //if the save log button was pressed, do this
             case R.id.VHD_save_log:
                 //test purposes only
-                Toast.makeText(this, "Save log", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Need to finish saving log", Toast.LENGTH_SHORT).show();
+
+
+                //db.updateWorkoutLog(oldLogID,oldLog);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -146,8 +153,8 @@ public class ViewHistoryDetailed extends ActionBarActivity {
         newTitle.setVisibility(View.VISIBLE);
 
         //sets the text of the body and title to be the logs body and title
-        newBody.setText("Test - Body");
-        newTitle.setText("Test - Title");
+        newBody.setText(oldLog.getLogBody());
+        newTitle.setText(oldLog.getLogTitle());
 
         //this will recall onCreateOptionsMenu() so that the save button can be turned on
         invalidateOptionsMenu();

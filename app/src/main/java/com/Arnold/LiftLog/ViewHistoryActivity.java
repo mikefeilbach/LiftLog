@@ -43,10 +43,10 @@ public class ViewHistoryActivity extends ActionBarActivity {
 
         // Create database handler. This allows easy interaction with
         // the app's database.
-       // DatabaseHandler db = new DatabaseHandler(this);
+        DatabaseHandler db = new DatabaseHandler(this);
 
         // Get sorted (by date) ArrayList of WorkoutLogs.
-        //List<WorkoutLog> logs = db.getAllWorkoutLogs();
+        logHistory = (ArrayList<WorkoutLog>) db.getAllWorkoutLogs();
 
         // Now, if you want to get the String date & time description, here
         // is how you would do that, for example, on the first WorkoutLog in the
@@ -63,29 +63,31 @@ public class ViewHistoryActivity extends ActionBarActivity {
         // printing straight from it.  That can be adjusted later if possible.
 
         //****************************This is for testing only***********************************
-        WorkoutLog log1 = new WorkoutLog("Abs", "Trial1");
-        WorkoutLog log2 = new WorkoutLog("Ab", "Trial2");
-        WorkoutLog log3 = new WorkoutLog("Abss", "Trial3");
-        WorkoutLog log4 = new WorkoutLog("Abbs", "Trial4");
-        WorkoutLog log5 = new WorkoutLog("Aabs", "Trial5");
-        logHistory.add(log1);
-        logHistory.add(log2);
-        logHistory.add(log3);
-        logHistory.add(log4);
-        logHistory.add(log5);
+//        WorkoutLog log1 = new WorkoutLog("Abs", "Trial1");
+//        WorkoutLog log2 = new WorkoutLog("Ab", "Trial2");
+//        WorkoutLog log3 = new WorkoutLog("Abss", "Trial3");
+//        WorkoutLog log4 = new WorkoutLog("Abbs", "Trial4");
+//        WorkoutLog log5 = new WorkoutLog("Aabs", "Trial5");
+//        logHistory.add(log1);
+//        logHistory.add(log2);
+//        logHistory.add(log3);
+//        logHistory.add(log4);
+//        logHistory.add(log5);
         //***************************************************************************************
 
         //loop that creates buttons based on the number of logs stored in the database
         //these buttons will be scrollable because of the xml file. Clicking on a button will
         //bring you to another activity in which you can see the contents of the log
-        for(int i = 0;i<5;i++) {
+        for(int i = 0;i<logHistory.size();i++) {
 
             //new button being created for log
             Button myButton = new Button(this);
 
             //set the text of the log to be the logs title (will add date later)
-            myButton.setText(logHistory.get(i).getLogTitle() + "\n\n\n\n\n\n");
+            //myButton.setText(logHistory.get(i).getLogTitle() + "\n\n\n\n\n\n");
             //myButton.setText(log1.getLogTitle() + "\n\n\n\n\n\n");
+            myButton.setText(logHistory.get(i).getLogTitle() + "\n" + logHistory.get(i).getLogDateString() + "\n\n\n");
+
 
             //needed because logHistory was complaining below for intent.putExtra(...)
             final int test = i;

@@ -1,11 +1,14 @@
 package com.Arnold.LiftLog;
 
 import android.content.Intent;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -25,6 +28,7 @@ public class ViewHistoryDetailed extends ActionBarActivity {
     private boolean editLog;                //if true, log is being edited by user, not just viewed
     private DatabaseHandler db;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +36,8 @@ public class ViewHistoryDetailed extends ActionBarActivity {
 
         //starts false, meaning user is just viewing previous log
         editLog = false;
+
+
 
         //gets the database
         db = new DatabaseHandler(this);
@@ -73,6 +79,8 @@ public class ViewHistoryDetailed extends ActionBarActivity {
             //*************************************************************************************
         }
     }
+
+
 
 
     @Override

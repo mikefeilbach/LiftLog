@@ -9,6 +9,7 @@
     <string name="title_activity_display_message">My Message</string>
     <string name="newlog">New Log</string>
     <string name="visithistory">Visit\n History</string>
+    <string name="editbubble">Edit Bubble</string>
     <string name="title_activity_new_log">New Log</string>
     <string name="title_activity_view_history">View History</string>
     <string name="title_activity_edit_bubble">Edit Bubble</string>
@@ -18,4 +19,10 @@
     <string name="hint_log_title">Log Title (Max. 40 characters)</string>
     <string name="hint_log_body">Log Body | Add your workout log here \n\nPlease, write one instruction per line</string>
     <string name="title_activity_view_history_detailed">ViewHistoryDetailed</string>
+
+    <color name="white">#FFFFFF</color>
+    <color name="background_color">#0099FF</color>
+
+    <drawable name="load_screen_logo">@drawable/ab</drawable>
+
 </resources>

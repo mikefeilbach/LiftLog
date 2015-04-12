@@ -59,7 +59,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    //*************************************************************************
+    //***************public**********************************************************
     // Creating tables in this app's database.
     //*************************************************************************
     @Override
@@ -366,6 +366,11 @@ public class DatabaseHandler extends SQLiteOpenHelper
      */
     public boolean addWorkoutLog(WorkoutLog log)
     {
+        // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+        // Make so that a duplicate Log can be saved, as long as the date isn't
+        // the same.
+        // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+
         // Assume Log insertion will be successful.
         boolean retVal = true;
 
@@ -667,7 +672,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
             // Delete the WorkoutLog whose body and title match the given arguments
             // to this method.
             int numDeleted = db.delete(TABLE_WORKOUT_LOGS, COLUMN_LOG_TITLE + " = ? AND "
-                            + COLUMN_LOG_BODY + " = ?", new String[] { title, body});
+                    + COLUMN_LOG_BODY + " = ?", new String[] { title, body});
 
             // We found a WorkoutLog to delete, and it was successfully deleted.
             if (numDeleted > 0)
@@ -715,8 +720,38 @@ public class DatabaseHandler extends SQLiteOpenHelper
      */
     public boolean updateWorkoutLog(int ID, WorkoutLog log)
     {
-        return false;
-        // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+        // Return value.
+        boolean retVal = true;
+
+        // Get a reference of our database.
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        // Log title and body.
+        values.put(COLUMN_LOG_TITLE, log.getLogTitle());
+        values.put(COLUMN_LOG_BODY, log.getLogBody());
+
+        // Store millisecond data as seconds in the database.
+        // This makes pulling a String description out, using SQLite functions,
+        // much easier. First, cast the integer value (of milliseconds) to a
+        // double, so when we divide by 1000, higher granularity is kept
+        // (compared to integer division). This is crucial in keeping the
+        // correct minute the Log was stored in the database.
+        double ms = log.getLogDateMilliseconds();
+        values.put(COLUMN_LOG_DATE_SEC, ((int)(ms / 1000)));
+
+        // Insert new row (a single WorkoutLog) into the WorkoutLog table. If
+        // insertion fails, return false.
+        if (db.update(TABLE_WORKOUT_LOGS, values, COLUMN_LOG_ID + " = " + String.valueOf(ID), null) == -1)
+        {
+            retVal = false;
+        }
+
+        // Close out database.
+        db.close();
+
+        return retVal;
     }
 
 }

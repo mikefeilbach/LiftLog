@@ -505,6 +505,38 @@ public class DatabaseTester
             return;
         }
 
+        Log.v(TAG, "Try to update WorkoutLog with ID = 5 to (Abs, 5). Should pass.");
+        WorkoutLog temp = new WorkoutLog("Abs", "5");
+        boolean tempBool = db.updateWorkoutLog(5, temp);
+        String testString;
+        if (tempBool)
+        {
+            testString = "Successfully updated.";
+        }
+        else
+        {
+            testString = "FAILURE -- NOT updated.";
+        }
+        Log.v(TAG, testString);
+        if (db.getWorkoutLog(5).getLogBody().equals("5") && db.getWorkoutLog(5).getLogTitle().equals("Abs"))
+        {
+            Log.v(TAG, "Passed");
+        }
+        else
+        {
+            Log.v(TAG, "**************** FAILED");
+            return;
+        }
+
+        // Print out all WorkoutLogs in WorkoutLog table.
+        logs = db.getAllWorkoutLogs();
+        Log.v(TAG, "WorkoutLogs in table printed below. Should be (title, body): (Triceps, 35), (Shoulders, 20), and (Abs, 5).");
+        for (WorkoutLog log : logs)
+        {
+            // Write this Bubble to the Log.
+            Log.v(TAG, log.toString());
+        }
+
         // End test! If we get here, all tests have passed. If any tests
         // fail, they return right away.
         Log.v(TAG, "********************************************************"

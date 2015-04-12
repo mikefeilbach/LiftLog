@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/LiftLog.iml" filepath="$PROJECT_DIR$/LiftLog.iml" />
-      <module fileurl="file://$PROJECT_DIR$/LiftLogProject.iml" filepath="$PROJECT_DIR$/LiftLogProject.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

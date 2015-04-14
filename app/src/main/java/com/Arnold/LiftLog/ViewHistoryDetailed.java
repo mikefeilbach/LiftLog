@@ -1,5 +1,7 @@
 package com.Arnold.LiftLog;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.ActionBarActivity;
@@ -130,6 +132,11 @@ public class ViewHistoryDetailed extends ActionBarActivity {
 
                 //db.updateWorkoutLog(oldLogID,oldLog);
                 return true;
+
+            case android.R.id.home:
+                this.onBackPressed();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -166,6 +173,37 @@ public class ViewHistoryDetailed extends ActionBarActivity {
 
         //this will recall onCreateOptionsMenu() so that the save button can be turned on
         invalidateOptionsMenu();
+    }
+
+    @Override
+    public void onBackPressed() {
+        //If it is in edit mode, then show the dialog to confirm
+        if(this.editLog){
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ViewHistoryDetailed.this);
+            alertDialogBuilder.setTitle("Return");
+            alertDialogBuilder.setMessage("Do you want to return and lost your unsaved data?");
+
+            alertDialogBuilder.setPositiveButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //do nothing
+                }
+            });
+
+            alertDialogBuilder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //Return to View History
+                    Intent intent = new Intent(ViewHistoryDetailed.this, ViewHistoryActivity.class);
+                    startActivity(intent);
+                }
+            });
+            alertDialogBuilder.create().show();
+        }
+        else{
+            //If it is not in edit mode, just return to the View History
+            this.finish();
+        }
     }
 }
 

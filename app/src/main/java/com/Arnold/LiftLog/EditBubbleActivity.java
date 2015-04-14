@@ -1,5 +1,9 @@
 package com.Arnold.LiftLog;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -116,8 +120,6 @@ public class EditBubbleActivity extends ActionBarActivity {
         //Add code to save the bubble
         String bubbleContent = this.bubbleContentInput.getText().toString();
 
-        //Calendar date = Calendar.getInstance();
-
         if (bubbleContent.equals("") || bubbleContent.length() > max_bubble_length) {
             this.bubbleContentInput.setError("Bubble content cannot be empty or exceed 20 characters.");
             this.bubbleContentInput.setText("");
@@ -129,7 +131,6 @@ public class EditBubbleActivity extends ActionBarActivity {
 
         if (success) {
             Toast.makeText(this, "Yeah, Bubble Saved!", Toast.LENGTH_SHORT).show();
-            //this.finish();
             this.bubbleContentInput.setText("");
             this.updateBubbles();
         }
@@ -138,12 +139,12 @@ public class EditBubbleActivity extends ActionBarActivity {
         }
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_edit_bubble, menu);
         return true;
-    }
+    }*/
 
 
     @Override
@@ -151,13 +152,44 @@ public class EditBubbleActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
+    }
 
-        return super.onOptionsItemSelected(item);
+    @Override
+    public void onBackPressed() {
+        //If there is text in the input bubble, then shows confirm dialog
+        String bubbleContent = this.bubbleContentInput.getText().toString();
+        if (!bubbleContent.equals("")){
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EditBubbleActivity.this);
+            alertDialogBuilder.setTitle("Return");
+            alertDialogBuilder.setMessage("Do you want to return and lost your unsaved data?");
+
+            alertDialogBuilder.setPositiveButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //do nothing
+                }
+            });
+
+            alertDialogBuilder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //Return to Main Screen
+                    Intent intent = new Intent(EditBubbleActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+            });
+            alertDialogBuilder.create().show();
+        }
+        else{
+            //If there's no text, just returns to Home Screen
+            this.finish();
+        }
     }
 }

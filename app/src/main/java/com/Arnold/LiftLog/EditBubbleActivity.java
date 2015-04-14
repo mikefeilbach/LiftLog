@@ -1,34 +1,22 @@
 package com.Arnold.LiftLog;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
-import android.widget.GridView;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.TableRow;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class EditBubbleActivity extends ActionBarActivity {
 
-    private List<Bubble> bubbles = new ArrayList<Bubble>();
+    private List<Bubble> bubbles = new ArrayList<>();
 
     private EditText bubbleContentInput;
 
@@ -41,20 +29,6 @@ public class EditBubbleActivity extends ActionBarActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_bubble);
-
-//        GridView gridview = (GridView) findViewById(R.id.gridview);
-//        gridview.setAdapter(new ImageAdapter(this));
-//
-//        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            public void onItemClick(AdapterView<?> parent, View v,
-//                                    int position, long id) {
-//                Toast.makeText(EditBubbleActivity.this, "" + position,
-//                        Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
-        // Get all da bubbles
-        //bubbles = db.getAllBubbles();
 
         // Set up text input handlers
         this.bubbleContentInput = (EditText) findViewById(R.id.save_bubble_content);
@@ -71,76 +45,71 @@ public class EditBubbleActivity extends ActionBarActivity {
             public void onClick(View v) {
 
                 saveBubble();
-                /*Intent intent = new Intent(EditBubbleActivity.this, MainActivity.class);
-                startActivity(intent);*/
             }
         });
     }
 
-    public void updateBubbles(){
-        // For testing
-        /*Bubble bubble1 = new Bubble("Bubble 1");
-        Bubble bubble2 = new Bubble("Bubble 2");
-        Bubble bubble3 = new Bubble("Bubble 3");
-        Bubble bubble4 = new Bubble("Bubble 4");
-        Bubble bubble5 = new Bubble("Bubble 5");
-        bubbles.add(bubble1);
-        bubbles.add(bubble2);
-        bubbles.add(bubble3);
-        bubbles.add(bubble4);
-        bubbles.add(bubble5);*/
-        GridLayout gridView = (GridLayout) findViewById(R.id.View_Bubbles);
-        gridView.removeAllViews();
+    public void updateBubbles() {
+
+        // Initialize the Grid
+        //TableLayout tableLayout = (TableLayout) findViewById(R.id.View_Bubbles); <--Futile attempt
+        //LinearLayout layout = (LinearLayout) findViewById(R.id.View_Bubbles); <-- Somewhat futile
+        GridLayout gridLayout = (GridLayout) findViewById(R.id.View_Bubbles);
+
+        //tableLayout.removeAllViews();
+        gridLayout.removeAllViews();
+
+        gridLayout.setColumnCount(3); // Default, get rid of MAGIC
+
         this.bubbles = db.getAllBubbles();
+
+        //List<Button> rowBubbles = new ArrayList<>();
+        //List<TableRow> rows = new ArrayList<>();
+
+        int bubbleListIndex = 0;
         //loop that creates buttons based on the number of logs stored in the database
         //these buttons will be scrollable because of the xml file. Clicking on a button will
         //bring you to another activity in which you can see the contents of the log
-        for(int i = 0;i<bubbles.size();i++) {
 
-            //new button being created for log
-            Button myButton = new Button(this);
+        // The double while loop was part of an earlier attempt with the TableLayout,
+        // disregard the unnecessary inner loop
+        while (bubbleListIndex < bubbles.size()) {
 
-            //set the text of the log to be the logs title (will add date later)
-            myButton.setText(bubbles.get(i).getBubbleContent());
+            int widthMax = 300;
+            int currWidth = 0;
 
-            myButton.setClickable(true);
+            while (currWidth < widthMax) {
 
-            // Allows for the bubbles to be clicked and viewed
-            myButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Intent intent = new Intent(EditBubbleActivity.this, MainActivity.class);
-                    startActivity(intent);
-                }
-            });
+                if (bubbleListIndex == bubbles.size()) break;
+                if ((currWidth + 90) > widthMax) break;
 
-            /* Used for the GridView */
-            //ArrayAdapter<String> array_adapter = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1);
+                //new button being created for log
+                Button myButton = new Button(this);
 
-            // Set up the gridview for laying out the bubbles
+                //set the text of the log to be the logs title (will add date later)
+                myButton.setText(bubbles.get(bubbleListIndex).getBubbleContent());
+                myButton.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT));
 
+                //int bubbleWidth = bubbles.get(bubbleListIndex).getBubbleContent().length();
 
-            /* All GridView changes are commented out for the time being as I figure out
-               how to properly use it. For now, I'll use the GridLayout which behaves similarly
-               to LinearLayout.
-             */
+                myButton.setClickable(true);
 
-            //gridView.setAdapter(array_adapter);
+                myButton.setWidth(200);
 
-//            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                public void onItemClick(AdapterView<?> parent, View v,
-//                                        int position, long id) {
-//                    Toast.makeText(EditBubbleActivity.this, "" + position,
-//                            Toast.LENGTH_SHORT).show();
-//                }
-//            });
+                // Any Click automatically deletes the first bubble, this will be fixed with Lauro's stuff
+                myButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        db.deleteBubble(bubbles.get(0).getBubbleContent());
+                        updateBubbles();
+                    }
+                });
 
-            //adds button to the layout
-            //array_adapter.add(bubble1.getBubbleContent());
-            //array_adapter.insert(bubbles.get(i).getBubbleContent(), i);
-
-            gridView.addView(myButton);
+                gridLayout.addView(myButton, currWidth);
+                currWidth++;
+                bubbleListIndex++;
+            }
         }
-     }
+    }
 
     public void saveBubble(){
 
@@ -153,8 +122,6 @@ public class EditBubbleActivity extends ActionBarActivity {
             this.bubbleContentInput.setError("Bubble content cannot be empty or exceed 20 characters.");
             this.bubbleContentInput.setText("");
 
-            /*Intent intent = new Intent(EditBubbleActivity.this, EditBubbleActivity.class);
-            startActivity(intent);*/
             return;
         }
 
@@ -170,59 +137,6 @@ public class EditBubbleActivity extends ActionBarActivity {
             Toast.makeText(this, "Error Saving Bubble. Please, try again.", Toast.LENGTH_SHORT).show();
         }
     }
-
-//    public class ImageAdapter extends BaseAdapter {
-//        private Context mContext;
-//
-//        public ImageAdapter(Context c) {
-//            mContext = c;
-//        }
-//
-//        public int getCount() {
-//            return mThumbIds.length;
-//        }
-//
-//        public Object getItem(int position) {
-//            return null;
-//        }
-//
-//        public long getItemId(int position) {
-//            return 0;
-//        }
-//
-//        // create a new ImageView for each item referenced by the Adapter
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//            ImageView imageView;
-//            if (convertView == null) {
-//                // if it's not recycled, initialize some attributes
-//                imageView = new ImageView(mContext);
-//                imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
-//                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//                imageView.setPadding(8, 8, 8, 8);
-//            } else {
-//                imageView = (ImageView) convertView;
-//            }
-//
-//            imageView.setImageResource(mThumbIds[position]);
-//            return imageView;
-//        }
-//
-//        // references to our images
-//        private Integer[] mThumbIds = {
-//                R.drawable.sample_2, R.drawable.sample_3,
-//                R.drawable.sample_4, R.drawable.sample_5,
-//                R.drawable.sample_6, R.drawable.sample_7,
-//                R.drawable.sample_0, R.drawable.sample_1,
-//                R.drawable.sample_2, R.drawable.sample_3,
-//                R.drawable.sample_4, R.drawable.sample_5,
-//                R.drawable.sample_6, R.drawable.sample_7,
-//                R.drawable.sample_0, R.drawable.sample_1,
-//                R.drawable.sample_2, R.drawable.sample_3,
-//                R.drawable.sample_4, R.drawable.sample_5,
-//                R.drawable.sample_6, R.drawable.sample_7
-//        };
-//    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

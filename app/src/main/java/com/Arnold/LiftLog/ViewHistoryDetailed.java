@@ -126,11 +126,21 @@ public class ViewHistoryDetailed extends ActionBarActivity {
 
             //if the save log button was pressed, do this
             case R.id.VHD_save_log:
-                //test purposes only
-                Toast.makeText(this, "Need to finish saving log", Toast.LENGTH_SHORT).show();
 
+                EditText newLogBody = (EditText) findViewById(R.id.new_log_body);
+                EditText newLogTitle = (EditText) findViewById(R.id.new_log_title);
 
-                //db.updateWorkoutLog(oldLogID,oldLog);
+                oldLog.setLogBody(newLogBody.getText().toString());
+                oldLog.setLogTitle(newLogTitle.getText().toString());
+
+                //saves the old workout log in the database
+                db.updateWorkoutLog(oldLogID,oldLog);
+
+                //prints "log saved" and sends user back to the main View History screen
+                Intent intent = new Intent(ViewHistoryDetailed.this,ViewHistoryActivity.class);
+                Toast.makeText(this, "Log saved", Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+
                 return true;
 
             case android.R.id.home:
@@ -181,7 +191,7 @@ public class ViewHistoryDetailed extends ActionBarActivity {
         if(this.editLog){
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ViewHistoryDetailed.this);
             alertDialogBuilder.setTitle("Return");
-            alertDialogBuilder.setMessage("Do you want to return and lost your unsaved data?");
+            alertDialogBuilder.setMessage("Do you want to return and lose your unsaved data?");
 
             alertDialogBuilder.setPositiveButton("No", new DialogInterface.OnClickListener() {
                 @Override

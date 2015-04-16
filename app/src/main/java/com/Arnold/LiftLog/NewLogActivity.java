@@ -3,6 +3,7 @@ package com.Arnold.LiftLog;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -11,12 +12,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.Console;
 import java.sql.SQLOutput;
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 
 public class NewLogActivity extends ActionBarActivity {
@@ -61,9 +65,67 @@ public class NewLogActivity extends ActionBarActivity {
             case android.R.id.home:
                 this.onBackPressed();
                 return true;
+            case R.id.set_timer:
+                setTimer((long)30000);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void resetTimer(View view) {
+        setTimer((long)30000);
+    }
+
+    public void setTimer(long milisec){
+
+        //gets the pointer to the textview object that will display the timer
+        final TextView timerTextView = (TextView) findViewById(R.id.timer_textview);
+
+        final Button resetButton = (Button) findViewById(R.id.timer_button_reset);
+
+        //if the timer is hidden, reveal the fields
+        if(resetButton.getVisibility() != View.VISIBLE) {
+
+            //makes the button visible
+            resetButton.setVisibility(View.VISIBLE);
+
+            //makes the display visible
+            timerTextView.setVisibility(View.VISIBLE);
+        }
+
+        //the time of the timer
+        final long countdownTime = milisec;
+
+        //creates a timer that on each second will update the textview with the remaining time left
+        CountDownTimer timer = new CountDownTimer(countdownTime,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+                //converts the milisecond's left into a string with format hh:mm:ss
+                String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) % TimeUnit.HOURS.toMinutes(1),
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) % TimeUnit.MINUTES.toSeconds(1));
+
+                //sets the view to show the current time on the timer
+                timerTextView.setText(hms);
+            }
+
+            @Override
+            public void onFinish() {
+
+                //gets a string format of hh:mm:ss of the final time of the timer
+                String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(countdownTime),
+                        TimeUnit.MILLISECONDS.toMinutes(countdownTime) % TimeUnit.HOURS.toMinutes(1),
+                        TimeUnit.MILLISECONDS.toSeconds(countdownTime) % TimeUnit.MINUTES.toSeconds(1));
+
+                //sets the textview to show the final timer of the timer
+                timerTextView.setText(hms);
+            }
+        }.start();
+
+        Toast.makeText(this, "Setting timer", Toast.LENGTH_SHORT).show();
+
     }
 
     public void saveLog(){
@@ -98,7 +160,7 @@ public class NewLogActivity extends ActionBarActivity {
         if(!logTitle.equals("") || !logBody.equals("")) {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(NewLogActivity.this);
             alertDialogBuilder.setTitle("Return");
-            alertDialogBuilder.setMessage("Do you want to return and lost your unsaved data?");
+            alertDialogBuilder.setMessage("Do you want to return and lose your unsaved data?");
 
             alertDialogBuilder.setPositiveButton("No", new DialogInterface.OnClickListener() {
                 @Override

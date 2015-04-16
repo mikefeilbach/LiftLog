@@ -9,4 +9,10 @@
         android:orderInCategory="100"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_action_save"/>
+    <item
+        android:id="@+id/set_timer"
+        android:title="@string/text_start_timer"
+
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_action_time"/>
 </menu>

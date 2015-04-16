@@ -19,7 +19,7 @@
     <TextView
         android:id="@+id/old_log_title"
         android:layout_width="match_parent"
-        android:textSize = "25sp"
+        android:textSize = "20sp"
         android:layout_height="wrap_content">
 
         </TextView>
@@ -28,7 +28,7 @@
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:ems="10"
         android:id="@+id/old_log_body"
         android:layout_below="@+id/old_log_title"

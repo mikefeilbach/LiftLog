@@ -168,7 +168,7 @@ public class EditBubbleActivity extends ActionBarActivity {
         if (!bubbleContent.equals("")){
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EditBubbleActivity.this);
             alertDialogBuilder.setTitle("Return");
-            alertDialogBuilder.setMessage("Do you want to return and lost your unsaved data?");
+            alertDialogBuilder.setMessage("Do you want to return and lose your unsaved data?");
 
             alertDialogBuilder.setPositiveButton("No", new DialogInterface.OnClickListener() {
                 @Override

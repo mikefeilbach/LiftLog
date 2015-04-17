@@ -359,6 +359,44 @@ public class DatabaseHandler extends SQLiteOpenHelper
     }
 
 
+    /**
+     * Updates the Bubble (with the given ID) with the type and content
+     * of the given Bubble.
+     *
+     * @param ID The ID of the Bubble to update.
+     *
+     * @param bubble The Bubble containing the information to update with.
+     *
+     * @return true iff the Bubble specified by the given ID is updated
+     *         with the title and body of the given Bubble, else false.
+     */
+    public boolean updateBubble(int ID, Bubble bubble)
+    {
+        // Return value.
+        boolean retVal = true;
+
+        // Get a reference of our database.
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        // Bubble type and content.
+        values.put(COLUMN_BUBBLE_TYPE, bubble.getBubbleType());
+        values.put(COLUMN_BUBBLE_CONTENT, bubble.getBubbleContent());
+
+        // Update the Bubble's row in the Bubble table. If update fails, return false.
+        if (db.update(TABLE_BUBBLES, values, COLUMN_BUBBLE_ID + " = " + String.valueOf(ID), null) == -1)
+        {
+            retVal = false;
+        }
+
+        // Close out database.
+        db.close();
+
+        return retVal;
+    }
+
+
     //*************************************************************************
     // WorkoutLog Table operations.
     //*************************************************************************
@@ -753,8 +791,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
         double ms = log.getLogDateMilliseconds();
         values.put(COLUMN_LOG_DATE_SEC, ((int)(ms / 1000)));
 
-        // Insert new row (a single WorkoutLog) into the WorkoutLog table. If
-        // insertion fails, return false.
+        // Update the WorkoutLog's row in the WorkoutLog table. If update fails, return false.
         if (db.update(TABLE_WORKOUT_LOGS, values, COLUMN_LOG_ID + " = " + String.valueOf(ID), null) == -1)
         {
             retVal = false;

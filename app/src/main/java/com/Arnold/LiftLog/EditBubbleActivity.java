@@ -62,7 +62,7 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable{
             }
         });
 
-        bubble_types = (Spinner) findViewById(R.id.type_spinner);
+        //bubble_types = (Spinner) findViewById(R.id.type_spinner);
     }
 
     public void updateBubbles() {

@@ -56,25 +56,6 @@ public class DatabaseTester
         // Delete & recreate the database.
         db.recreateDatabase(this.context);
 
-        //Log.v(TAG, "Starting tests.");
-        //db.addLog(new WorkoutLog("Abs", "10 reps"));
-        //db.addLog(new WorkoutLog("Chest", "50 reps"));
-        //db.addLog(new WorkoutLog("Chest Again", "70 reps"));
-        //db.addLog(new WorkoutLog("Chest Again1", "70 reps"));
-        //db.addLog(new WorkoutLog("Chest Again2", "70 reps"));
-        //db.addLog(new WorkoutLog("Chest Again3", "70 reps"));
-
-        //List<WorkoutLog> logs = db.getAllWorkoutLogs();
-
-        //for (int i = 0; i < logs.size(); i++)
-        //{
-        //    Log.v(TAG, logs.get(i).toString());
-        //}
-
-        // Testing.
-        //if (true)
-        //    return;
-
         // Start test.
         Log.v(TAG, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
                 + "@@@@@@@@@@");
@@ -124,7 +105,8 @@ public class DatabaseTester
         for (Bubble bubble : bubbles)
         {
             String log = "ID: " + bubble.getBubbleID()
-                    + ", Content: " + bubble.getBubbleContent();
+                    + ", Content: " + bubble.getBubbleContent()
+                    + ", Type: " + bubble.getBubbleType();
 
             // Write this Bubble to the Log.
             Log.v(TAG, log);
@@ -162,7 +144,8 @@ public class DatabaseTester
         for (Bubble bubble : bubbles)
         {
             String log = "ID: " + bubble.getBubbleID()
-                    + ", Content: " + bubble.getBubbleContent();
+                    + ", Content: " + bubble.getBubbleContent()
+                    + ", Type: " + bubble.getBubbleType();
 
             // Write this Bubble to the Log.
             Log.v(TAG, log);
@@ -257,7 +240,8 @@ public class DatabaseTester
         for (Bubble bubble : bubbles)
         {
             String log = "ID: " + bubble.getBubbleID()
-                    + ", Content: " + bubble.getBubbleContent();
+                    + ", Content: " + bubble.getBubbleContent()
+                    + ", Type: " + bubble.getBubbleType();
 
             // Write this Bubble to the Log.
             Log.v(TAG, log);
@@ -272,6 +256,39 @@ public class DatabaseTester
         {
             Log.v(TAG, "**************** FAILED");
             return;
+        }
+
+        Log.v(TAG, "Update Ke$ha's bubble type from REPS_SETS to WEIGHT_REST.");
+        if (db.updateBubble(4, new Bubble("Ke$ha", Bubble.BUBBLE_TYPE_WEIGHT_REST)))
+        {
+            if (db.getBubble("Ke$ha").getBubbleType() == Bubble.BUBBLE_TYPE_WEIGHT_REST)
+            {
+                Log.v(TAG, "Passed");
+            }
+            else
+            {
+                Log.v(TAG, "**************** FAILED");
+                return;
+            }
+        }
+        else
+        {
+            Log.v(TAG, "**************** FAILED");
+            return;
+        }
+
+        // Print out all Bubbles in Bubble table.
+        bubbles = db.getAllBubbles();
+        Log.v(TAG, "Bubbles in table printed below. Should be Mike, Zheng, Ke$ha, " +
+                "Wiz Khalifa, Demi Lovato.");
+        for (Bubble bubble : bubbles)
+        {
+            String log = "ID: " + bubble.getBubbleID()
+                    + ", Content: " + bubble.getBubbleContent()
+                    + ", Type: " + bubble.getBubbleType();
+
+            // Write this Bubble to the Log.
+            Log.v(TAG, log);
         }
 
         //*********************************************************************

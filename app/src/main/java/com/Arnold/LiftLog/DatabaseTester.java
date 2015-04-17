@@ -101,10 +101,10 @@ public class DatabaseTester
         }
 
         Log.v(TAG, "Inserting: Mike, Paul, Zheng, Lauro.");
-        db.addBubble(new Bubble("Mike"));
-        db.addBubble(new Bubble("Paul"));
-        db.addBubble(new Bubble("Zheng"));
-        db.addBubble(new Bubble("Lauro"));
+        db.addBubble(new Bubble("Mike", Bubble.BUBBLE_TYPE_REPS_SETS));
+        db.addBubble(new Bubble("Paul", Bubble.BUBBLE_TYPE_WEIGHT_REST));
+        db.addBubble(new Bubble("Zheng", Bubble.BUBBLE_TYPE_REPS_SETS));
+        db.addBubble(new Bubble("Lauro", Bubble.BUBBLE_TYPE_EXERCISE));
 
         Log.v(TAG, "Checking there are four records in Bubble table.");
         if (db.getAllBubbles().size() == 4)
@@ -224,7 +224,7 @@ public class DatabaseTester
         }
 
         Log.v(TAG, "Trying to insert Mike. Shouldn't work, no duplicates allowed.");
-        if (!db.addBubble(new Bubble("Mike")))
+        if (!db.addBubble(new Bubble("Mike", Bubble.BUBBLE_TYPE_WEIGHT_REST)))
         {
             Log.v(TAG, "Passed");
         }
@@ -235,7 +235,7 @@ public class DatabaseTester
         }
 
         Log.v(TAG, "Trying to insert Zheng. Shouldn't work, no duplicates allowed.");
-        if (!db.addBubble(new Bubble("Zheng")))
+        if (!db.addBubble(new Bubble("Zheng", Bubble.BUBBLE_TYPE_REPS_SETS)))
         {
             Log.v(TAG, "Passed");
         }
@@ -246,9 +246,9 @@ public class DatabaseTester
         }
 
         Log.v(TAG, "Add three new records: Ke$ha, Wiz Khalifa, Demi Lovato.");
-        db.addBubble(new Bubble("Ke$ha"));
-        db.addBubble(new Bubble("Wiz Khalifa"));
-        db.addBubble(new Bubble("Demi Lovato"));
+        db.addBubble(new Bubble("Ke$ha", Bubble.BUBBLE_TYPE_REPS_SETS));
+        db.addBubble(new Bubble("Wiz Khalifa", Bubble.BUBBLE_TYPE_REPS_SETS));
+        db.addBubble(new Bubble("Demi Lovato", Bubble.BUBBLE_TYPE_WEIGHT_REST));
 
         // Print out all Bubbles in Bubble table.
         bubbles = db.getAllBubbles();

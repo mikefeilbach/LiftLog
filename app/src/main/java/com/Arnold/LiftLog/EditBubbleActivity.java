@@ -127,7 +127,8 @@ public class EditBubbleActivity extends ActionBarActivity {
             return;
         }
 
-        boolean success = db.addBubble(new Bubble(bubbleContent));
+        // TODO: Add a way for user to pick which type of Bubble is being added.
+        boolean success = db.addBubble(new Bubble(bubbleContent, Bubble.BUBBLE_TYPE_REPS_SETS));
 
         if (success) {
             Toast.makeText(this, "Yeah, Bubble Saved!", Toast.LENGTH_SHORT).show();

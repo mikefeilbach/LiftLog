@@ -8,7 +8,7 @@ import android.os.Handler;
 
 public class LoadScreenActivity extends Activity {
 
-    private final int LOAD_SCREEN_DISPLAY_TIME = 2000; //display load screen for 2 seconds.
+    private final int LOAD_SCREEN_DISPLAY_TIME = 2500; //display load screen for 2.5 seconds.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

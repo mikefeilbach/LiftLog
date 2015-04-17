@@ -16,6 +16,14 @@ public class Bubble
     // Bubble.
     private String _bubbleContent;
 
+    // Bubble type defines. Use these when creating a Bubble.
+    public static final int BUBBLE_TYPE_EXERCISE = 0;
+    public static final int BUBBLE_TYPE_REPS_SETS = 1;
+    public static final int BUBBLE_TYPE_WEIGHT_REST = 2;
+
+    // Bubble's type. Must be one of the Bubble type defines.
+    private int _bubbleType;
+
     /**
      * Default Bubble constructor. Note that this constructor will
      * assign default (invalid) values to all Bubble fields.
@@ -29,10 +37,27 @@ public class Bubble
      * Bubble constructor.
      *
      * @param bubbleContent The Bubble's content.
+     * @param bubbleType The Bubble's type. Use public fields in this
+     *                   class to specify the type.
      */
-    public Bubble(String bubbleContent)
+    public Bubble(String bubbleContent, int bubbleType)
     {
         this._bubbleContent = bubbleContent;
+        this._bubbleType = bubbleType;
+    }
+
+
+    //*************************************************************************
+    // Modify for access Bubble Type.
+    //*************************************************************************
+    public int getBubbleType()
+    {
+        return this._bubbleType;
+    }
+
+    public void setBubbleType(int bubbleType)
+    {
+        this._bubbleType = bubbleType;
     }
 
 

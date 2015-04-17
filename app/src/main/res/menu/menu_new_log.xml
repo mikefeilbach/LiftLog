@@ -14,5 +14,5 @@
         android:title="@string/text_start_timer"
 
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_action_time"/>
+        android:icon="@drawable/ic_action_save"/>
 </menu>

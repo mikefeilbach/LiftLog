@@ -66,7 +66,7 @@ public class NewLogActivity extends ActionBarActivity {
                 this.onBackPressed();
                 return true;
             case R.id.set_timer:
-                setTimer((long)30000);
+               setTimer((long)30000);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

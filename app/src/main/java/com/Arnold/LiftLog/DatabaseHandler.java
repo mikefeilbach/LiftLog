@@ -36,6 +36,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
     // Columns in the Bubble table.
     public static final String COLUMN_BUBBLE_ID = "bubbleId";
     public static final String COLUMN_BUBBLE_CONTENT = "bubbleContent";
+    public static final String COLUMN_BUBBLE_TYPE = "bubbleType";
 
     //*************************************************************************
     // WorkoutLog table attributes.
@@ -44,7 +45,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
     // Name of the WorkoutLog table within the database.
     private static final String TABLE_WORKOUT_LOGS = "workoutLogs";
 
-    // Columns in the Bubble table.
+    // Columns in the WorkoutLog table.
     public static final String COLUMN_LOG_ID = "logId";
     public static final String COLUMN_LOG_TITLE = "logTitle";
     public static final String COLUMN_LOG_BODY = "logBody";
@@ -75,7 +76,8 @@ public class DatabaseHandler extends SQLiteOpenHelper
         String CREATE_BUBBLES_TABLE = "CREATE TABLE " +
                 TABLE_BUBBLES + "("
                 + COLUMN_BUBBLE_ID + " INTEGER PRIMARY KEY,"
-                + COLUMN_BUBBLE_CONTENT + " TEXT)";
+                + COLUMN_BUBBLE_CONTENT + " TEXT,"
+                + COLUMN_BUBBLE_TYPE + " INTEGER)";
 
         // The Log table.
         String CREATE_WORKOUT_LOGS_TABLE = "CREATE TABLE " +
@@ -100,7 +102,8 @@ public class DatabaseHandler extends SQLiteOpenHelper
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
         // Delete all tables.
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_BUBBLES + TABLE_WORKOUT_LOGS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_BUBBLES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_WORKOUT_LOGS);
 
         // Create fresh tables.
         onCreate(db);
@@ -173,6 +176,9 @@ public class DatabaseHandler extends SQLiteOpenHelper
         // Bubble content field.
         values.put(COLUMN_BUBBLE_CONTENT, bubble.getBubbleContent());
 
+        // Bubble type field.
+        values.put(COLUMN_BUBBLE_TYPE, bubble.getBubbleType());
+
         // Insert new row (Bubble) into the Bubble table. If it fails,
         // we will return false.
         if (db.insert(TABLE_BUBBLES, null, values) == -1)
@@ -221,8 +227,11 @@ public class DatabaseHandler extends SQLiteOpenHelper
             // ID is in column 0.
             bubble.setBubbleID(Integer.parseInt(cursor.getString(0)));
 
-            // Content is in column 1.
+            // Bubble content is in column 1.
             bubble.setBubbleContent(cursor.getString(1));
+
+            // Bubble type is in column 2.
+            bubble.setBubbleType(cursor.getInt(2));
         }
         else
         {
@@ -268,6 +277,9 @@ public class DatabaseHandler extends SQLiteOpenHelper
 
                 // Bubble content is in column 1.
                 bubble.setBubbleContent(cursor.getString(1));
+
+                // Bubble type is in column 2.
+                bubble.setBubbleType(Integer.parseInt(cursor.getString(2)));
 
                 // Add this Bubble to the list.
                 bubbles.add(bubble);

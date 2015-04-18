@@ -1,6 +1,7 @@
 package com.Arnold.LiftLog;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,8 @@ import android.widget.TextView;
 
 
 public class RelativeLayoutButton extends RelativeLayout {
-	
+        Button bt;
+    ViewGroup vp;
 	  public RelativeLayoutButton(Context context, int id){
 		  	super(context);
 		  	// if our context is not Activity we can't get View supplied by id
@@ -33,9 +35,9 @@ public class RelativeLayoutButton extends RelativeLayout {
 		  	// here I am using temporary instance of Button class 
 		  	// to get standard button background and to get button text color
 
-		  	Button bt = new Button(context);
+		  	bt = new Button(context);
  		  	this.setBackgroundDrawable(bt.getBackground());
-		  	
+
 		  	// copy all child from relative layout to this button
 			while (layout.getChildCount() > 0)
 			{
@@ -65,11 +67,11 @@ public class RelativeLayoutButton extends RelativeLayout {
 			 this.setFocusableInTouchMode(false);
 		 
 			 // replace relative layout in parent with this one modified to looks like button
-			 ViewGroup vp = (ViewGroup)layout.getParent();
+			 vp = (ViewGroup)layout.getParent();
 			 int index = vp.indexOfChild(layout);
 			 vp.removeView(layout);
 			 vp.addView(this,index);
-			 
+            vp.setBackgroundColor(0xFF83F4FE);  //Home screen color
 			 this.setId(id);
 			 
 	  }
@@ -108,4 +110,9 @@ public class RelativeLayoutButton extends RelativeLayout {
 		  
 	  }
 
+    // method for setting color for button
+    public void setButtonColor(int btcolor)
+    {
+        bt.getBackground().setColorFilter(btcolor, PorterDuff.Mode.MULTIPLY);
+    }
 }

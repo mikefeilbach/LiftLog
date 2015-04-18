@@ -14,7 +14,7 @@
         android:id="@+id/imageView1"
         android:layout_width="240dp"
         android:layout_height="240dp"
-        android:src="@drawable/loadscreenicon"
+        android:src="@drawable/loadscreenicon2"
         />
 
 </RelativeLayout>

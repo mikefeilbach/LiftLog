@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <string-array name="bubble_types">
+        <item>Exercise</item>
+        <item>Reps/Sets</item>
+        <item>Weight/Rest</item>
+    </string-array>
+
+</resources>

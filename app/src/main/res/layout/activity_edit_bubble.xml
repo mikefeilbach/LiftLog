@@ -27,17 +27,17 @@
         android:layout_alignParentEnd="true"
         android:text="Save" />
 
-    <!--<Spinner-->
-        <!--&lt;!&ndash;android:id="@+id/type_spinner"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:entries="@array/bubble_types"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_alignTop="@+id/save_bubble_content"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_toLeftOf="@+id/save_bubble_button"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_toRightOf="@+id/save_bubble_content"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_toEndOf="@+id/save_bubble_content"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_alignBottom="@+id/save_bubble_content" />&ndash;&gt;-->
-    <!--/>-->
+    <Spinner
+        android:id="@+id/type_spinner"
+        android:entries="@array/bubble_types"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/save_bubble_content"
+        android:layout_toLeftOf="@+id/save_bubble_button"
+        android:layout_toRightOf="@+id/save_bubble_content"
+        android:layout_toEndOf="@+id/save_bubble_content"
+        android:layout_alignBottom="@+id/save_bubble_content" />
+    />
 
     <LinearLayout
 

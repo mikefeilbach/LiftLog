@@ -3,23 +3,30 @@ package com.Arnold.LiftLog;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.CountDownTimer;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.Console;
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
@@ -28,7 +35,7 @@ public class NewLogActivity extends ActionBarActivity {
     private EditText logTitleInput;
     private EditText logBodyInput;
     DatabaseHandler db = new DatabaseHandler(this);
-
+    private List<Bubble> bubbles = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +49,8 @@ public class NewLogActivity extends ActionBarActivity {
         /*Set empty string for both inputs*/
         this.logTitleInput.setText("");
         this.logBodyInput.setText("");
+
+        bubbleSetUp();
     }
 
 
@@ -150,6 +159,93 @@ public class NewLogActivity extends ActionBarActivity {
         else {
             Toast.makeText(this, "Error Saving Log. Please, try again.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void bubbleSetUp() {
+        // Initialize the Layout
+        LinearLayout layout = (LinearLayout) findViewById(R.id.View_Bubs);
+
+        layout.setHorizontalGravity(Gravity.CENTER_HORIZONTAL);
+
+        layout.removeAllViews();
+
+        this.bubbles = db.getAllBubbles();
+
+        //sets button parameters
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+
+        // Scrollview for showing exercise bubbles
+        ScrollView exercise_scroll = new ScrollView(this);
+        LinearLayout exercise_bubs = new LinearLayout(this);
+        exercise_bubs.setOrientation(LinearLayout.VERTICAL);
+        exercise_bubs.setVerticalScrollBarEnabled(true);
+        exercise_scroll.addView(exercise_bubs, lp);
+
+        // Scrollview for showing repetition bubbles
+        ScrollView reps_sets_scroll = new ScrollView(this);
+        LinearLayout reps_sets_bubs = new LinearLayout(this);
+        reps_sets_bubs.setOrientation(LinearLayout.VERTICAL);
+        reps_sets_bubs.setVerticalScrollBarEnabled(true);
+        reps_sets_scroll.addView(reps_sets_bubs, lp);
+
+        // Scrollview for showing duration bubbles
+        ScrollView duration_scroll = new ScrollView(this);
+        LinearLayout duration_bubs = new LinearLayout(this);
+        duration_bubs.setOrientation(LinearLayout.VERTICAL);
+        duration_bubs.setVerticalScrollBarEnabled(true);
+        duration_scroll.addView(duration_bubs, lp);
+
+        for (Bubble curr_bubble : bubbles) {
+
+            //new button being created for bubble
+            final Button myButton = new Button(this);
+
+            //set the text of the log to be the logs title (will add date later)
+            myButton.setText(curr_bubble.getBubbleContent());
+
+            myButton.setClickable(true);
+
+            myButton.setPadding(2,2,2,2);
+
+            myButton.setMaxWidth(350);
+
+            // Any Click automatically deletes the first bubble, this will be fixed with Lauro's stuff
+            myButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    insertText(myButton.getText());
+                }
+            });
+
+
+            if (curr_bubble.getBubbleType() == 0) {
+                myButton.getBackground().setColorFilter(0xFF00DD00, PorterDuff.Mode.MULTIPLY);
+                exercise_bubs.addView(myButton);
+            } else if (curr_bubble.getBubbleType() == 1) {
+                myButton.getBackground().setColorFilter(0xFFFE1000, PorterDuff.Mode.MULTIPLY);
+                reps_sets_bubs.addView(myButton);
+            } else {
+                myButton.getBackground().setColorFilter(0xFF00DDDD, PorterDuff.Mode.MULTIPLY);
+                duration_bubs.addView(myButton);
+            }
+        }
+//        exercise_scroll.addView(exercise_bubs);
+//        reps_sets_scroll.addView(reps_sets_bubs);
+//        duration_scroll.addView(duration_bubs);
+
+        ScrollView.LayoutParams scroll = new ScrollView.LayoutParams(ScrollView.LayoutParams.WRAP_CONTENT, ScrollView.LayoutParams.MATCH_PARENT);
+
+//        ScrollView.LayoutParams ex_scroll = new ScrollView.LayoutParams(, ScrollView.LayoutParams.MATCH_PARENT);
+//        ScrollView.LayoutParams rep_scroll = new ScrollView.LayoutParams(ScrollView.LayoutParams.WRAP_CONTENT, ScrollView.LayoutParams.MATCH_PARENT);
+//        ScrollView.LayoutParams time_scroll = new ScrollView.LayoutParams(ScrollView.LayoutParams.WRAP_CONTENT, ScrollView.LayoutParams.MATCH_PARENT);
+
+        layout.addView(exercise_scroll, scroll);
+        layout.addView(reps_sets_scroll, scroll);
+        layout.addView(duration_scroll, scroll);
+
+    }
+
+    public void insertText(CharSequence content) {
+        logTitleInput.setText(content);
     }
 
     @Override

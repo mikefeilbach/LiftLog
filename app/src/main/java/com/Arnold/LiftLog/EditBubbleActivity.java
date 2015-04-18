@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -62,7 +63,7 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable{
             }
         });
 
-        //bubble_types = (Spinner) findViewById(R.id.type_spinner);
+        bubble_types = (Spinner) findViewById(R.id.type_spinner);
     }
 
     public void updateBubbles() {
@@ -114,10 +115,10 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable{
 
         //int tester = 0;
 
-        for (Bubble curr_bubble : bubbles) {
+        for (final Bubble curr_bubble : bubbles) {
 
             //new button being created for bubble
-            Button myButton = new Button(this);
+            final Button myButton = new Button(this);
 
             //set the text of the log to be the logs title (will add date later)
             myButton.setText(curr_bubble.getBubbleContent());
@@ -131,19 +132,20 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable{
             // Any Click automatically deletes the first bubble, this will be fixed with Lauro's stuff
             myButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+                    db.deleteBubble(curr_bubble.getBubbleContent());
                     updateBubbles();
                 }
             });
 
 
             if (curr_bubble.getBubbleType() == 0) {
-                myButton.setBackgroundColor(Color.GREEN);
+                myButton.getBackground().setColorFilter(0xFF00DD00, PorterDuff.Mode.MULTIPLY);
                 exercise_bubs.addView(myButton);
             } else if (curr_bubble.getBubbleType() == 1) {
-                myButton.setBackgroundColor(Color.RED);
+                myButton.getBackground().setColorFilter(0xFFFE5000, PorterDuff.Mode.MULTIPLY);
                 reps_sets_bubs.addView(myButton);
             } else {
-                myButton.setBackgroundColor(Color.BLUE);
+                myButton.getBackground().setColorFilter(0xFF00DDDD, PorterDuff.Mode.MULTIPLY);
                 duration_bubs.addView(myButton);
             }
         }

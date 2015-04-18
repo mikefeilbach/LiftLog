@@ -52,18 +52,26 @@
 
     <EditText
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
         android:inputType="textMultiLine"
         android:ems="10"
         android:id="@+id/log_body"
         android:layout_below="@+id/log_title"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/log_title"
         android:layout_alignEnd="@+id/log_title"
         android:hint="@string/hint_log_body"
         android:gravity="top"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical" />
+
+    <LinearLayout
+        android:id="@+id/View_Bubs"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@+id/log_body"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

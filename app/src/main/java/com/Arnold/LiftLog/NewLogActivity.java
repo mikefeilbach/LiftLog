@@ -250,7 +250,12 @@ public class NewLogActivity extends ActionBarActivity {
     }
 
     public void insertText(CharSequence content) {
-        logTitleInput.setText(content);
+        if (logTitleInput.hasFocus()){
+            logTitleInput.setText(content);
+        }
+        else if (logBodyInput.hasFocus()){
+            logBodyInput.append(content+"\n");
+        }
     }
 
     /**

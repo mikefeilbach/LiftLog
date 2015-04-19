@@ -300,25 +300,7 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable{
         if (editMode){
             bubbleIdEdit = bubble.getBubbleID();
             bubbleContentInput.setText(bubble.getBubbleContent());
-            ArrayList<String> spinnerOptions = new ArrayList<String>();
-            spinnerOptions.add("Exercise");
-            spinnerOptions.add("Reps/Sets");
-            spinnerOptions.add("Weight/Rest");
-            /*ArrayAdapter<String> adapter = new ArrayAdapter<String>(EditBubbleActivity.this, android.R.layout.simple_spinner_item, spinnerOptions);
-            bubble_types.setAdapter(adapter);*/
             bubble_types.setSelection(bubble.getBubbleType());
-            /*if (bubble.getBubbleType()==1) {
-                bubble_types.setPrompt("Exercise");
-            }
-            else if (bubble.getBubbleType()==2) {
-                bubble_types.setPrompt("Reps/Sets");
-            }
-            else if (bubble.getBubbleType()==3) {
-                bubble_types.setPrompt("Weight/Rest");
-            }
-            else {
-                this.bubbleContentInput.setError("Invalid Bubble type.");
-            }*/
         }
     }
 

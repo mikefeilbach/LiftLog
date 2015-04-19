@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -37,6 +38,10 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable{
 
     private final int max_bubble_length = 20;
 
+    private boolean editMode = false;
+
+    private int bubbleIdEdit;
+
     private Spinner bubble_types;
 
     @Override
@@ -53,12 +58,11 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable{
         this.updateBubbles();
 
         // Initialize the 'Save Bubble' button
-        Button save_button = (Button) findViewById(R.id.save_bubble_button);
+        final Button save_button = (Button) findViewById(R.id.save_bubble_button);
 
         save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 saveBubble();
             }
         });
@@ -124,19 +128,17 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable{
             myButton.setText(curr_bubble.getBubbleContent());
 
             myButton.setClickable(true);
+                myButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        bubbleContentInput.setText("");
+                        editMode = true;
+                        editBubbles(curr_bubble);
+                    }
+                });
 
-            myButton.setPadding(2,2,2,2);
+            myButton.setPadding(2, 2, 2, 2);
 
             myButton.setMaxWidth(350);
-
-            // Any Click automatically deletes the first bubble, this will be fixed with Lauro's stuff
-            myButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    db.deleteBubble(curr_bubble.getBubbleContent());
-                    updateBubbles();
-                }
-            });
-
 
             if (curr_bubble.getBubbleType() == 0) {
                 myButton.getBackground().setColorFilter(0xFF00DD00, PorterDuff.Mode.MULTIPLY);
@@ -147,7 +149,38 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable{
             } else {
                 myButton.getBackground().setColorFilter(0xFF00DDDD, PorterDuff.Mode.MULTIPLY);
                 duration_bubs.addView(myButton);
+
+
             }
+            myButton.setOnLongClickListener(new View.OnLongClickListener(){
+                    public boolean onLongClick(View v){AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EditBubbleActivity.this);
+                        alertDialogBuilder.setTitle("Delete Bubble");
+                        alertDialogBuilder.setMessage("Do you wish to delete this bubble?");
+
+                        //don't delete button
+                        alertDialogBuilder.setPositiveButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //do nothing
+                            }
+                        });
+
+                        //delete button
+                        alertDialogBuilder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //delete bubble from database
+                                bubbleContentInput.setText("");
+                                db.deleteBubble(curr_bubble.getBubbleContent());
+                                updateBubbles();
+
+                                Toast.makeText(EditBubbleActivity.this, "Bubble Deleted", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        alertDialogBuilder.create().show();
+                        return true;
+                }
+                              });
         }
 //        exercise_scroll.addView(exercise_bubs);
 //        reps_sets_scroll.addView(reps_sets_bubs);
@@ -181,6 +214,7 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable{
             return;
         }
 
+        boolean success;
         //Add code to save the bubble
         String bubbleContent = this.bubbleContentInput.getText().toString();
 
@@ -191,7 +225,13 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable{
             return;
         }
 
-        boolean success = db.addBubble(new Bubble(bubbleContent, bubble_type));
+        if (!editMode) {
+            success = db.addBubble(new Bubble(bubbleContent, bubble_type));
+        }
+        else {
+            success = db.updateBubble(bubbleIdEdit,new Bubble(bubbleContent,bubble_type));
+            editMode=false;
+        }
 
         if (success) {
             Toast.makeText(this, "Yeah, Bubble Saved!", Toast.LENGTH_SHORT).show();
@@ -253,6 +293,32 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable{
         else{
             //If there's no text, just returns to Home Screen
             this.finish();
+        }
+    }
+
+    public void editBubbles(Bubble bubble) {
+        if (editMode){
+            bubbleIdEdit = bubble.getBubbleID();
+            bubbleContentInput.setText(bubble.getBubbleContent());
+            ArrayList<String> spinnerOptions = new ArrayList<String>();
+            spinnerOptions.add("Exercise");
+            spinnerOptions.add("Reps/Sets");
+            spinnerOptions.add("Weight/Rest");
+            /*ArrayAdapter<String> adapter = new ArrayAdapter<String>(EditBubbleActivity.this, android.R.layout.simple_spinner_item, spinnerOptions);
+            bubble_types.setAdapter(adapter);*/
+            bubble_types.setSelection(bubble.getBubbleType());
+            /*if (bubble.getBubbleType()==1) {
+                bubble_types.setPrompt("Exercise");
+            }
+            else if (bubble.getBubbleType()==2) {
+                bubble_types.setPrompt("Reps/Sets");
+            }
+            else if (bubble.getBubbleType()==3) {
+                bubble_types.setPrompt("Weight/Rest");
+            }
+            else {
+                this.bubbleContentInput.setError("Invalid Bubble type.");
+            }*/
         }
     }
 

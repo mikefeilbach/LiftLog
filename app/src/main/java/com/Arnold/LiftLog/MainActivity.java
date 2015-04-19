@@ -82,8 +82,8 @@ public class MainActivity extends ActionBarActivity {
         // START: Exercise database to check functionality.
         //*********************************************************************
 
-        DatabaseTester dbTest = new DatabaseTester(this);
-        dbTest.testDatabase();
+        //DatabaseTester dbTest = new DatabaseTester(this);
+        //dbTest.testDatabase();
 
         //*********************************************************************
         // DONE: Exercise database to check functionality.

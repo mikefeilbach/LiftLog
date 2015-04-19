@@ -29,6 +29,7 @@ public class ViewHistoryDetailed extends ActionBarActivity {
     private int oldLogID;                   //the old log's ID in int form, will be -1 if newlog is true
     private boolean editLog;                //if true, log is being edited by user, not just viewed
     private DatabaseHandler db;
+    private final int max_title_length = 40;
 
 
     @Override
@@ -120,27 +121,14 @@ public class ViewHistoryDetailed extends ActionBarActivity {
                 //Toast.makeText(this, "Edit log", Toast.LENGTH_SHORT).show();
 
                 //makes the text editable
-                editLog();
+                this.editLog();
 
                 return true;
 
             //if the save log button was pressed, do this
             case R.id.VHD_save_log:
-
-                EditText newLogBody = (EditText) findViewById(R.id.new_log_body);
-                EditText newLogTitle = (EditText) findViewById(R.id.new_log_title);
-
-                oldLog.setLogBody(newLogBody.getText().toString());
-                oldLog.setLogTitle(newLogTitle.getText().toString());
-
-                //saves the old workout log in the database
-                db.updateWorkoutLog(oldLogID,oldLog);
-
-                //prints "log saved" and sends user back to the main View History screen
-                Intent intent = new Intent(ViewHistoryDetailed.this,ViewHistoryActivity.class);
-                Toast.makeText(this, "Log saved", Toast.LENGTH_SHORT).show();
-                startActivity(intent);
-
+                //updates the log
+                this.saveLog();
                 return true;
 
             case android.R.id.home:
@@ -151,6 +139,7 @@ public class ViewHistoryDetailed extends ActionBarActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
 
     /**
      * This function changes the state of this screen so that the text in the title and body can be
@@ -164,6 +153,7 @@ public class ViewHistoryDetailed extends ActionBarActivity {
         //gets the old (read only) title and body views
         TextView oldBody = (TextView) findViewById(R.id.old_log_body);
         TextView oldTitle = (TextView) findViewById(R.id.old_log_title);
+        View separator = (View) findViewById(R.id.separator);
 
         //gets the new (read/write) title and body views
         EditText newBody = (EditText) findViewById(R.id.new_log_body);
@@ -172,6 +162,7 @@ public class ViewHistoryDetailed extends ActionBarActivity {
         //erases the old (read only) views
         oldBody.setVisibility(View.GONE);
         oldTitle.setVisibility(View.GONE);
+        separator.setVisibility(View.GONE);
 
         //turns the new (R/W) editable views on
         newBody.setVisibility(View.VISIBLE);
@@ -183,6 +174,32 @@ public class ViewHistoryDetailed extends ActionBarActivity {
 
         //this will recall onCreateOptionsMenu() so that the save button can be turned on
         invalidateOptionsMenu();
+    }
+
+    /**
+     * This function updates in the database the new information for an edited log
+     */
+    private void saveLog() {
+        EditText newLogBody = (EditText) findViewById(R.id.new_log_body);
+        EditText newLogTitle = (EditText) findViewById(R.id.new_log_title);
+
+        //verifies if the title is not empty or bigger than 40 chars
+        if (newLogTitle.getText().toString().equals("")
+                || newLogTitle.getText().toString().length()>max_title_length){
+            newLogTitle.setError("Log Title content cannot be empty or exceed 40 characters.");
+            newLogTitle.setText(oldLog.getLogTitle());
+            return;
+        }
+
+        //saves the old workout log in the database
+        oldLog.setLogBody(newLogBody.getText().toString());
+        oldLog.setLogTitle(newLogTitle.getText().toString());
+        db.updateWorkoutLog(oldLogID,oldLog);
+
+        //prints "log saved" and sends user back to the main View History screen
+        Intent intent = new Intent(ViewHistoryDetailed.this,ViewHistoryActivity.class);
+        Toast.makeText(this, "Log saved", Toast.LENGTH_SHORT).show();
+        startActivity(intent);
     }
 
     @Override

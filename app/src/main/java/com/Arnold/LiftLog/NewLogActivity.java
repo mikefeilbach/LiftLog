@@ -32,10 +32,12 @@ import java.util.concurrent.TimeUnit;
 
 public class NewLogActivity extends ActionBarActivity {
 
+    /*Class variables*/
     private EditText logTitleInput;
     private EditText logBodyInput;
     DatabaseHandler db = new DatabaseHandler(this);
     private List<Bubble> bubbles = new ArrayList<>();
+    private final int max_title_length = 40;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,10 +70,10 @@ public class NewLogActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
-            case R.id.save_log:
+            case R.id.save_log: //When presses Save button
                 this.saveLog();
                 return true;
-            case android.R.id.home:
+            case android.R.id.home: //When presses Return button
                 this.onBackPressed();
                 return true;
             case R.id.set_timer:
@@ -137,13 +139,16 @@ public class NewLogActivity extends ActionBarActivity {
 
     }
 
+    /**
+     * Saves a new workout log into the database
+     */
     public void saveLog(){
-        //Add code to save the log
+        /*Gets the text from the inputs*/
         String logTitle = this.logTitleInput.getText().toString();
         String logBody = this.logBodyInput.getText().toString();
 
-        /*Verify if log title is empty or bigger than 40 char*/
-        if (logTitle.equals("") || logTitle.length()>40){
+        /*Verify if log title is not empty or not bigger than 40 char*/
+        if (logTitle.equals("") || logTitle.length()>max_title_length){
             this.logTitleInput.setError("Log Title content cannot be empty or exceed 40 characters.");
             this.logTitleInput.setText("");
             return;
@@ -248,6 +253,10 @@ public class NewLogActivity extends ActionBarActivity {
         logTitleInput.setText(content);
     }
 
+    /**
+     * Creates a dialog and asks for the user if he wants to leave without saving
+     * if so, returns to the Home Screen without saving. Else, stays in the new log screen
+     */
     @Override
     public void onBackPressed() {
         //If there's text in the one of the fields, ask if user wants to lost unsaved data

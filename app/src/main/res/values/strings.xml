@@ -2,11 +2,7 @@
 <resources>
 
     <string name="app_name">LiftLog</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="edit_message">blablablae</string>
-    <string name="button_send">Calculate</string>
-    <string name="title_activity_display_message">My Message</string>
     <string name="newlog">New Log</string>
     <string name="visithistory">Visit\n History</string>
     <string name="editbubble">Edit Bubble</string>
@@ -19,7 +15,7 @@
     <string name="text_start_timer">Start Timer</string>
     <string name="hint_log_title">Log Title (Max. 40 characters)</string>
     <string name="hint_log_body">Log Body | Add your workout log here \n\nPlease, write one instruction per line</string>
-    <string name="title_activity_view_history_detailed">ViewHistoryDetailed</string>
+    <string name="title_activity_view_history_detailed">View History Detailed</string>
 
     <color name="white">#FFFFFF</color>
     <color name="background_color">#0099FF</color>

@@ -14,7 +14,7 @@
     tools:context="com.Arnold.LiftLog.NewLogActivity">
 
     <!--<TextView android:text="New Log Activity" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />-->
+        android:layout_height="wrwap_content" />-->
 
     <TextView
         android:id="@+id/old_log_title"
@@ -24,6 +24,12 @@
 
         </TextView>
 
+    <View
+        android:layout_below="@+id/old_log_title"
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"/>
 
     <TextView
         android:layout_width="0dp"
@@ -31,13 +37,12 @@
         android:textSize="20sp"
         android:ems="10"
         android:id="@+id/old_log_body"
-        android:layout_below="@+id/old_log_title"
+        android:layout_below="@+id/separator"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/old_log_title"
         android:layout_alignEnd="@+id/old_log_title"
-
         android:gravity="top"
         android:scrollbars="vertical"/>
 
@@ -46,7 +51,8 @@
         android:layout_width="match_parent"
         android:inputType="textPersonName"
         android:layout_height="wrap_content"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        android:hint="@string/hint_log_title"/>
 
     <EditText
         android:layout_width="0dp"
@@ -62,7 +68,8 @@
         android:layout_alignEnd="@+id/new_log_title"
         android:visibility="invisible"
         android:gravity="top"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical"
+        android:hint="@string/hint_log_body"/>
 
 
 

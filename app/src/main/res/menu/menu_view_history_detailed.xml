@@ -8,7 +8,7 @@
         android:title="@string/text_edit_log"
         android:orderInCategory="100"
         app:showAsAction="ifRoom"
-        android:icon="@mipmap/button3"/>
+        android:icon="@drawable/ic_action_edit"/>
 
     <item
         android:id="@+id/VHD_save_log"

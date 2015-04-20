@@ -1,12 +1,14 @@
 package com.Arnold.LiftLog;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.CountDownTimer;
 import android.os.Message;
+import android.os.Vibrator;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -54,7 +56,6 @@ public class NewLogActivity extends ActionBarActivity {
 
         bubbleSetUp();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -132,6 +133,19 @@ public class NewLogActivity extends ActionBarActivity {
 
                 //sets the textview to show the final timer of the timer
                 timerTextView.setText(hms);
+
+                // Get instance of Vibrator from current Context
+                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+                // Start without a delay
+                // Vibrate for 100 milliseconds
+                // Sleep for 1000 milliseconds
+                long[] pattern = {0, 300, 300, 300, 300, 300, 300};
+
+                // The '0' here means to repeat indefinitely
+                // '0' is actually the index at which the pattern keeps repeating from (the start)
+                // To repeat the pattern from any other point, you could increase the index, e.g. '1'
+                v.vibrate(pattern, -1);
             }
         }.start();
 

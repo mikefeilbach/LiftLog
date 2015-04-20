@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,11 +41,14 @@ public class NewLogActivity extends ActionBarActivity {
     DatabaseHandler db = new DatabaseHandler(this);
     private List<Bubble> bubbles = new ArrayList<>();
     private final int max_title_length = 40;
+    private CountDownTimer timer;
+    private int timerLength;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_log);
+        timerLength = 0;
 
         /*Create new objects for the inputs*/
         this.logTitleInput = (EditText) findViewById(R.id.log_title);
@@ -78,39 +82,102 @@ public class NewLogActivity extends ActionBarActivity {
                 this.onBackPressed();
                 return true;
             case R.id.set_timer:
-               setTimer((long)30000);
+               setTimer();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    /**
+     * This function resets the timer to the previous time. Can only be accessed if the timer
+     * has been previously set.
+     * @param view
+     */
     public void resetTimer(View view) {
-        setTimer((long)30000);
+        timer.cancel();
+        startTimer();
     }
 
-    public void setTimer(long milisec){
+    /**
+     * This function is responsible to set up the rest timer by creating a dialog box that will
+     * allow the user to choose the amount of time they want.
+     */
+    public void setTimer(){
+
+        //this will allow the user to pick the timer for the timer in seconds
+        final NumberPicker np = new NumberPicker(NewLogActivity.this);
+        np.setMaxValue(90);
+        np.setMinValue(0);
+        np.setWrapSelectorWheel(true);
+
+        //creates the alert dialog box that allows the user to set the timer timer
+        final AlertDialog.Builder timerDialog = new AlertDialog.Builder(NewLogActivity.this);
+        timerDialog.setTitle("Rest Timer");
+        timerDialog.setNegativeButton("Go", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                //cancels any lingering timer that might be going on
+                if(timer != null) {
+                    timer.cancel();
+                }
+
+                //gets the pointer to the textview object that will display the timer
+                final TextView timerTextView = (TextView) findViewById(R.id.timer_textview);
+
+                final Button resetButton = (Button) findViewById(R.id.timer_button_reset);
+
+                //makes the button visible
+                resetButton.setVisibility(View.VISIBLE);
+
+                //makes the display visible
+                timerTextView.setVisibility(View.VISIBLE);
+
+                //gets the new value of the timer from the number-picker
+                timerLength = np.getValue()*1000;
+
+                //start the timer
+                startTimer();
+
+
+            }
+        });
+        timerDialog.setPositiveButton("Cancel Timer", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                //gets the text and button views
+                TextView timerView = (TextView) findViewById(R.id.timer_textview);
+                Button resetButton = (Button) findViewById(R.id.timer_button_reset);
+
+                //disables the timer text view and button view
+                timerView.setVisibility(View.GONE);
+                resetButton.setVisibility(View.GONE);
+
+                //cancels the timer if it was currently running
+                timer.cancel();
+
+                Toast.makeText(NewLogActivity.this, "Disable Timer", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        timerDialog.setView(np);
+        timerDialog.create().show();
+    }
+
+    /**
+     * This function will start the rest timer seen in the new log activity. It will display the
+     * remaining time on the screen in hh:mm:ss format. When finished, the timer will display
+     * the total time it counted down.
+     */
+    public void startTimer() {
 
         //gets the pointer to the textview object that will display the timer
         final TextView timerTextView = (TextView) findViewById(R.id.timer_textview);
 
-        final Button resetButton = (Button) findViewById(R.id.timer_button_reset);
-
-        //if the timer is hidden, reveal the fields
-        if(resetButton.getVisibility() != View.VISIBLE) {
-
-            //makes the button visible
-            resetButton.setVisibility(View.VISIBLE);
-
-            //makes the display visible
-            timerTextView.setVisibility(View.VISIBLE);
-        }
-
-        //the time of the timer
-        final long countdownTime = milisec;
-
         //creates a timer that on each second will update the textview with the remaining time left
-        CountDownTimer timer = new CountDownTimer(countdownTime,1000) {
+        timer = new CountDownTimer((long)timerLength,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
 
@@ -127,9 +194,9 @@ public class NewLogActivity extends ActionBarActivity {
             public void onFinish() {
 
                 //gets a string format of hh:mm:ss of the final time of the timer
-                String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(countdownTime),
-                        TimeUnit.MILLISECONDS.toMinutes(countdownTime) % TimeUnit.HOURS.toMinutes(1),
-                        TimeUnit.MILLISECONDS.toSeconds(countdownTime) % TimeUnit.MINUTES.toSeconds(1));
+                String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(timerLength),
+                        TimeUnit.MILLISECONDS.toMinutes(timerLength) % TimeUnit.HOURS.toMinutes(1),
+                        TimeUnit.MILLISECONDS.toSeconds(timerLength) % TimeUnit.MINUTES.toSeconds(1));
 
                 //sets the textview to show the final timer of the timer
                 timerTextView.setText(hms);
@@ -138,18 +205,14 @@ public class NewLogActivity extends ActionBarActivity {
                 Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
                 // Start without a delay
-                // Vibrate for 100 milliseconds
-                // Sleep for 1000 milliseconds
+                // Vibrate for 300 milliseconds
+                // Sleep for 300 milliseconds
                 long[] pattern = {0, 300, 300, 300, 300, 300, 300};
 
-                // The '0' here means to repeat indefinitely
-                // '0' is actually the index at which the pattern keeps repeating from (the start)
-                // To repeat the pattern from any other point, you could increase the index, e.g. '1'
+                //makes the phone vibrate for the above pattern only once
                 v.vibrate(pattern, -1);
             }
         }.start();
-
-        Toast.makeText(this, "Setting timer", Toast.LENGTH_SHORT).show();
 
     }
 

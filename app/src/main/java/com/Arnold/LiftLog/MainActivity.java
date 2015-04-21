@@ -25,7 +25,7 @@ public class MainActivity extends ActionBarActivity {
 
         button1.setText(R.id.test_button_text2, "New");
         button1.setText(R.id.test_button_text1, "Workout Log");
-        button1.setButtonColor(0x88FF9900);     //first 8bits is transparency, second to forth is RGB Respectively
+        button1.setButtonColor(0xFF0099FF);     //first 8bits is transparency, second to forth is RGB Respectively
         int id1 = getResources().getIdentifier("com.Arnold.LiftLog:mipmap/button1", null, null);
         button1.setImageResource(R.id.test_button_image, id1);
 
@@ -45,7 +45,7 @@ public class MainActivity extends ActionBarActivity {
 
         button2.setText(R.id.test_button_text2, "View");
         button2.setText(R.id.test_button_text1, "History");
-        button2.setButtonColor(0xFFFF99FF);     //first 8bits is transparency, second to forth is RGB Respectively
+        button2.setButtonColor(0xFF0099FF);     //first 8bits is transparency, second to forth is RGB Respectively
         int id2 = getResources().getIdentifier("com.Arnold.LiftLog:mipmap/button2", null, null);
         button2.setImageResource(R.id.test_button_image, id2);
 
@@ -65,7 +65,7 @@ public class MainActivity extends ActionBarActivity {
 
         button3.setText(R.id.test_button_text2, "Edit");
         button3.setText(R.id.test_button_text1, "Bubbles");
-        button3.setButtonColor(0xFF00FF99);     //first 8bits is transparency, second to forth is RGB Respectively
+        button3.setButtonColor(0xFF0099FF);     //first 8bits is transparency, second to forth is RGB Respectively
         int id3 = getResources().getIdentifier("com.Arnold.LiftLog:mipmap/button3", null, null);
         button3.setImageResource(R.id.test_button_image, id3);
 

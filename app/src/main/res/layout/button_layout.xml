@@ -16,9 +16,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30sp"
-        android:layout_alignTop="@+id/test_button_image"
+        android:layout_marginTop="20dp"
         android:layout_toRightOf="@+id/test_button_image"
         android:id="@+id/test_button_text2"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         android:text="@string/newlog">
 
         </TextView>
@@ -27,6 +29,8 @@
         android:layout_width="wrap_content"
         android:textSize="20sp"
         android:text="Compound button"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         android:layout_height="wrap_content"
         android:layout_below="@+id/test_button_text2"
         android:layout_alignLeft="@+id/test_button_text2">

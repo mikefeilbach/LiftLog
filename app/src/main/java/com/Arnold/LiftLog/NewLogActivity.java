@@ -152,11 +152,15 @@ public class NewLogActivity extends ActionBarActivity {
                 Button resetButton = (Button) findViewById(R.id.timer_button_reset);
 
                 //disables the timer text view and button view
-                timerView.setVisibility(View.GONE);
-                resetButton.setVisibility(View.GONE);
+                if(timerView.getVisibility() == View.VISIBLE) {
+                    timerView.setVisibility(View.GONE);
+                    resetButton.setVisibility(View.GONE);
+                }
 
-                //cancels the timer if it was currently running
-                timer.cancel();
+                if(timer != null) {
+                    //cancels the timer if it was currently running
+                    timer.cancel();
+                }
 
                 Toast.makeText(NewLogActivity.this, "Disable Timer", Toast.LENGTH_SHORT).show();
             }

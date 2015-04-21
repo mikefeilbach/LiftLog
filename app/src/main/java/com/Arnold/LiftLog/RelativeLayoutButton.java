@@ -86,6 +86,15 @@ public class RelativeLayoutButton extends RelativeLayout {
               ((TextView)v).setTextColor(0xFFFFFFFF);
 		  }
 	  }
+    // method for setting texts for the text views
+    public void setTextColor(int id, int mColor)
+    {
+        View v = findViewById(id);
+        if (null != v && v instanceof TextView)
+        {
+            ((TextView)v).setTextColor(mColor);
+        }
+    }
 
 	  // method for setting drawable for the images
 	  public void setImageDrawable(int id, Drawable drawable)

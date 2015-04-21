@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.security.PrivateKey;
+
 
 public class ViewHistoryDetailed extends ActionBarActivity {
 
@@ -30,6 +32,8 @@ public class ViewHistoryDetailed extends ActionBarActivity {
     private boolean editLog;                //if true, log is being edited by user, not just viewed
     private DatabaseHandler db;
     private final int max_title_length = 40;
+    private String titleOld;
+    private String bodyOld;
 
 
     @Override
@@ -172,6 +176,9 @@ public class ViewHistoryDetailed extends ActionBarActivity {
         newBody.setText(oldLog.getLogBody());
         newTitle.setText(oldLog.getLogTitle());
 
+        titleOld = newTitle.getText().toString();
+        bodyOld = newBody.getText().toString();
+
         //this will recall onCreateOptionsMenu() so that the save button can be turned on
         invalidateOptionsMenu();
     }
@@ -206,26 +213,37 @@ public class ViewHistoryDetailed extends ActionBarActivity {
     public void onBackPressed() {
         //If it is in edit mode, then show the dialog to confirm
         if(this.editLog){
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ViewHistoryDetailed.this);
-            alertDialogBuilder.setTitle("Return");
-            alertDialogBuilder.setMessage("Do you want to return and lose your unsaved data?");
+            EditText newLogBody = (EditText) findViewById(R.id.new_log_body);
+            EditText newLogTitle = (EditText) findViewById(R.id.new_log_title);
 
-            alertDialogBuilder.setPositiveButton("No", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    //do nothing
-                }
-            });
+            if (!titleOld.equals(newLogTitle.getText().toString())
+                    || !bodyOld.equals(newLogBody.getText().toString()) ) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ViewHistoryDetailed.this);
+                alertDialogBuilder.setTitle("Return");
+                alertDialogBuilder.setMessage("Do you want to return and lose your unsaved data?");
 
-            alertDialogBuilder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    //Return to View History
-                    Intent intent = new Intent(ViewHistoryDetailed.this, ViewHistoryActivity.class);
-                    startActivity(intent);
-                }
-            });
-            alertDialogBuilder.create().show();
+
+                alertDialogBuilder.setPositiveButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //do nothing
+                    }
+                });
+
+                alertDialogBuilder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Return to View History
+                        Intent intent = new Intent(ViewHistoryDetailed.this, ViewHistoryActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                alertDialogBuilder.create().show();
+            }
+            else{
+                Intent intent = new Intent(ViewHistoryDetailed.this, ViewHistoryActivity.class);
+                startActivity(intent);
+            }
         }
         else{
             //If it is not in edit mode, just return to the View History

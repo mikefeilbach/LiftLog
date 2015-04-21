@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class EditBubbleActivity extends ActionBarActivity implements Comparable{
+public class EditBubbleActivity extends ActionBarActivity implements Comparable, TextWatcher {
 
     private List<Bubble> bubbles = new ArrayList<>();
 
@@ -36,7 +38,7 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable{
 
     final DatabaseHandler db = new DatabaseHandler(this);
 
-    private final int max_bubble_length = 20;
+    private final int max_bubble_length = 40;
 
     private boolean editMode = false;
 
@@ -53,6 +55,7 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable{
         // Set up text input handlers
         this.bubbleContentInput = (EditText) findViewById(R.id.save_bubble_content);
         this.bubbleContentInput.setText("");
+        this.bubbleContentInput.addTextChangedListener(this);
 
         //Updates the list of bubbles
         this.updateBubbles();
@@ -204,11 +207,11 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable{
         int bubble_type = -1;
 
         if (bubble_type_string.equals("Exercise")) {
-            bubble_type = 0;
+            bubble_type = Bubble.BUBBLE_TYPE_EXERCISE;
         } else if (bubble_type_string.equals("Reps/Sets")) {
-            bubble_type = 1;
+            bubble_type = Bubble.BUBBLE_TYPE_REPS_SETS;
         } else if (bubble_type_string.equals("Weight/Rest")) {
-            bubble_type = 2;
+            bubble_type = Bubble.BUBBLE_TYPE_WEIGHT_REST;
         } else {
             this.bubbleContentInput.setError("Invalid Bubble type.");
             return;
@@ -219,7 +222,7 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable{
         String bubbleContent = this.bubbleContentInput.getText().toString();
 
         if (bubbleContent.equals("") || bubbleContent.length() > max_bubble_length) {
-            this.bubbleContentInput.setError("Bubble content cannot be empty or exceed 20 characters.");
+            this.bubbleContentInput.setError("Bubble content cannot be empty or exceed "+this.max_bubble_length+" characters.");
             this.bubbleContentInput.setText("");
 
             return;
@@ -308,4 +311,27 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable{
     public int compareTo(Object another) {
         return 0;
     }
+
+    /* -- */
+    /*Methods to listen while the user types a text in the New Bubble input*/
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        if (s.length() > this.max_bubble_length) {
+            this.bubbleContentInput.setError("Bubble content cannot exceed "+this.max_bubble_length+" characters.");
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+
+    }
+    /* -- */
+
+
 }

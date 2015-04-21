@@ -281,7 +281,7 @@ public class NewLogActivity extends ActionBarActivity {
         duration_bubs.setVerticalScrollBarEnabled(true);
         duration_scroll.addView(duration_bubs, lp);
 
-        for (Bubble curr_bubble : bubbles) {
+        for (final Bubble curr_bubble : bubbles) {
 
             //new button being created for bubble
             final Button myButton = new Button(this);
@@ -298,7 +298,7 @@ public class NewLogActivity extends ActionBarActivity {
             // Any Click automatically deletes the first bubble, this will be fixed with Lauro's stuff
             myButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    insertText(myButton.getText());
+                    insertText(myButton.getText(), curr_bubble.getBubbleType());
                 }
             });
 
@@ -330,12 +330,17 @@ public class NewLogActivity extends ActionBarActivity {
 
     }
 
-    public void insertText(CharSequence content) {
+    public void insertText(CharSequence content, int bubbleType) {
         if (logTitleInput.hasFocus()){
             logTitleInput.setText(content);
         }
         else if (logBodyInput.hasFocus()){
-            logBodyInput.append(content+"\n");
+            if (bubbleType!=Bubble.BUBBLE_TYPE_EXERCISE){
+                logBodyInput.append("\t\t"+content+"\n");
+            }
+            else{
+                logBodyInput.append(content+"\n");
+            }
         }
     }
 

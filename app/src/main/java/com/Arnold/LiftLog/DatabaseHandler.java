@@ -373,25 +373,33 @@ public class DatabaseHandler extends SQLiteOpenHelper
     public boolean updateBubble(int ID, Bubble bubble)
     {
         // Return value.
-        boolean retVal = true;
+        boolean retVal = false;
 
-        // Get a reference of our database.
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-
-        // Bubble type and content.
-        values.put(COLUMN_BUBBLE_TYPE, bubble.getBubbleType());
-        values.put(COLUMN_BUBBLE_CONTENT, bubble.getBubbleContent());
-
-        // Update the Bubble's row in the Bubble table. If update fails, return false.
-        if (db.update(TABLE_BUBBLES, values, COLUMN_BUBBLE_ID + " = " + String.valueOf(ID), null) == -1)
+        // If this Bubble isn't already in the database.
+        if (getBubble(bubble.getBubbleContent()) == null)
         {
-            retVal = false;
-        }
+            // Get a reference of our database.
+            SQLiteDatabase db = this.getWritableDatabase();
 
-        // Close out database.
-        db.close();
+            ContentValues values = new ContentValues();
+
+            // Bubble type and content.
+            values.put(COLUMN_BUBBLE_TYPE, bubble.getBubbleType());
+            values.put(COLUMN_BUBBLE_CONTENT, bubble.getBubbleContent());
+
+            // Update the Bubble's row in the Bubble table. If update fails, return false.
+            if (db.update(TABLE_BUBBLES, values, COLUMN_BUBBLE_ID + " = " + String.valueOf(ID), null) == -1) {
+                retVal = false;
+            }
+            else
+            {
+                // Update was successful.
+                retVal = true;
+            }
+
+            // Close out database.
+            db.close();
+        }
 
         return retVal;
     }
@@ -520,7 +528,11 @@ public class DatabaseHandler extends SQLiteOpenHelper
             // the seconds date field to local time. This is taking the seconds
             // date field and converting it to a textual description to show
             // the user.
-            Cursor stringDateCursor = db.rawQuery("SELECT strftime('%d/%m/%Y %H:%M', "
+
+            //Cursor stringDateCursor = db.rawQuery("SELECT strftime('%d/%m/%Y %H:%M', "
+            //        + cursor.getLong(3) + ", 'unixepoch', 'localtime')", null);
+
+            Cursor stringDateCursor = db.rawQuery("SELECT strftime('%m/%d/%Y', "
                     + cursor.getLong(3) + ", 'unixepoch', 'localtime')", null);
 
             // This is necessary to get the results of the query.
@@ -551,6 +563,9 @@ public class DatabaseHandler extends SQLiteOpenHelper
      * @return a List<WorkoutLog> with all of the WorkoutLogs in the
      *         WorkoutLog table.
      */
+
+    // TODO TODO TODO TODO TODO TODO TODO
+    // Change toasts, fix messages.
     public List<WorkoutLog> getAllWorkoutLogs()
     {
         // Return value.

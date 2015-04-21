@@ -258,23 +258,16 @@ public class DatabaseTester
             return;
         }
 
-        Log.v(TAG, "Update Ke$ha's bubble type from REPS_SETS to WEIGHT_REST.");
+        Log.v(TAG, "Update Ke$ha's bubble type from REPS_SETS to WEIGHT_REST. Should fail--can't update Bubbles");
         if (db.updateBubble(4, new Bubble("Ke$ha", Bubble.BUBBLE_TYPE_WEIGHT_REST)))
         {
-            if (db.getBubble("Ke$ha").getBubbleType() == Bubble.BUBBLE_TYPE_WEIGHT_REST)
-            {
-                Log.v(TAG, "Passed");
-            }
-            else
-            {
-                Log.v(TAG, "**************** FAILED");
-                return;
-            }
+
+            Log.v(TAG, "**************** FAILED");
+            return;
         }
         else
         {
-            Log.v(TAG, "**************** FAILED");
-            return;
+            Log.v(TAG, "Passed");
         }
 
         // Print out all Bubbles in Bubble table.
@@ -289,6 +282,17 @@ public class DatabaseTester
 
             // Write this Bubble to the Log.
             Log.v(TAG, log);
+        }
+
+        Log.v(TAG, "Try to update the Bubble Ke$ha to  Demi Lovato.");
+        if (!db.updateBubble(4, new Bubble("Demi Lovato", Bubble.BUBBLE_TYPE_WEIGHT_REST)))
+        {
+            Log.v(TAG, "Passed");
+        }
+        else
+        {
+            Log.v(TAG, "**************** FAILED");
+            return;
         }
 
         //*********************************************************************

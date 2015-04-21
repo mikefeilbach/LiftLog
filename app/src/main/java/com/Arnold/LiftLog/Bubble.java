@@ -17,9 +17,22 @@ public class Bubble
     private String _bubbleContent;
 
     // Bubble type defines. Use these when creating a Bubble.
+    // Types and subtypes.
+
+    // Type EXERCISE.
     public static final int BUBBLE_TYPE_EXERCISE = 0;
+
+    // Type REPS_SETS.
     public static final int BUBBLE_TYPE_REPS_SETS = 1;
-    public static final int BUBBLE_TYPE_WEIGHT_REST = 2;
+    // Subtypes for REPS_SETS.
+    public static final int BUBBLE_SUBTYPE_REPS = 2;
+    public static final int BUBBLE_SUBTYPE_SETS = 3;
+
+    // Type WEIGHT_REST.
+    public static final int BUBBLE_TYPE_WEIGHT_REST = 4;
+    // Subtypes for REPS_SETS.
+    public static final int BUBBLE_SUBTYPE_WEIGHT = 5;
+    public static final int BUBBLE_SUBTYPE_REST = 6;
 
     // Bubble's type. Must be one of the Bubble type defines.
     private int _bubbleType;

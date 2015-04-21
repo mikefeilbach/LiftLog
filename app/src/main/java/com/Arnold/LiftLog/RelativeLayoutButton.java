@@ -71,7 +71,7 @@ public class RelativeLayoutButton extends RelativeLayout {
 			 int index = vp.indexOfChild(layout);
 			 vp.removeView(layout);
 			 vp.addView(this,index);
-            vp.setBackgroundColor(0xFF83F4FE);  //Home screen color
+            //vp.setBackgroundColor(0xFF222222);  //Home screen color
 			 this.setId(id);
 			 
 	  }
@@ -83,9 +83,10 @@ public class RelativeLayoutButton extends RelativeLayout {
 		  if (null != v && v instanceof TextView)
 		  {
 			  ((TextView)v).setText(text);
+              ((TextView)v).setTextColor(0xFFFFFFFF);
 		  }
-		  
 	  }
+
 	  // method for setting drawable for the images
 	  public void setImageDrawable(int id, Drawable drawable)
 	  {

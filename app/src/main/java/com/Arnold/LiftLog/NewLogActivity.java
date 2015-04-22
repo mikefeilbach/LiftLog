@@ -105,6 +105,16 @@ public class NewLogActivity extends ActionBarActivity {
      */
     public void setTimer(){
 
+//        final NumberPicker minutes = (NumberPicker) findViewById(R.id.timer_NumberPicker);
+//        final NumberPicker seconds = (NumberPicker) findViewById(R.id.timer_NumberPickerSec);
+//        minutes.setMinValue(0);
+//        minutes.setMaxValue(30);
+//        minutes.setWrapSelectorWheel(true);
+//        seconds.setMinValue(0);
+//        seconds.setMaxValue(59);
+//        seconds.setWrapSelectorWheel(true);
+
+
         //this will allow the user to pick the timer for the timer in seconds
         final NumberPicker np = new NumberPicker(NewLogActivity.this);
         np.setMaxValue(90);
@@ -136,6 +146,7 @@ public class NewLogActivity extends ActionBarActivity {
 
                 //gets the new value of the timer from the number-picker
                 timerLength = np.getValue()*1000;
+  //              timerLength = minutes.getValue()*10000 + seconds.getValue()*1000;
 
                 //start the timer
                 startTimer();
@@ -167,6 +178,7 @@ public class NewLogActivity extends ActionBarActivity {
         });
 
         timerDialog.setView(np);
+ //       timerDialog.setView(getLayoutInflater().inflate(R.layout.timer_layout,null));
         timerDialog.create().show();
     }
 

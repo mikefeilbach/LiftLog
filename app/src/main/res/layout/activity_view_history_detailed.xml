@@ -74,7 +74,6 @@
         android:textColorHighlight="@color/black"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/new_log_title"
         android:layout_alignEnd="@+id/new_log_title"
         android:textCursorDrawable="@drawable/custom_edit_text_cursor"

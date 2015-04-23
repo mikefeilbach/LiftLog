@@ -356,10 +356,10 @@ public class NewLogActivity extends ActionBarActivity {
             if (curr_bubble.getBubbleType() == Bubble.BUBBLE_TYPE_EXERCISE) {
                 myButton.getBackground().setColorFilter(0xFF00DD00, PorterDuff.Mode.MULTIPLY);
                 exercise_bubs.addView(myButton);
-            } else if (curr_bubble.getBubbleType() == Bubble.BUBBLE_SUBTYPE_REPS ||
-                    curr_bubble.getBubbleType() == Bubble.BUBBLE_SUBTYPE_SETS ) {
+            } else if (curr_bubble.getBubbleType() == Bubble.BUBBLE_TYPE_REPS ||
+                    curr_bubble.getBubbleType() == Bubble.BUBBLE_TYPE_SETS ) {
 
-                if (curr_bubble.getBubbleType() == Bubble.BUBBLE_SUBTYPE_REPS) {
+                if (curr_bubble.getBubbleType() == Bubble.BUBBLE_TYPE_REPS) {
                     myButton.getBackground().setColorFilter(0xFFFE5000, PorterDuff.Mode.MULTIPLY);
                 } else {
                     myButton.getBackground().setColorFilter(0xFFFF0000, PorterDuff.Mode.MULTIPLY);
@@ -367,7 +367,7 @@ public class NewLogActivity extends ActionBarActivity {
                 reps_sets_bubs.addView(myButton);
             } else {
 
-                if (curr_bubble.getBubbleType() == Bubble.BUBBLE_SUBTYPE_WEIGHT) {
+                if (curr_bubble.getBubbleType() == Bubble.BUBBLE_TYPE_WEIGHT) {
                     myButton.getBackground().setColorFilter(0xFF00CCEE, PorterDuff.Mode.MULTIPLY);
                 } else {
                     myButton.getBackground().setColorFilter(0xFF0000EE, PorterDuff.Mode.MULTIPLY);

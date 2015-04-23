@@ -161,10 +161,10 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable,
             if (curr_bubble.getBubbleType() == Bubble.BUBBLE_TYPE_EXERCISE) {
                 myButton.getBackground().setColorFilter(0xFF00DD00, PorterDuff.Mode.MULTIPLY);
                 exercise_bubs.addView(myButton);
-            } else if (curr_bubble.getBubbleType() == Bubble.BUBBLE_SUBTYPE_REPS ||
-                    curr_bubble.getBubbleType() == Bubble.BUBBLE_SUBTYPE_SETS ) {
+            } else if (curr_bubble.getBubbleType() == Bubble.BUBBLE_TYPE_REPS ||
+                    curr_bubble.getBubbleType() == Bubble.BUBBLE_TYPE_SETS ) {
 
-                if (curr_bubble.getBubbleType() == Bubble.BUBBLE_SUBTYPE_REPS) {
+                if (curr_bubble.getBubbleType() == Bubble.BUBBLE_TYPE_REPS) {
                     myButton.getBackground().setColorFilter(0xFFFE5000, PorterDuff.Mode.MULTIPLY);
                 } else {
                     myButton.getBackground().setColorFilter(0xFFFF0000, PorterDuff.Mode.MULTIPLY);
@@ -172,7 +172,7 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable,
                 reps_sets_bubs.addView(myButton);
             } else {
 
-                if (curr_bubble.getBubbleType() == Bubble.BUBBLE_SUBTYPE_WEIGHT) {
+                if (curr_bubble.getBubbleType() == Bubble.BUBBLE_TYPE_WEIGHT) {
                     myButton.getBackground().setColorFilter(0xFF00CCEE, PorterDuff.Mode.MULTIPLY);
                 } else {
                     myButton.getBackground().setColorFilter(0xFF0000EE, PorterDuff.Mode.MULTIPLY);
@@ -223,17 +223,23 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable,
 
         int bubble_type = -1;
 
-        // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-        if (bubble_type_string.equals("Exercise")) {
-            bubble_type = Bubble.BUBBLE_TYPE_EXERCISE;
-        } else if (bubble_type_string.equals("Reps/Sets")) {
-            bubble_type = Bubble.BUBBLE_TYPE_REPS;
-        } else if (bubble_type_string.equals("Weight/Rest")) {
-            bubble_type = Bubble.BUBBLE_TYPE_SETS;
-        } else {
-            this.bubbleContentInput.setError("Invalid Bubble type.");
-            return;
-        }
+//        if (bubble_type_string.equals("Exercise")) {
+//            bubble_type = Bubble.BUBBLE_TYPE_EXERCISE;
+//        } else if (bubble_type_string.equals("Reps")) {
+//            bubble_type = Bubble.BUBBLE_TYPE_REPS;
+//        } else if (bubble_type_string.equals("Sets")) {
+//            bubble_type = Bubble.BUBBLE_TYPE_SETS;
+//        } else if (bubble_type_string.equals("Weight")) {
+//            bubble_type = Bubble.BUBBLE_TYPE_WEIGHT;
+//        } else if (bubble_type_string.equals("Rest Duration")) {
+//            bubble_type = Bubble.BUBBLE_TYPE_REST;
+//        } else {
+//            this.bubbleContentInput.setError("Invalid Bubble type.");
+//            return;
+//        }
+
+        bubble_type = bubble_types.getSelectedItemPosition();
+
 
         boolean success;
         //Add code to save the bubble

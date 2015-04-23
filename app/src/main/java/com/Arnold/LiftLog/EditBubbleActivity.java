@@ -44,6 +44,7 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable,
     private boolean editMode = false;
 
     private int bubbleIdEdit;
+    private Bubble bubbleEdit;
 
     private Spinner bubble_types;
 
@@ -58,15 +59,14 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable,
                                             //when lost  focus, layout  changes to drawable/lost_focus_style.xml
         TextView tv2=(TextView)findViewById(R.id.save_bubble_content);
         tv2.setBackgroundResource(R.drawable.lost_focus_style);
-        tv2.setOnFocusChangeListener( new View.OnFocusChangeListener(){
+        tv2.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
-            public void onFocusChange( View view, boolean hasfocus){
-                if(hasfocus){
+            public void onFocusChange(View view, boolean hasfocus) {
+                if (hasfocus) {
 
-                    view.setBackgroundResource( R.drawable.focus_border_style);
-                }
-                else{
-                    view.setBackgroundResource( R.drawable.lost_focus_style);
+                    view.setBackgroundResource(R.drawable.focus_border_style);
+                } else {
+                    view.setBackgroundResource(R.drawable.lost_focus_style);
                 }
             }
         });
@@ -256,7 +256,13 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable,
             success = db.addBubble(new Bubble(bubbleContent, bubble_type));
         }
         else {
-            success = db.updateBubble(bubbleIdEdit,new Bubble(bubbleContent,bubble_type));
+            if (bubbleEdit.getBubbleID() == bubble_types.getSelectedItemPosition()) {
+                success = db.updateBubble(bubbleEdit.getBubbleID(), new Bubble(bubbleContent, bubble_type));
+            }
+            else{
+                db.deleteBubble(bubbleEdit.getBubbleContent());
+                success = db.addBubble(new Bubble(bubbleContent, bubble_type));
+            }
             editMode=false;
         }
 
@@ -325,7 +331,7 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable,
 
     public void editBubbles(Bubble bubble) {
         if (editMode){
-            bubbleIdEdit = bubble.getBubbleID();
+            bubbleEdit = bubble;
             bubbleContentInput.setText(bubble.getBubbleContent());
             bubble_types.setSelection(bubble.getBubbleType());
         }

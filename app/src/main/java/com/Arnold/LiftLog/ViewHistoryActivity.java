@@ -4,7 +4,6 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -111,14 +109,6 @@ public class ViewHistoryActivity extends ActionBarActivity {
         int previousMonth = Character.getNumericValue(logHistory.get(0).getLogDateString().charAt(1));
         int currentIndex = 0;
 
-        //if(logHistory.size()==0){
-            //TODO : made a empty notification here
-
-            //TextView tv=new TextView(this);
-            //tv.setText("Currently Empty");
-        //}
-
-
         //loops through and sorts all of the logs by month
         for(int i = 0; i < logHistory.size();i++) {
 
@@ -167,8 +157,6 @@ public class ViewHistoryActivity extends ActionBarActivity {
 
                     //new button being created for log
                     final Button myButton = new Button(this);
-                    myButton.getBackground().setColorFilter(0xFF666666, PorterDuff.Mode.MULTIPLY);
-                    myButton.setTextColor(0xFFFFFFFF);
                     myButton.setText(logsByMonth.get(j).get(i).getLogTitle() + "\n" +
                             logsByMonth.get(j).get(i).getLogDateString() + "\n\n\n");
 
@@ -240,11 +228,13 @@ public class ViewHistoryActivity extends ActionBarActivity {
                 //new button being created for the specific month
                 final Button myButton = new Button(this);
 
-                //TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-                myButton.setText("Logs for " + (j%12) + "/15\n\n\n");
-                myButton.getBackground().setColorFilter(0xFF666666, PorterDuff.Mode.MULTIPLY);
-                myButton.setTextColor(0xFFFFFFFF);
-                //TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+                //the month and year of the log button
+                String monthYear [] = logsByMonth.get(j).get(0).getLogDateString().split("/");
+
+
+                //sets the button title to be its month and year
+                myButton.setText("Logs from \n" + monthYear[0] + "/" + monthYear[2] + "\n\n\n");
+
 
                 final int test2 = j;        //specific month that button is being made for
 

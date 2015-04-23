@@ -605,7 +605,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
                 // the seconds date field to local time. This is taking the seconds
                 // date field and converting it to a textual description to show
                 // the user.
-                Cursor stringDateCursor = db.rawQuery("SELECT strftime('%d/%m/%Y %H:%M', " + cursor.getLong(3) + ", 'unixepoch', 'localtime')", null);
+                Cursor stringDateCursor = db.rawQuery("SELECT strftime('%m/%d/%Y', " + cursor.getLong(3) + ", 'unixepoch', 'localtime')", null);
 
                 // This is necessary to get the results of the query.
                 stringDateCursor.moveToFirst();
@@ -677,7 +677,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
             // the seconds date field to local time. This is taking the seconds
             // date field and converting it to a textual description to show
             // the user.
-            Cursor stringDateCursor = db.rawQuery("SELECT strftime('%d/%m/%Y %H:%M', "
+            Cursor stringDateCursor = db.rawQuery("SELECT strftime('%m/%d/%Y', "
                     + cursor.getLong(3) + ", 'unixepoch', 'localtime')", null);
 
             // This is necessary to get the results of the query.

@@ -60,16 +60,16 @@
         android:textColorHighlight="@color/black"
         android:textStyle="bold"
         android:textColorHint="#333333"
-        android:textCursorDrawable="@null"
+        android:textCursorDrawable="@drawable/custom_edit_text_cursor"
         android:visibility="invisible"
         android:hint="@string/hint_log_title"/>
 
     <EditText
+        android:id="@+id/new_log_body"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:ems="10"
-        android:id="@+id/new_log_body"
         android:layout_below="@+id/new_log_title"
         android:textColorHighlight="@color/black"
         android:layout_alignParentLeft="true"
@@ -77,7 +77,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/new_log_title"
         android:layout_alignEnd="@+id/new_log_title"
-        android:textCursorDrawable="@null"
+        android:textCursorDrawable="@drawable/custom_edit_text_cursor"
         android:textColor="@color/white"
         android:textColorHint="#333333"
         android:textStyle="bold"

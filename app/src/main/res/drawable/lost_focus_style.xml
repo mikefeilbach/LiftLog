@@ -6,10 +6,10 @@
         android:width="2dp"
         android:color="#0077AA" />
     <corners
-        android:topLeftRadius="5dp"
-        android:topRightRadius="5dp"
-        android:bottomLeftRadius="5dp"
-        android:bottomRightRadius="5dp"
+        android:topLeftRadius="@dimen/editbox_corner"
+        android:topRightRadius="@dimen/editbox_corner"
+        android:bottomLeftRadius="@dimen/editbox_corner"
+        android:bottomRightRadius="@dimen/editbox_corner"
 
     />
 </shape>

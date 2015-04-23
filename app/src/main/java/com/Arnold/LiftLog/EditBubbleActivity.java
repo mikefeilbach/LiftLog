@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -52,6 +53,23 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_bubble);
 
+                                            //set focus layout for save_bubble_content(edit text box)
+                                            //when receive focus, layout changes to drawable/focus_border_style.xml
+                                            //when lost  focus, layout  changes to drawable/lost_focus_style.xml
+        TextView tv2=(TextView)findViewById(R.id.save_bubble_content);
+        tv2.setBackgroundResource(R.drawable.lost_focus_style);
+        tv2.setOnFocusChangeListener( new View.OnFocusChangeListener(){
+
+            public void onFocusChange( View view, boolean hasfocus){
+                if(hasfocus){
+
+                    view.setBackgroundResource( R.drawable.focus_border_style);
+                }
+                else{
+                    view.setBackgroundResource( R.drawable.lost_focus_style);
+                }
+            }
+        });
         // Set up text input handlers
         this.bubbleContentInput = (EditText) findViewById(R.id.save_bubble_content);
         this.bubbleContentInput.setText("");
@@ -63,6 +81,7 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable,
         // Initialize the 'Save Bubble' button
         final Button save_button = (Button) findViewById(R.id.save_bubble_button);
 
+        save_button.getBackground().setColorFilter(0xFF666666, PorterDuff.Mode.MULTIPLY);
         save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,6 +162,7 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable,
 
             myButton.setMaxWidth(350);
 
+            myButton.setTextColor(0xFFFFFFFF);
             if (curr_bubble.getBubbleType() == 0) {
                 myButton.getBackground().setColorFilter(0xFF00DD00, PorterDuff.Mode.MULTIPLY);
                 exercise_bubs.addView(myButton);

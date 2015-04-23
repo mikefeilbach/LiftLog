@@ -50,6 +50,9 @@ public class NewLogActivity extends ActionBarActivity {
         setContentView(R.layout.activity_new_log);
         timerLength = 0;
 
+                                            //set focus layout for log_title(edit text box)
+                                            //when receive focus, layout changes to drawable/focus_border_style.xml
+                                            //when lost  focus, layout  changes to drawable/lost_focus_style.xml
         TextView tv=(TextView)findViewById(R.id.log_title);
         tv.setBackgroundResource(R.drawable.lost_focus_style);
         tv.setOnFocusChangeListener( new View.OnFocusChangeListener(){
@@ -65,6 +68,9 @@ public class NewLogActivity extends ActionBarActivity {
             }
         });
 
+                                            //set focus layout for log_body(edit text box)
+                                            //when receive focus, layout changes to drawable/focus_border_style.xml
+                                            //when lost  focus, layout  changes to drawable/lost_focus_style.xml
         TextView tv2=(TextView)findViewById(R.id.log_body);
         tv2.setBackgroundResource(R.drawable.lost_focus_style);
         tv2.setOnFocusChangeListener( new View.OnFocusChangeListener(){
@@ -346,7 +352,7 @@ public class NewLogActivity extends ActionBarActivity {
                 }
             });
 
-
+            myButton.setTextColor(0xFFFFFFFF);
             if (curr_bubble.getBubbleType() == 0) {
                 myButton.getBackground().setColorFilter(0xFF00DD00, PorterDuff.Mode.MULTIPLY);
                 exercise_bubs.addView(myButton);

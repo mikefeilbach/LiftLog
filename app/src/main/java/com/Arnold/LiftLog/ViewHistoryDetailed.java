@@ -79,6 +79,7 @@ public class ViewHistoryDetailed extends ActionBarActivity {
             }
         });
 
+
         //gets the database
         db = new DatabaseHandler(this);
 

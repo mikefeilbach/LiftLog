@@ -35,12 +35,12 @@
         android:background="@color/white"/>
 
     <TextView
+        android:id="@+id/old_log_body"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textStyle="bold"
         android:ems="10"
-        android:id="@+id/old_log_body"
         android:layout_below="@+id/separator"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -59,7 +59,7 @@
         android:textColor="@color/white"
         android:textColorHighlight="@color/black"
         android:textStyle="bold"
-        android:textColorHint="#333333"
+        android:textColorHint="@color/hint_color"
         android:textCursorDrawable="@drawable/custom_edit_text_cursor"
         android:visibility="invisible"
         android:hint="@string/hint_log_title"/>
@@ -79,7 +79,7 @@
         android:layout_alignEnd="@+id/new_log_title"
         android:textCursorDrawable="@drawable/custom_edit_text_cursor"
         android:textColor="@color/white"
-        android:textColorHint="#333333"
+        android:textColorHint="@color/hint_color"
         android:textStyle="bold"
         android:visibility="invisible"
         android:gravity="top"

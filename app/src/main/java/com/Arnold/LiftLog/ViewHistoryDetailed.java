@@ -3,28 +3,36 @@ package com.Arnold.LiftLog;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
 import java.security.PrivateKey;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ViewHistoryDetailed extends ActionBarActivity {
 
-
+    private EditText logTitleInput;         // Makin' does changes for gainz
+    private EditText logBodyInput;
 
     private WorkoutLog oldLog;              //the old log clicked on from View History, will be null if newLog is true
     private String stringOldLogID;          //the old log's ID in string form, will be null if newlog is true
@@ -188,6 +196,8 @@ public class ViewHistoryDetailed extends ActionBarActivity {
         //changes state of action to be editable
         editLog = true;
 
+        bubbleSetUp();
+
         //gets the old (read only) title and body views
         TextView oldBody = (TextView) findViewById(R.id.old_log_body);
         TextView oldTitle = (TextView) findViewById(R.id.old_log_title);
@@ -196,6 +206,10 @@ public class ViewHistoryDetailed extends ActionBarActivity {
         //gets the new (read/write) title and body views
         EditText newBody = (EditText) findViewById(R.id.new_log_body);
         EditText newTitle = (EditText) findViewById(R.id.new_log_title);
+
+        //Set the EditText variables for adding new text
+        logTitleInput = newTitle;
+        logBodyInput = newBody;
 
         //erases the old (read only) views
         oldBody.setVisibility(View.GONE);
@@ -241,6 +255,109 @@ public class ViewHistoryDetailed extends ActionBarActivity {
         Intent intent = new Intent(ViewHistoryDetailed.this,ViewHistoryActivity.class);
         Toast.makeText(this, "Log saved", Toast.LENGTH_SHORT).show();
         startActivity(intent);
+    }
+
+    public void bubbleSetUp() {
+        // Initialize the Layout
+        LinearLayout layout = (LinearLayout) findViewById(R.id.View_Bubs_Detailed);
+
+        layout.setHorizontalGravity(Gravity.CENTER_HORIZONTAL);
+
+        // Idk i this is necessary
+        layout.removeAllViews();
+
+        // Make the bubble view visible
+        layout.setVisibility(View.VISIBLE);
+
+        List<Bubble> bubbles = db.getAllBubbles();
+
+        //sets button parameters
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+
+        // Scrollview for showing exercise bubbles
+        ScrollView exercise_scroll = new ScrollView(this);
+        LinearLayout exercise_bubs = new LinearLayout(this);
+        exercise_bubs.setOrientation(LinearLayout.VERTICAL);
+        exercise_bubs.setVerticalScrollBarEnabled(true);
+        exercise_scroll.addView(exercise_bubs, lp);
+
+        // Scrollview for showing repetition bubbles
+        ScrollView reps_sets_scroll = new ScrollView(this);
+        LinearLayout reps_sets_bubs = new LinearLayout(this);
+        reps_sets_bubs.setOrientation(LinearLayout.VERTICAL);
+        reps_sets_bubs.setVerticalScrollBarEnabled(true);
+        reps_sets_scroll.addView(reps_sets_bubs, lp);
+
+        // Scrollview for showing duration bubbles
+        ScrollView weight_rest_scroll = new ScrollView(this);
+        LinearLayout weight_rest_bubs = new LinearLayout(this);
+        weight_rest_bubs.setOrientation(LinearLayout.VERTICAL);
+        weight_rest_bubs.setVerticalScrollBarEnabled(true);
+        weight_rest_scroll.addView(weight_rest_bubs, lp);
+
+        for (final Bubble curr_bubble : bubbles) {
+
+            //new button being created for bubble
+            final Button myButton = new Button(this);
+
+            myButton.setText(curr_bubble.getBubbleContent());
+
+            myButton.setClickable(true);
+
+            myButton.setPadding(2,2,2,2);
+
+            myButton.setMaxWidth(325);
+
+            // Any Click automatically deletes the first bubble, this will be fixed with Lauro's stuff
+            myButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    insertText(myButton.getText(), curr_bubble.getBubbleType());
+                }
+            });
+
+            // Adding color to the bubs and placing them in the right column
+            if (curr_bubble.getBubbleType() == Bubble.BUBBLE_TYPE_EXERCISE) {
+                myButton.getBackground().setColorFilter(0xFF00DD00, PorterDuff.Mode.MULTIPLY);
+                exercise_bubs.addView(myButton);
+            } else if (curr_bubble.getBubbleType() == Bubble.BUBBLE_SUBTYPE_REPS ||
+                    curr_bubble.getBubbleType() == Bubble.BUBBLE_SUBTYPE_SETS ) {
+
+                if (curr_bubble.getBubbleType() == Bubble.BUBBLE_SUBTYPE_REPS) {
+                    myButton.getBackground().setColorFilter(0xFFFE5000, PorterDuff.Mode.MULTIPLY);
+                } else {
+                    myButton.getBackground().setColorFilter(0xFFFF0000, PorterDuff.Mode.MULTIPLY);
+                }
+                reps_sets_bubs.addView(myButton);
+            } else {
+
+                if (curr_bubble.getBubbleType() == Bubble.BUBBLE_SUBTYPE_WEIGHT) {
+                    myButton.getBackground().setColorFilter(0xFF00CCEE, PorterDuff.Mode.MULTIPLY);
+                } else {
+                    myButton.getBackground().setColorFilter(0xFF0000EE, PorterDuff.Mode.MULTIPLY);
+                }
+                weight_rest_bubs.addView(myButton);
+            }
+        }
+
+        ScrollView.LayoutParams scroll = new ScrollView.LayoutParams(ScrollView.LayoutParams.WRAP_CONTENT, ScrollView.LayoutParams.MATCH_PARENT);
+
+        layout.addView(exercise_scroll, scroll);
+        layout.addView(reps_sets_scroll, scroll);
+        layout.addView(weight_rest_scroll, scroll);
+    }
+
+    public void insertText(CharSequence content, int bubbleType) {
+        if (logTitleInput.hasFocus()){
+            logTitleInput.setText(content);
+        }
+        else if (logBodyInput.hasFocus()){
+            if (bubbleType!=Bubble.BUBBLE_TYPE_EXERCISE){
+                logBodyInput.append("\t\t"+content+"\n");
+            }
+            else{
+                logBodyInput.append(content+"\n");
+            }
+        }
     }
 
     @Override

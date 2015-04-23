@@ -121,7 +121,6 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable,
         exercise_bubs.setOrientation(LinearLayout.VERTICAL);
         exercise_bubs.setVerticalScrollBarEnabled(true);
         exercise_scroll.addView(exercise_bubs, lp);
-        //layout.addView(exercise_bubs, lp);
 
         // Scrollview for showing repetition bubbles
         ScrollView reps_sets_scroll = new ScrollView(this);
@@ -129,17 +128,13 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable,
         reps_sets_bubs.setOrientation(LinearLayout.VERTICAL);
         reps_sets_bubs.setVerticalScrollBarEnabled(true);
         reps_sets_scroll.addView(reps_sets_bubs, lp);
-        //layout.addView(reps_sets_bubs, lp);
 
         // Scrollview for showing duration bubbles
-        ScrollView duration_scroll = new ScrollView(this);
-        LinearLayout duration_bubs = new LinearLayout(this);
-        duration_bubs.setOrientation(LinearLayout.VERTICAL);
-        duration_bubs.setVerticalScrollBarEnabled(true);
-        duration_scroll.addView(duration_bubs, lp);
-        //layout.addView(duration_bubs, lp);
-
-        //int tester = 0;
+        ScrollView weight_rest_scroll = new ScrollView(this);
+        LinearLayout weight_rest_bubs = new LinearLayout(this);
+        weight_rest_bubs.setOrientation(LinearLayout.VERTICAL);
+        weight_rest_bubs.setVerticalScrollBarEnabled(true);
+        weight_rest_scroll.addView(weight_rest_bubs, lp);
 
         for (final Bubble curr_bubble : bubbles) {
 
@@ -150,74 +145,76 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable,
             myButton.setText(curr_bubble.getBubbleContent());
 
             myButton.setClickable(true);
-                myButton.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        bubbleContentInput.setText("");
-                        editMode = true;
-                        editBubbles(curr_bubble);
-                    }
-                });
+            myButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    bubbleContentInput.setText("");
+                    editMode = true;
+                    editBubbles(curr_bubble);
+                }
+            });
 
             myButton.setPadding(2, 2, 2, 2);
 
-            myButton.setMaxWidth(350);
+            myButton.setWidth(325);
 
-            myButton.setTextColor(0xFFFFFFFF);
-            if (curr_bubble.getBubbleType() == 0) {
+            // Adding color to the bubs and placing them in the right column
+            if (curr_bubble.getBubbleType() == Bubble.BUBBLE_TYPE_EXERCISE) {
                 myButton.getBackground().setColorFilter(0xFF00DD00, PorterDuff.Mode.MULTIPLY);
                 exercise_bubs.addView(myButton);
-            } else if (curr_bubble.getBubbleType() == 1) {
-                myButton.getBackground().setColorFilter(0xFFFE5000, PorterDuff.Mode.MULTIPLY);
+            } else if (curr_bubble.getBubbleType() == Bubble.BUBBLE_SUBTYPE_REPS ||
+                    curr_bubble.getBubbleType() == Bubble.BUBBLE_SUBTYPE_SETS ) {
+
+                if (curr_bubble.getBubbleType() == Bubble.BUBBLE_SUBTYPE_REPS) {
+                    myButton.getBackground().setColorFilter(0xFFFE5000, PorterDuff.Mode.MULTIPLY);
+                } else {
+                    myButton.getBackground().setColorFilter(0xFFFF0000, PorterDuff.Mode.MULTIPLY);
+                }
                 reps_sets_bubs.addView(myButton);
             } else {
-                myButton.getBackground().setColorFilter(0xFF00DDDD, PorterDuff.Mode.MULTIPLY);
-                duration_bubs.addView(myButton);
 
-
+                if (curr_bubble.getBubbleType() == Bubble.BUBBLE_SUBTYPE_WEIGHT) {
+                    myButton.getBackground().setColorFilter(0xFF00CCEE, PorterDuff.Mode.MULTIPLY);
+                } else {
+                    myButton.getBackground().setColorFilter(0xFF0000EE, PorterDuff.Mode.MULTIPLY);
+                }
+                weight_rest_bubs.addView(myButton);
             }
             myButton.setOnLongClickListener(new View.OnLongClickListener(){
-                    public boolean onLongClick(View v){AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EditBubbleActivity.this);
-                        alertDialogBuilder.setTitle("Delete Bubble");
-                        alertDialogBuilder.setMessage("Do you wish to delete this bubble?");
+                public boolean onLongClick(View v){AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EditBubbleActivity.this);
+                    alertDialogBuilder.setTitle("Delete Bubble");
+                    alertDialogBuilder.setMessage("Do you wish to delete this bubble?");
 
-                        //don't delete button
-                        alertDialogBuilder.setPositiveButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //do nothing
-                            }
-                        });
+                    //don't delete button
+                    alertDialogBuilder.setPositiveButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //do nothing
+                        }
+                    });
 
-                        //delete button
-                        alertDialogBuilder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //delete bubble from database
-                                bubbleContentInput.setText("");
-                                db.deleteBubble(curr_bubble.getBubbleContent());
-                                updateBubbles();
+                    //delete button
+                    alertDialogBuilder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //delete bubble from database
+                            bubbleContentInput.setText("");
+                            db.deleteBubble(curr_bubble.getBubbleContent());
+                            updateBubbles();
 
-                                Toast.makeText(EditBubbleActivity.this, "Bubble Deleted", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        alertDialogBuilder.create().show();
-                        return true;
+                            Toast.makeText(EditBubbleActivity.this, "Bubble Deleted", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    alertDialogBuilder.create().show();
+                    return true;
                 }
-                              });
+            });
         }
-//        exercise_scroll.addView(exercise_bubs);
-//        reps_sets_scroll.addView(reps_sets_bubs);
-//        duration_scroll.addView(duration_bubs);
 
         ScrollView.LayoutParams scroll = new ScrollView.LayoutParams(ScrollView.LayoutParams.WRAP_CONTENT, ScrollView.LayoutParams.MATCH_PARENT);
 
-//        ScrollView.LayoutParams ex_scroll = new ScrollView.LayoutParams(, ScrollView.LayoutParams.MATCH_PARENT);
-//        ScrollView.LayoutParams rep_scroll = new ScrollView.LayoutParams(ScrollView.LayoutParams.WRAP_CONTENT, ScrollView.LayoutParams.MATCH_PARENT);
-//        ScrollView.LayoutParams time_scroll = new ScrollView.LayoutParams(ScrollView.LayoutParams.WRAP_CONTENT, ScrollView.LayoutParams.MATCH_PARENT);
-
         layout.addView(exercise_scroll, scroll);
         layout.addView(reps_sets_scroll, scroll);
-        layout.addView(duration_scroll, scroll);
+        layout.addView(weight_rest_scroll, scroll);
     }
 
     public void saveBubble(){

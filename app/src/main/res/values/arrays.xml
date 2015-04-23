@@ -4,8 +4,10 @@
 
     <string-array name="bubble_types">
         <item>Exercise</item>
-        <item>Reps/Sets</item>
-        <item>Weight/Rest</item>
+        <item>Reps</item>
+        <item>Sets</item>
+        <item>Weight</item>
+        <item>Rest Duration</item>
     </string-array>
 
 </resources>

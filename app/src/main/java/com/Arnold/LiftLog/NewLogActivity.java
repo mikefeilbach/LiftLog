@@ -299,7 +299,7 @@ public class NewLogActivity extends ActionBarActivity {
 
     public void bubbleSetUp() {
         // Initialize the Layout
-        LinearLayout layout = (LinearLayout) findViewById(R.id.View_Bubs);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.View_Bubs_New);
 
         layout.setHorizontalGravity(Gravity.CENTER_HORIZONTAL);
 
@@ -325,11 +325,11 @@ public class NewLogActivity extends ActionBarActivity {
         reps_sets_scroll.addView(reps_sets_bubs, lp);
 
         // Scrollview for showing duration bubbles
-        ScrollView duration_scroll = new ScrollView(this);
-        LinearLayout duration_bubs = new LinearLayout(this);
-        duration_bubs.setOrientation(LinearLayout.VERTICAL);
-        duration_bubs.setVerticalScrollBarEnabled(true);
-        duration_scroll.addView(duration_bubs, lp);
+        ScrollView weight_rest_scroll = new ScrollView(this);
+        LinearLayout weight_rest_bubs = new LinearLayout(this);
+        weight_rest_bubs.setOrientation(LinearLayout.VERTICAL);
+        weight_rest_bubs.setVerticalScrollBarEnabled(true);
+        weight_rest_scroll.addView(weight_rest_bubs, lp);
 
         for (final Bubble curr_bubble : bubbles) {
 
@@ -343,7 +343,7 @@ public class NewLogActivity extends ActionBarActivity {
 
             myButton.setPadding(2,2,2,2);
 
-            myButton.setMaxWidth(350);
+            myButton.setMaxWidth(325);
 
             // Any Click automatically deletes the first bubble, this will be fixed with Lauro's stuff
             myButton.setOnClickListener(new View.OnClickListener() {
@@ -352,16 +352,27 @@ public class NewLogActivity extends ActionBarActivity {
                 }
             });
 
-            myButton.setTextColor(0xFFFFFFFF);
-            if (curr_bubble.getBubbleType() == 0) {
-                myButton.getBackground().setColorFilter(0xFF00DD00, PorterDuff.Mode.MULTIPLY);  //green
+            // Adding color to the bubs and placing them in the right column
+            if (curr_bubble.getBubbleType() == Bubble.BUBBLE_TYPE_EXERCISE) {
+                myButton.getBackground().setColorFilter(0xFF00DD00, PorterDuff.Mode.MULTIPLY);
                 exercise_bubs.addView(myButton);
-            } else if (curr_bubble.getBubbleType() == 1) {
-                myButton.getBackground().setColorFilter(0xFFFE1000, PorterDuff.Mode.MULTIPLY);  //red
+            } else if (curr_bubble.getBubbleType() == Bubble.BUBBLE_SUBTYPE_REPS ||
+                    curr_bubble.getBubbleType() == Bubble.BUBBLE_SUBTYPE_SETS ) {
+
+                if (curr_bubble.getBubbleType() == Bubble.BUBBLE_SUBTYPE_REPS) {
+                    myButton.getBackground().setColorFilter(0xFFFE5000, PorterDuff.Mode.MULTIPLY);
+                } else {
+                    myButton.getBackground().setColorFilter(0xFFFF0000, PorterDuff.Mode.MULTIPLY);
+                }
                 reps_sets_bubs.addView(myButton);
             } else {
-                myButton.getBackground().setColorFilter(0xFF00DDDD, PorterDuff.Mode.MULTIPLY);  //blue
-                duration_bubs.addView(myButton);
+
+                if (curr_bubble.getBubbleType() == Bubble.BUBBLE_SUBTYPE_WEIGHT) {
+                    myButton.getBackground().setColorFilter(0xFF00CCEE, PorterDuff.Mode.MULTIPLY);
+                } else {
+                    myButton.getBackground().setColorFilter(0xFF0000EE, PorterDuff.Mode.MULTIPLY);
+                }
+                weight_rest_bubs.addView(myButton);
             }
         }
 //        exercise_scroll.addView(exercise_bubs);
@@ -376,7 +387,7 @@ public class NewLogActivity extends ActionBarActivity {
 
         layout.addView(exercise_scroll, scroll);
         layout.addView(reps_sets_scroll, scroll);
-        layout.addView(duration_scroll, scroll);
+        layout.addView(weight_rest_scroll, scroll);
 
     }
 

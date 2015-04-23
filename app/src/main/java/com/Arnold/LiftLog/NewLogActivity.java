@@ -354,13 +354,13 @@ public class NewLogActivity extends ActionBarActivity {
 
             myButton.setTextColor(0xFFFFFFFF);
             if (curr_bubble.getBubbleType() == 0) {
-                myButton.getBackground().setColorFilter(0xFF00DD00, PorterDuff.Mode.MULTIPLY);
+                myButton.getBackground().setColorFilter(0xFF00DD00, PorterDuff.Mode.MULTIPLY);  //green
                 exercise_bubs.addView(myButton);
             } else if (curr_bubble.getBubbleType() == 1) {
-                myButton.getBackground().setColorFilter(0xFFFE1000, PorterDuff.Mode.MULTIPLY);
+                myButton.getBackground().setColorFilter(0xFFFE1000, PorterDuff.Mode.MULTIPLY);  //red
                 reps_sets_bubs.addView(myButton);
             } else {
-                myButton.getBackground().setColorFilter(0xFF00DDDD, PorterDuff.Mode.MULTIPLY);
+                myButton.getBackground().setColorFilter(0xFF00DDDD, PorterDuff.Mode.MULTIPLY);  //blue
                 duration_bubs.addView(myButton);
             }
         }

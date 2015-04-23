@@ -50,6 +50,44 @@ public class NewLogActivity extends ActionBarActivity {
         setContentView(R.layout.activity_new_log);
         timerLength = 0;
 
+                                            //set focus layout for log_title(edit text box)
+                                            //when receive focus, layout changes to drawable/focus_border_style.xml
+                                            //when lost  focus, layout  changes to drawable/lost_focus_style.xml
+        TextView tv=(TextView)findViewById(R.id.log_title);
+        tv.setBackgroundResource(R.drawable.lost_focus_style);
+        tv.setOnFocusChangeListener( new View.OnFocusChangeListener(){
+
+            public void onFocusChange( View view, boolean hasfocus){
+                if(hasfocus){
+
+                    view.setBackgroundResource( R.drawable.focus_border_style);
+                }
+                else{
+                    view.setBackgroundResource( R.drawable.lost_focus_style);
+                }
+            }
+        });
+
+                                            //set focus layout for log_body(edit text box)
+                                            //when receive focus, layout changes to drawable/focus_border_style.xml
+                                            //when lost  focus, layout  changes to drawable/lost_focus_style.xml
+        TextView tv2=(TextView)findViewById(R.id.log_body);
+        tv2.setBackgroundResource(R.drawable.lost_focus_style);
+        tv2.setOnFocusChangeListener( new View.OnFocusChangeListener(){
+
+            public void onFocusChange( View view, boolean hasfocus){
+                if(hasfocus){
+
+                    view.setBackgroundResource( R.drawable.focus_border_style);
+                }
+                else{
+                    view.setBackgroundResource( R.drawable.lost_focus_style);
+                }
+            }
+        });
+
+
+
         /*Create new objects for the inputs*/
         this.logTitleInput = (EditText) findViewById(R.id.log_title);
         this.logBodyInput = (EditText) findViewById(R.id.log_body);
@@ -105,6 +143,16 @@ public class NewLogActivity extends ActionBarActivity {
      */
     public void setTimer(){
 
+//        final NumberPicker minutes = (NumberPicker) findViewById(R.id.timer_NumberPicker);
+//        final NumberPicker seconds = (NumberPicker) findViewById(R.id.timer_NumberPickerSec);
+//        minutes.setMinValue(0);
+//        minutes.setMaxValue(30);
+//        minutes.setWrapSelectorWheel(true);
+//        seconds.setMinValue(0);
+//        seconds.setMaxValue(59);
+//        seconds.setWrapSelectorWheel(true);
+
+
         //this will allow the user to pick the timer for the timer in seconds
         final NumberPicker np = new NumberPicker(NewLogActivity.this);
         np.setMaxValue(90);
@@ -136,6 +184,7 @@ public class NewLogActivity extends ActionBarActivity {
 
                 //gets the new value of the timer from the number-picker
                 timerLength = np.getValue()*1000;
+  //              timerLength = minutes.getValue()*10000 + seconds.getValue()*1000;
 
                 //start the timer
                 startTimer();
@@ -167,6 +216,7 @@ public class NewLogActivity extends ActionBarActivity {
         });
 
         timerDialog.setView(np);
+ //       timerDialog.setView(getLayoutInflater().inflate(R.layout.timer_layout,null));
         timerDialog.create().show();
     }
 
@@ -302,15 +352,15 @@ public class NewLogActivity extends ActionBarActivity {
                 }
             });
 
-
+            myButton.setTextColor(0xFFFFFFFF);
             if (curr_bubble.getBubbleType() == 0) {
-                myButton.getBackground().setColorFilter(0xFF00DD00, PorterDuff.Mode.MULTIPLY);
+                myButton.getBackground().setColorFilter(0xFF00DD00, PorterDuff.Mode.MULTIPLY);  //green
                 exercise_bubs.addView(myButton);
             } else if (curr_bubble.getBubbleType() == 1) {
-                myButton.getBackground().setColorFilter(0xFFFE1000, PorterDuff.Mode.MULTIPLY);
+                myButton.getBackground().setColorFilter(0xFFFE1000, PorterDuff.Mode.MULTIPLY);  //red
                 reps_sets_bubs.addView(myButton);
             } else {
-                myButton.getBackground().setColorFilter(0xFF00DDDD, PorterDuff.Mode.MULTIPLY);
+                myButton.getBackground().setColorFilter(0xFF00DDDD, PorterDuff.Mode.MULTIPLY);  //blue
                 duration_bubs.addView(myButton);
             }
         }

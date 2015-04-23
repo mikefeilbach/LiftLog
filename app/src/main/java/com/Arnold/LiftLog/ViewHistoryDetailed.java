@@ -35,7 +35,6 @@ public class ViewHistoryDetailed extends ActionBarActivity {
     private String titleOld;
     private String bodyOld;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +43,41 @@ public class ViewHistoryDetailed extends ActionBarActivity {
         //starts false, meaning user is just viewing previous log
         editLog = false;
 
+                                        //set focus layout for new_log_title(edit text box)
+                                        //when receive focus, layout changes to drawable/focus_border_style.xml
+                                        //when lost  focus, layout  changes to drawable/lost_focus_style.xml
+        TextView tv=(TextView)findViewById(R.id.new_log_title);
+        tv.setBackgroundResource(R.drawable.lost_focus_style);
+        tv.setOnFocusChangeListener( new View.OnFocusChangeListener(){
+
+            public void onFocusChange( View view, boolean hasfocus){
+                if(hasfocus){
+
+                    view.setBackgroundResource( R.drawable.focus_border_style);
+                }
+                else{
+                    view.setBackgroundResource( R.drawable.lost_focus_style);
+                }
+            }
+        });
+
+                                        //set focus layout for new_log_body(edit text box)
+                                        //when receive focus, layout changes to drawable/focus_border_style.xml
+                                        //when lost  focus, layout  changes to drawable/lost_focus_style.xml
+        TextView tv2=(TextView)findViewById(R.id.new_log_body);
+        tv2.setBackgroundResource(R.drawable.lost_focus_style);
+        tv2.setOnFocusChangeListener( new View.OnFocusChangeListener(){
+
+            public void onFocusChange( View view, boolean hasfocus){
+                if(hasfocus){
+
+                    view.setBackgroundResource( R.drawable.focus_border_style);
+                }
+                else{
+                    view.setBackgroundResource( R.drawable.lost_focus_style);
+                }
+            }
+        });
 
 
         //gets the database

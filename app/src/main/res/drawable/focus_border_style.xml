@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <solid android:color="#666666" />
+
+    <stroke
+        android:width="2dp"
+        android:color="#FFFFFF" />
+    <corners
+        android:topLeftRadius="@dimen/editbox_corner"
+        android:topRightRadius="@dimen/editbox_corner"
+        android:bottomLeftRadius="@dimen/editbox_corner"
+        android:bottomRightRadius="@dimen/editbox_corner"
+
+        />
+
+</shape>

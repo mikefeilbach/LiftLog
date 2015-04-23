@@ -4,7 +4,6 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -107,233 +105,228 @@ public class ViewHistoryActivity extends ActionBarActivity {
 //        }
         //**********************************end testing data****************************************
 
-        logsByMonth = new ArrayList<>();
-        int previousMonth = Character.getNumericValue(logHistory.get(0).getLogDateString().charAt(1));
-        int currentIndex = 0;
-
-        //if(logHistory.size()==0){
-            //TODO : made a empty notification here
-
-            //TextView tv=new TextView(this);
-            //tv.setText("Currently Empty");
-        //}
 
 
-        //loops through and sorts all of the logs by month
-        for(int i = 0; i < logHistory.size();i++) {
+        if(logHistory.size() > 0) {
 
-           //checks to see if the month of the current log is equal to the month of the previous log
-           if(Character.getNumericValue(logHistory.get(i).getLogDateString().charAt(1)) == previousMonth) {
+            logsByMonth = new ArrayList<>();
+            int previousMonth = Character.getNumericValue(logHistory.get(0).getLogDateString().charAt(1));
+            int currentIndex = 0;
 
-               //checks to see if the list of logs for the current month exists
-               if(logsByMonth.size() <= currentIndex) {
+            //loops through and sorts all of the logs by month
+            for (int i = 0; i < logHistory.size(); i++) {
 
-                   //if the list of logs for the current month does not exist, initialize it
-                   logsByMonth.add(new ArrayList<WorkoutLog>());
-               }
+                //checks to see if the month of the current log is equal to the month of the previous log
+                if (Character.getNumericValue(logHistory.get(i).getLogDateString().charAt(1)) == previousMonth) {
 
-               //add the current log to the list of logs for the specific month
-               logsByMonth.get(currentIndex).add(logHistory.get(i));
-           }
+                    //checks to see if the list of logs for the current month exists
+                    if (logsByMonth.size() <= currentIndex) {
 
-           //if the month of the current log is not equal, then this is a new month
-           else {
+                        //if the list of logs for the current month does not exist, initialize it
+                        logsByMonth.add(new ArrayList<WorkoutLog>());
+                    }
 
-               //updates the month of the previous log
-               previousMonth = Character.getNumericValue(logHistory.get(i).getLogDateString().charAt(1));
+                    //add the current log to the list of logs for the specific month
+                    logsByMonth.get(currentIndex).add(logHistory.get(i));
+                }
 
-               //initializes another list for the new month
-               logsByMonth.add(new ArrayList<WorkoutLog>());
+                //if the month of the current log is not equal, then this is a new month
+                else {
 
-               //updates the current index - indicating the list for the next month
-               currentIndex++;
+                    //updates the month of the previous log
+                    previousMonth = Character.getNumericValue(logHistory.get(i).getLogDateString().charAt(1));
 
-               //adds the current logs to the list of logs for the new specific month
-               logsByMonth.get(currentIndex).add(logHistory.get(i));
-           }
-        }
+                    //initializes another list for the new month
+                    logsByMonth.add(new ArrayList<WorkoutLog>());
 
-        //loop that will create buttons for the current months logs, as well as buttons for all
-        //previous months that logs exist. You can click on a month, and its logs will then be
-        //displayed. J is the index in logsByMonth that details which month is currently being worked
-        //on.
-        for (int j = 0; j < logsByMonth.size();j++) {
+                    //updates the current index - indicating the list for the next month
+                    currentIndex++;
 
-            //if the month is the most current one
-            if(j == 0) {
+                    //adds the current logs to the list of logs for the new specific month
+                    logsByMonth.get(currentIndex).add(logHistory.get(i));
+                }
+            }
 
-                //creates buttons for all of the logs in the current months list
-                for(int i = 0; i < logsByMonth.get(j).size();i++) {
+            //loop that will create buttons for the current months logs, as well as buttons for all
+            //previous months that logs exist. You can click on a month, and its logs will then be
+            //displayed. J is the index in logsByMonth that details which month is currently being worked
+            //on.
+            for (int j = 0; j < logsByMonth.size(); j++) {
 
-                    //new button being created for log
+                //if the month is the most current one
+                if (j == 0) {
+
+                    //creates buttons for all of the logs in the current months list
+                    for (int i = 0; i < logsByMonth.get(j).size(); i++) {
+
+                        //new button being created for log
+                        final Button myButton = new Button(this);
+                        myButton.setText(logsByMonth.get(j).get(i).getLogTitle() + "\n" +
+                                logsByMonth.get(j).get(i).getLogDateString() + "\n\n\n");
+
+                        final int test = i;         //current log in month
+                        final int test2 = j;        //current month in list of months
+
+                        //allows user to click on it
+                        myButton.setClickable(true);
+
+                        //when the button is click on by the user, starts the new activity with the detailed
+                        //log information.
+                        myButton.setOnClickListener(new View.OnClickListener() {
+                            public void onClick(View v) {
+                                Intent intent = new Intent(ViewHistoryActivity.this, ViewHistoryDetailed.class);
+                                intent.putExtra("logID", String.valueOf(logsByMonth.get(test2).get(test).getLogID()));
+                                startActivity(intent);
+                            }
+                        });
+
+                        //when the button is held by the user, asks them if they wish to delete the log, if no,
+                        //just returns them to the list, if yes, then deletes the log from the list.
+                        myButton.setOnLongClickListener(new View.OnLongClickListener() {
+                            public boolean onLongClick(View v) {
+                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ViewHistoryActivity.this);
+                                alertDialogBuilder.setTitle("Delete Log");
+                                alertDialogBuilder.setMessage("Do you wish to delete this log?");
+
+                                //don't delete button
+                                alertDialogBuilder.setPositiveButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        //do nothing
+                                    }
+                                });
+
+                                //delete button
+                                alertDialogBuilder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        //delete log from database
+                                        db.deleteWorkoutLog(logsByMonth.get(test2).get(test).getLogTitle(), logsByMonth.get(test2).get(test).getLogBody());
+                                        myButton.setVisibility(View.GONE);
+
+                                        Toast.makeText(ViewHistoryActivity.this, "Deleted log", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                alertDialogBuilder.create().show();
+
+                                return true;
+                            }
+                        });
+
+                        //gets the layout of this class, which has been nested inside a scrollable interface
+                        LinearLayout layout = (LinearLayout) findViewById(R.id.View_History);
+
+                        //sets button parameters
+                        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                        //adds button to the layout
+                        layout.addView(myButton, lp);
+                    }
+
+                }
+
+                //if the month j is not the current month, just makes 1 bubble for the entire month
+                else {
+
+                    //new button being created for the specific month
                     final Button myButton = new Button(this);
-                    myButton.getBackground().setColorFilter(0xFF666666, PorterDuff.Mode.MULTIPLY);
-                    myButton.setTextColor(0xFFFFFFFF);
-                    myButton.setText(logsByMonth.get(j).get(i).getLogTitle() + "\n" +
-                            logsByMonth.get(j).get(i).getLogDateString() + "\n\n\n");
 
-                    final int test = i;         //current log in month
-                    final int test2 = j;        //current month in list of months
+                    //the month and year of the log button
+                    String monthYear[] = logsByMonth.get(j).get(0).getLogDateString().split("/");
+
+                    //sets the button title to be its month and year
+                    myButton.setText("Logs from \n" + monthYear[0] + "/" + monthYear[2] + "\n\n\n");
+
+
+                    final int test2 = j;        //specific month that button is being made for
 
                     //allows user to click on it
                     myButton.setClickable(true);
 
-                    //when the button is click on by the user, starts the new activity with the detailed
-                    //log information.
+                    //When the button is clicked on by the user, it creates buttons for all of the logs
+                    //created in that month and gets rid of the general month button
                     myButton.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
-                            Intent intent = new Intent(ViewHistoryActivity.this, ViewHistoryDetailed.class);
-                            intent.putExtra("logID", String.valueOf(logsByMonth.get(test2).get(test).getLogID()));
-                            startActivity(intent);
+
+                            //get rid of the button for the month
+                            myButton.setVisibility(View.GONE);
+
+                            //loops through and creates buttons for all the logs during the specific month
+                            for (int i = logsByMonth.get(test2).size() - 1; i >= 0; i--) {
+
+                                //new button being created for log
+                                final Button myNewButton = new Button(ViewHistoryActivity.this);
+                                myNewButton.setText(logsByMonth.get(test2).get(i).getLogTitle() + "\n" +
+                                        logsByMonth.get(test2).get(i).getLogDateString() + "\n\n\n");
+
+                                final int test = i;         //current log that button is being made for in specific month
+
+                                //allows user to click on it
+                                myNewButton.setClickable(true);
+
+                                //when the button is click on by the user, starts the new activity with the detailed
+                                //log information.
+                                myNewButton.setOnClickListener(new View.OnClickListener() {
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent(ViewHistoryActivity.this, ViewHistoryDetailed.class);
+                                        intent.putExtra("logID", String.valueOf(logsByMonth.get(test2).get(test).getLogID()));
+                                        startActivity(intent);
+                                    }
+                                });
+
+                                //when the button is held by the user, asks them if they wish to delete the log, if no,
+                                //just returns them to the list, if yes, then deletes the log from the list.
+                                myNewButton.setOnLongClickListener(new View.OnLongClickListener() {
+                                    public boolean onLongClick(View v) {
+                                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ViewHistoryActivity.this);
+                                        alertDialogBuilder.setTitle("Delete Log");
+                                        alertDialogBuilder.setMessage("Do you wish to delete this log?");
+
+                                        //don't delete button
+                                        alertDialogBuilder.setPositiveButton("No", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                //do nothing
+                                            }
+                                        });
+
+                                        //delete button
+                                        alertDialogBuilder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                                //delete log from database
+                                                db.deleteWorkoutLog(logsByMonth.get(test2).get(test).getLogTitle(), logsByMonth.get(test2).get(test).getLogBody());
+                                                myNewButton.setVisibility(View.GONE);
+
+                                                Toast.makeText(ViewHistoryActivity.this, "Deleted log", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                        alertDialogBuilder.create().show();
+
+                                        return true;
+                                    }
+                                });
+
+                                //gets the layout of this class, which has been nested inside a scrollable interface
+                                LinearLayout layout = (LinearLayout) findViewById(R.id.View_History);
+
+                                //sets button parameters
+                                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                                //adds button to the top of the layout (the 0 is the index in the linear layout)
+                                layout.addView(myNewButton, 0, lp);
+                            }
+
+                            //scrolls page to the top of the layout to view latest buttons
+                            ScrollView scrollView = (ScrollView) findViewById(R.id.VH_scrollview);
+                            scrollView.fullScroll(ScrollView.FOCUS_UP);
                         }
                     });
 
                     //when the button is held by the user, asks them if they wish to delete the log, if no,
                     //just returns them to the list, if yes, then deletes the log from the list.
-                    myButton.setOnLongClickListener(new View.OnLongClickListener() {
-                        public boolean onLongClick(View v) {
-                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ViewHistoryActivity.this);
-                            alertDialogBuilder.setTitle("Delete Log");
-                            alertDialogBuilder.setMessage("Do you wish to delete this log?");
-
-                            //don't delete button
-                            alertDialogBuilder.setPositiveButton("No", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    //do nothing
-                                }
-                            });
-
-                            //delete button
-                            alertDialogBuilder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                    //delete log from database
-                                    db.deleteWorkoutLog(logsByMonth.get(test2).get(test).getLogTitle(), logsByMonth.get(test2).get(test).getLogBody());
-                                    myButton.setVisibility(View.GONE);
-
-                                    Toast.makeText(ViewHistoryActivity.this, "Deleted log", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                            alertDialogBuilder.create().show();
-
-                            return true;
-                        }
-                    });
-
-                    //gets the layout of this class, which has been nested inside a scrollable interface
-                    LinearLayout layout = (LinearLayout) findViewById(R.id.View_History);
-
-                    //sets button parameters
-                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-                    //adds button to the layout
-                    layout.addView(myButton, lp);
-                }
-
-            }
-
-            //if the month j is not the current month, just makes 1 bubble for the entire month
-            else {
-
-                //new button being created for the specific month
-                final Button myButton = new Button(this);
-
-                //TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-                myButton.setText("Logs for " + (j%12) + "/15\n\n\n");
-                myButton.getBackground().setColorFilter(0xFF666666, PorterDuff.Mode.MULTIPLY);
-                myButton.setTextColor(0xFFFFFFFF);
-                //TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-
-                final int test2 = j;        //specific month that button is being made for
-
-                //allows user to click on it
-                myButton.setClickable(true);
-
-                //When the button is clicked on by the user, it creates buttons for all of the logs
-                //created in that month and gets rid of the general month button
-                myButton.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-
-                        //get rid of the button for the month
-                        myButton.setVisibility(View.GONE);
-
-                        //loops through and creates buttons for all the logs during the specific month
-                        for(int i = logsByMonth.get(test2).size() - 1; i >= 0;i--) {
-
-                            //new button being created for log
-                            final Button myNewButton = new Button(ViewHistoryActivity.this);
-                            myNewButton.setText(logsByMonth.get(test2).get(i).getLogTitle() + "\n" +
-                                    logsByMonth.get(test2).get(i).getLogDateString() + "\n\n\n");
-
-                            final int test = i;         //current log that button is being made for in specific month
-
-                            //allows user to click on it
-                            myNewButton.setClickable(true);
-
-                            //when the button is click on by the user, starts the new activity with the detailed
-                            //log information.
-                            myNewButton.setOnClickListener(new View.OnClickListener() {
-                                public void onClick(View v) {
-                                    Intent intent = new Intent(ViewHistoryActivity.this, ViewHistoryDetailed.class);
-                                    intent.putExtra("logID", String.valueOf(logsByMonth.get(test2).get(test).getLogID()));
-                                    startActivity(intent);
-                                }
-                            });
-
-                            //when the button is held by the user, asks them if they wish to delete the log, if no,
-                            //just returns them to the list, if yes, then deletes the log from the list.
-                            myNewButton.setOnLongClickListener(new View.OnLongClickListener() {
-                                public boolean onLongClick(View v) {
-                                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ViewHistoryActivity.this);
-                                    alertDialogBuilder.setTitle("Delete Log");
-                                    alertDialogBuilder.setMessage("Do you wish to delete this log?");
-
-                                    //don't delete button
-                                    alertDialogBuilder.setPositiveButton("No", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            //do nothing
-                                        }
-                                    });
-
-                                    //delete button
-                                    alertDialogBuilder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-
-                                            //delete log from database
-                                            db.deleteWorkoutLog(logsByMonth.get(test2).get(test).getLogTitle(), logsByMonth.get(test2).get(test).getLogBody());
-                                            myNewButton.setVisibility(View.GONE);
-
-                                            Toast.makeText(ViewHistoryActivity.this, "Deleted log", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                    alertDialogBuilder.create().show();
-
-                                    return true;
-                                }
-                            });
-
-                            //gets the layout of this class, which has been nested inside a scrollable interface
-                            LinearLayout layout = (LinearLayout) findViewById(R.id.View_History);
-
-                            //sets button parameters
-                            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-                            //adds button to the top of the layout (the 0 is the index in the linear layout)
-                            layout.addView(myNewButton,0, lp);
-                        }
-
-                        //scrolls page to the top of the layout to view latest buttons
-                        ScrollView scrollView = (ScrollView) findViewById(R.id.VH_scrollview);
-                        scrollView.fullScroll(ScrollView.FOCUS_UP);
-                    }
-                });
-
-                //when the button is held by the user, asks them if they wish to delete the log, if no,
-                //just returns them to the list, if yes, then deletes the log from the list.
                     myButton.setOnLongClickListener(new View.OnLongClickListener() {
                         public boolean onLongClick(View v) {
                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ViewHistoryActivity.this);
@@ -353,7 +346,7 @@ public class ViewHistoryActivity extends ActionBarActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
 
-                                    for(int k = 0;k < logsByMonth.get(test2).size();k++) {
+                                    for (int k = 0; k < logsByMonth.get(test2).size(); k++) {
                                         //delete log from database
                                         db.deleteWorkoutLog(logsByMonth.get(test2).get(k).getLogTitle(), logsByMonth.get(test2).get(k).getLogBody());
 
@@ -370,14 +363,15 @@ public class ViewHistoryActivity extends ActionBarActivity {
                         }
                     });
 
-                //gets the layout of this class, which has been nested inside a scrollable interface
-                LinearLayout layout = (LinearLayout) findViewById(R.id.View_History);
+                    //gets the layout of this class, which has been nested inside a scrollable interface
+                    LinearLayout layout = (LinearLayout) findViewById(R.id.View_History);
 
-                //sets button parameters
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    //sets button parameters
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-                //adds button to the layout
-                layout.addView(myButton, lp);
+                    //adds button to the layout
+                    layout.addView(myButton, lp);
+                }
             }
         }
     }

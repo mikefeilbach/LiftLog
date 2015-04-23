@@ -50,6 +50,38 @@ public class NewLogActivity extends ActionBarActivity {
         setContentView(R.layout.activity_new_log);
         timerLength = 0;
 
+        TextView tv=(TextView)findViewById(R.id.log_title);
+        tv.setBackgroundResource(R.drawable.lost_focus_style);
+        tv.setOnFocusChangeListener( new View.OnFocusChangeListener(){
+
+            public void onFocusChange( View view, boolean hasfocus){
+                if(hasfocus){
+
+                    view.setBackgroundResource( R.drawable.focus_border_style);
+                }
+                else{
+                    view.setBackgroundResource( R.drawable.lost_focus_style);
+                }
+            }
+        });
+
+        TextView tv2=(TextView)findViewById(R.id.log_body);
+        tv2.setBackgroundResource(R.drawable.lost_focus_style);
+        tv2.setOnFocusChangeListener( new View.OnFocusChangeListener(){
+
+            public void onFocusChange( View view, boolean hasfocus){
+                if(hasfocus){
+
+                    view.setBackgroundResource( R.drawable.focus_border_style);
+                }
+                else{
+                    view.setBackgroundResource( R.drawable.lost_focus_style);
+                }
+            }
+        });
+
+
+
         /*Create new objects for the inputs*/
         this.logTitleInput = (EditText) findViewById(R.id.log_title);
         this.logBodyInput = (EditText) findViewById(R.id.log_body);

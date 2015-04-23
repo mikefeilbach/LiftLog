@@ -2,7 +2,9 @@
 <!-- this xml is used to layout the customized button-->
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent" android:layout_width="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    android:layout_width="match_parent">
     <ImageView
         android:layout_width="110dp"
 
@@ -12,6 +14,7 @@
         android:id="@+id/test_button_image">
 
         </ImageView>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

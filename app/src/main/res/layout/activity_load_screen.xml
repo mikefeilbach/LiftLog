@@ -6,7 +6,7 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.Arnold.LiftLog.LoadScreenActivity"
     android:gravity="center"
-    android:background="#0099FF">
+    android:background="@color/background_color">
 
 
 
@@ -18,29 +18,5 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="40sp"
-        android:fontFamily="palatino"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:id="@+id/loadscreen_text"
-        android:text="@string/app_name"
-        android:layout_below="@+id/imageView1"
-        android:layout_centerHorizontal="true">
-    </TextView>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:fontFamily="palatino"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:id="@+id/loadscreen_text2"
-        android:text="The quick brown fox\njumps over a lazy dog"
-        android:layout_below="@+id/loadscreen_text"
-        android:layout_centerHorizontal="true">
-    </TextView>
 
 </RelativeLayout>

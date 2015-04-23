@@ -18,6 +18,7 @@
     <string name="title_activity_view_history_detailed">View History Detailed</string>
 
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
     <color name="background_color">#0099FF</color>
 
     <drawable name="load_screen_logo">@drawable/ab</drawable>

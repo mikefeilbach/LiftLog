@@ -105,7 +105,7 @@ public class RelativeLayoutButton extends RelativeLayout {
 		  {
 			  ((ImageView)v).setImageDrawable(drawable);
 		  }
-		  
+
 	  }
 	  
 	  // method for setting images by resource id
@@ -117,7 +117,6 @@ public class RelativeLayoutButton extends RelativeLayout {
 		  {
 			  ((ImageView)v).setImageResource(image_resource_id);
 		  }
-		  
 	  }
 
     // method for setting color for button

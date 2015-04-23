@@ -22,17 +22,13 @@ public class Bubble
     // Type EXERCISE.
     public static final int BUBBLE_TYPE_EXERCISE = 0;
 
-    // Type REPS_SETS.
-    public static final int BUBBLE_TYPE_REPS_SETS = 1;
-    // Subtypes for REPS_SETS.
-    public static final int BUBBLE_SUBTYPE_REPS = 2;
-    public static final int BUBBLE_SUBTYPE_SETS = 3;
+    // Type REPS or SETS.
+    public static final int BUBBLE_TYPE_REPS = 1;
+    public static final int BUBBLE_TYPE_SETS = 2;
 
-    // Type WEIGHT_REST.
-    public static final int BUBBLE_TYPE_WEIGHT_REST = 4;
-    // Subtypes for REPS_SETS.
-    public static final int BUBBLE_SUBTYPE_WEIGHT = 5;
-    public static final int BUBBLE_SUBTYPE_REST = 6;
+    // Type WEIGHT or REST.
+    public static final int BUBBLE_TYPE_WEIGHT = 3;
+    public static final int BUBBLE_TYPE_REST = 4;
 
     // Bubble's type. Must be one of the Bubble type defines.
     private int _bubbleType;

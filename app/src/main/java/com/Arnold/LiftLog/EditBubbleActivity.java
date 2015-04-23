@@ -206,12 +206,13 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable,
 
         int bubble_type = -1;
 
+        // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
         if (bubble_type_string.equals("Exercise")) {
             bubble_type = Bubble.BUBBLE_TYPE_EXERCISE;
         } else if (bubble_type_string.equals("Reps/Sets")) {
-            bubble_type = Bubble.BUBBLE_TYPE_REPS_SETS;
+            bubble_type = Bubble.BUBBLE_TYPE_REPS;
         } else if (bubble_type_string.equals("Weight/Rest")) {
-            bubble_type = Bubble.BUBBLE_TYPE_WEIGHT_REST;
+            bubble_type = Bubble.BUBBLE_TYPE_SETS;
         } else {
             this.bubbleContentInput.setError("Invalid Bubble type.");
             return;

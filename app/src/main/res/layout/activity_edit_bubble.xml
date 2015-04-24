@@ -22,7 +22,9 @@
         android:textStyle="bold"
         android:textColorHint="@color/hint_color"
         android:textCursorDrawable="@drawable/custom_edit_text_cursor"
-        android:hint="@string/text_save_bubble" />
+        android:hint="@string/text_save_bubble"
+
+        />
 
     <Button
         android:id="@+id/save_bubble_button"
@@ -32,7 +34,9 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:text="Save" />
+        android:text="Save"
+
+        />
 
     <Spinner
         android:id="@+id/type_spinner"
@@ -43,8 +47,22 @@
         android:layout_toLeftOf="@+id/save_bubble_button"
         android:layout_toRightOf="@+id/save_bubble_content"
         android:layout_toEndOf="@+id/save_bubble_content"
-        android:layout_alignBottom="@+id/save_bubble_content" />
+        android:layout_alignBottom="@+id/save_bubble_content"
+
+        />
     />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/easter_egg_image"
+        android:visibility="gone"
+        android:adjustViewBounds="true"
+        android:src="@drawable/easter_egg"
+        android:layout_centerVertical="true"
+
+
+
+        />
 
     <LinearLayout
 
@@ -52,7 +70,9 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/save_bubble_content">
+        android:layout_below="@+id/save_bubble_content"
+
+        >
 
     </LinearLayout>
 

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.os.CountDownTimer;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,11 +16,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
@@ -47,6 +50,7 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable,
     private Bubble bubbleEdit;
 
     private Spinner bubble_types;
+    private boolean timerDone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,9 +223,50 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable,
 
     public void saveBubble(){
 
-        String bubble_type_string = String.valueOf(bubble_types.getSelectedItem());
+        timerDone = false;
+        final EditText input = (EditText) findViewById(R.id.save_bubble_content);
 
-        int bubble_type = -1;
+        //Toast.makeText(this, temp, Toast.LENGTH_SHORT).show();
+        if(input.getText().toString().equals("500lbs")) {
+
+            //Toast.makeText(this, "Easter Egg", Toast.LENGTH_SHORT).show();
+
+            InputMethodManager imm = (InputMethodManager) getSystemService(
+                    Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
+
+            final Button saveButton = (Button) findViewById(R.id.save_bubble_button);
+            final Spinner spinner = (Spinner) findViewById(R.id.type_spinner);
+            final LinearLayout layout = (LinearLayout) findViewById(R.id.View_Bubbles);
+            final ImageView easterEgg = (ImageView) findViewById(R.id.easter_egg_image);
+
+            saveButton.setVisibility(View.GONE);
+            spinner.setVisibility(View.GONE);
+            layout.setVisibility(View.GONE);
+            input.setVisibility(View.GONE);
+            easterEgg.setVisibility(View.VISIBLE);
+
+            //Toast.makeText(EditBubbleActivity.this, "got here", Toast.LENGTH_SHORT).show();
+
+            CountDownTimer waitTime = new CountDownTimer(5000, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    //do nothing
+                }
+
+                @Override
+                public void onFinish() {
+
+                    saveButton.setVisibility(View.VISIBLE);
+                    spinner.setVisibility(View.VISIBLE);
+                    layout.setVisibility(View.VISIBLE);
+                    input.setVisibility(View.VISIBLE);
+                    easterEgg.setVisibility(View.GONE);
+                    timerDone = false;
+
+                    String bubble_type_string = String.valueOf(bubble_types.getSelectedItem());
+
+                    int bubble_type = -1;
 
 //        if (bubble_type_string.equals("Exercise")) {
 //            bubble_type = Bubble.BUBBLE_TYPE_EXERCISE;
@@ -238,41 +283,96 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable,
 //            return;
 //        }
 
-        bubble_type = bubble_types.getSelectedItemPosition();
+                    bubble_type = bubble_types.getSelectedItemPosition();
 
 
-        boolean success;
-        //Add code to save the bubble
-        String bubbleContent = this.bubbleContentInput.getText().toString();
+                    boolean success;
+                    //Add code to save the bubble
+                    String bubbleContent = bubbleContentInput.getText().toString();
 
-        if (bubbleContent.equals("") || bubbleContent.length() > max_bubble_length) {
-            this.bubbleContentInput.setError("Bubble content cannot be empty or exceed "+this.max_bubble_length+" characters.");
-            this.bubbleContentInput.setText("");
+                    if (bubbleContent.equals("") || bubbleContent.length() > max_bubble_length) {
+                        bubbleContentInput.setError("Bubble content cannot be empty or exceed " + max_bubble_length + " characters.");
+                        bubbleContentInput.setText("");
 
-            return;
+                        return;
+                    }
+
+                    if (!editMode) {
+                        success = db.addBubble(new Bubble(bubbleContent, bubble_type));
+                    } else {
+                        if (bubbleEdit.getBubbleID() == bubble_types.getSelectedItemPosition()) {
+                            success = db.updateBubble(bubbleEdit.getBubbleID(), new Bubble(bubbleContent, bubble_type));
+                        } else {
+                            db.deleteBubble(bubbleEdit.getBubbleContent());
+                            success = db.addBubble(new Bubble(bubbleContent, bubble_type));
+                        }
+                        editMode = false;
+                    }
+
+                    if (success) {
+                        Toast.makeText(EditBubbleActivity.this, "Yeah, Bubble Saved!", Toast.LENGTH_SHORT).show();
+                        bubbleContentInput.setText("");
+                        updateBubbles();
+                    } else {
+                        Toast.makeText(EditBubbleActivity.this, "Error Saving Bubble. Please, try again.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }.start();
         }
+        else{
 
-        if (!editMode) {
-            success = db.addBubble(new Bubble(bubbleContent, bubble_type));
-        }
-        else {
-            if (bubbleEdit.getBubbleID() == bubble_types.getSelectedItemPosition()) {
-                success = db.updateBubble(bubbleEdit.getBubbleID(), new Bubble(bubbleContent, bubble_type));
+            String bubble_type_string = String.valueOf(bubble_types.getSelectedItem());
+
+            int bubble_type = -1;
+
+//        if (bubble_type_string.equals("Exercise")) {
+//            bubble_type = Bubble.BUBBLE_TYPE_EXERCISE;
+//        } else if (bubble_type_string.equals("Reps")) {
+//            bubble_type = Bubble.BUBBLE_TYPE_REPS;
+//        } else if (bubble_type_string.equals("Sets")) {
+//            bubble_type = Bubble.BUBBLE_TYPE_SETS;
+//        } else if (bubble_type_string.equals("Weight")) {
+//            bubble_type = Bubble.BUBBLE_TYPE_WEIGHT;
+//        } else if (bubble_type_string.equals("Rest Duration")) {
+//            bubble_type = Bubble.BUBBLE_TYPE_REST;
+//        } else {
+//            this.bubbleContentInput.setError("Invalid Bubble type.");
+//            return;
+//        }
+
+            bubble_type = bubble_types.getSelectedItemPosition();
+
+
+            boolean success;
+            //Add code to save the bubble
+            String bubbleContent = bubbleContentInput.getText().toString();
+
+            if (bubbleContent.equals("") || bubbleContent.length() > max_bubble_length) {
+                bubbleContentInput.setError("Bubble content cannot be empty or exceed " + max_bubble_length + " characters.");
+                bubbleContentInput.setText("");
+
+                return;
             }
-            else{
-                db.deleteBubble(bubbleEdit.getBubbleContent());
+
+            if (!editMode) {
                 success = db.addBubble(new Bubble(bubbleContent, bubble_type));
+            } else {
+                if (bubbleEdit.getBubbleID() == bubble_types.getSelectedItemPosition()) {
+                    success = db.updateBubble(bubbleEdit.getBubbleID(), new Bubble(bubbleContent, bubble_type));
+                } else {
+                    db.deleteBubble(bubbleEdit.getBubbleContent());
+                    success = db.addBubble(new Bubble(bubbleContent, bubble_type));
+                }
+                editMode = false;
             }
-            editMode=false;
-        }
 
-        if (success) {
-            Toast.makeText(this, "Yeah, Bubble Saved!", Toast.LENGTH_SHORT).show();
-            this.bubbleContentInput.setText("");
-            this.updateBubbles();
-        }
-        else {
-            Toast.makeText(this, "Error Saving Bubble. Please, try again.", Toast.LENGTH_SHORT).show();
+            if (success) {
+                Toast.makeText(EditBubbleActivity.this, "Yeah, Bubble Saved!", Toast.LENGTH_SHORT).show();
+                bubbleContentInput.setText("");
+                updateBubbles();
+            } else {
+                Toast.makeText(EditBubbleActivity.this, "Error Saving Bubble. Please, try again.", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

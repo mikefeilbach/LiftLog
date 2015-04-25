@@ -23,6 +23,15 @@
         android:textColorHint="@color/hint_color"
         android:textCursorDrawable="@drawable/custom_edit_text_cursor"
         android:hint="@string/text_save_bubble" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/easter_egg_image"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        android:src="@drawable/easter_egg"
+
+        />
 
     <Button
         android:id="@+id/save_bubble_button"

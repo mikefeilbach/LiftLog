@@ -60,7 +60,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    //***************public**********************************************************
+    //*************************************************************************
     // Creating tables in this app's database.
     //*************************************************************************
     @Override
@@ -90,6 +90,24 @@ public class DatabaseHandler extends SQLiteOpenHelper
         // All tables are created when database is initialized.
         db.execSQL(CREATE_WORKOUT_LOGS_TABLE);
         db.execSQL(CREATE_BUBBLES_TABLE);
+
+        Log.v(TAG, "****** START: Creating sample Bubbles.");
+
+        // Add sample Exercises.
+        addBubble(new Bubble("Bench Press", Bubble.BUBBLE_TYPE_EXERCISE), db);
+        addBubble(new Bubble("Sit Ups", Bubble.BUBBLE_TYPE_EXERCISE), db);
+
+        // Add sample Reps and Sets.
+        addBubble(new Bubble("10 reps", Bubble.BUBBLE_TYPE_REPS), db);
+        addBubble(new Bubble("5 sets", Bubble.BUBBLE_TYPE_SETS), db);
+        addBubble(new Bubble("12 reps", Bubble.BUBBLE_TYPE_REPS), db);
+
+        // Add sample Rest and Weight.
+        addBubble(new Bubble("135 lbs", Bubble.BUBBLE_TYPE_WEIGHT), db);
+        addBubble(new Bubble("90 seconds", Bubble.BUBBLE_TYPE_REST), db);
+        addBubble(new Bubble("30 lbs", Bubble.BUBBLE_TYPE_WEIGHT), db);
+
+        Log.v(TAG, "****** END: Creating sample Bubbles.");
     }
 
 
@@ -141,7 +159,34 @@ public class DatabaseHandler extends SQLiteOpenHelper
     //*************************************************************************
 
     /**
-     * Add a single Bubble to the Bubble table. Adding a duplicate Bubble
+     * Adds a single Bubble to the Bubble table. There is no error checking
+     * within this method, and it is meant to stock the Bubble table with
+     * "sample Bubbles" when the database is created.
+     */
+    private void addBubble(Bubble bubble, SQLiteDatabase db)
+    {
+        // Create key-value pairs for the columns in the Bubble table.
+        ContentValues values = new ContentValues();
+
+        // Note: do not use the Bubble's ID. The Bubble table will
+        // automatically generate them, since it is the primary key.
+
+        // Bubble content field.
+        values.put(COLUMN_BUBBLE_CONTENT, bubble.getBubbleContent());
+
+        // Bubble type field.
+        values.put(COLUMN_BUBBLE_TYPE, bubble.getBubbleType());
+
+        // Insert new row (Bubble) into the Bubble table. If it fails,
+        // we will return false.
+        if (db.insert(TABLE_BUBBLES, null, values) == -1)
+        {
+            Log.v(TAG, "****** Insert of sample Bubble failed.");
+        }
+    }
+
+    /**
+     * Adds a single Bubble to the Bubble table. Adding a duplicate Bubble
      * is not allowed and will return false.
      *
      * Note that this will properly assign a unique ID for the Bubble. An
@@ -424,11 +469,6 @@ public class DatabaseHandler extends SQLiteOpenHelper
      */
     public boolean addWorkoutLog(WorkoutLog log)
     {
-        // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-        // Make so that a duplicate Log can be saved, as long as the date isn't
-        // the same.
-        // TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-
         // Assume Log insertion will be successful.
         boolean retVal = true;
 
@@ -563,9 +603,6 @@ public class DatabaseHandler extends SQLiteOpenHelper
      * @return a List<WorkoutLog> with all of the WorkoutLogs in the
      *         WorkoutLog table.
      */
-
-    // TODO TODO TODO TODO TODO TODO TODO
-    // Change toasts, fix messages.
     public List<WorkoutLog> getAllWorkoutLogs()
     {
         // Return value.

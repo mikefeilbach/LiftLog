@@ -1,6 +1,7 @@
 package com.Arnold.LiftLog;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -14,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -150,6 +152,17 @@ public class ViewHistoryDetailed extends ActionBarActivity {
             edit.setVisible(false);
             save.setVisible(true);
         }
+        else {
+            //gets the edit log button
+            MenuItem edit = menu.findItem(R.id.VHD_edit_log);
+
+            //gets the save log button
+            MenuItem save = menu.findItem(R.id.VHD_save_log);
+
+            //turns the edit log button off and save log button on
+            edit.setVisible(true);
+            save.setVisible(false);
+        }
 
         return true;
     }
@@ -237,8 +250,17 @@ public class ViewHistoryDetailed extends ActionBarActivity {
      * This function updates in the database the new information for an edited log
      */
     private void saveLog() {
+
+        //no longer editing log, just viewing your changes
+        editLog = false;
+
+        //gets the old (read only) title and body views and the new (R/W)body and title
+        TextView oldBody = (TextView) findViewById(R.id.old_log_body);
+        TextView oldTitle = (TextView) findViewById(R.id.old_log_title);
         EditText newLogBody = (EditText) findViewById(R.id.new_log_body);
         EditText newLogTitle = (EditText) findViewById(R.id.new_log_title);
+        View separator = (View) findViewById(R.id.separator);
+        LinearLayout bubs = (LinearLayout) findViewById(R.id.View_Bubs_Detailed);
 
         //verifies if the title is not empty or bigger than 40 chars
         if (newLogTitle.getText().toString().equals("")
@@ -254,9 +276,30 @@ public class ViewHistoryDetailed extends ActionBarActivity {
         db.updateWorkoutLog(oldLogID,oldLog);
 
         //prints "log saved" and sends user back to the main View History screen
-        Intent intent = new Intent(ViewHistoryDetailed.this,ViewHistoryActivity.class);
-        Toast.makeText(this, "Log saved", Toast.LENGTH_SHORT).show();
-        startActivity(intent);
+//        Intent intent = new Intent(ViewHistoryDetailed.this,ViewHistoryActivity.class);
+//        Toast.makeText(this, "Log saved", Toast.LENGTH_SHORT).show();
+//        startActivity(intent);
+
+        //turns back on the read only views
+        oldBody.setVisibility(View.VISIBLE);
+        oldTitle.setVisibility(View.VISIBLE);
+        separator.setVisibility(View.VISIBLE);
+        newLogBody.setVisibility(View.GONE);
+        newLogTitle.setVisibility(View.GONE);
+        bubs.setVisibility(View.GONE);
+
+        //sets the textview log and body
+        oldBody.setText(newLogBody.getText().toString());
+        oldTitle.setText(newLogTitle.getText().toString());
+
+        //turns off the keyboard
+        InputMethodManager imm = (InputMethodManager) getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(oldBody.getWindowToken(), 0);
+
+        //recreate the menu
+        invalidateOptionsMenu();
+
     }
 
     public void bubbleSetUp() {

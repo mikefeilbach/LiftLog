@@ -125,3 +125,4 @@ public class RelativeLayoutButton extends RelativeLayout {
         bt.getBackground().setColorFilter(btcolor, PorterDuff.Mode.MULTIPLY);
     }
 }
+//0xFFFFFFF

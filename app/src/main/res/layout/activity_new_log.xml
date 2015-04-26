@@ -21,7 +21,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/timer_textview"
         android:textSize="20sp"
-
+        android:textColor="@color/white"
+        android:background="@null"
         android:gravity="center_vertical|center_horizontal"
         android:layout_alignParentLeft="true"
         android:layout_alignTop="@+id/timer_button_reset"

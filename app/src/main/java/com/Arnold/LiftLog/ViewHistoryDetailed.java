@@ -262,6 +262,8 @@ public class ViewHistoryDetailed extends ActionBarActivity {
         View separator = (View) findViewById(R.id.separator);
         LinearLayout bubs = (LinearLayout) findViewById(R.id.View_Bubs_Detailed);
 
+        View v = this.findViewById(R.id.view_history_detailed);
+        v.setBackgroundColor(0xFF0099FF);
         //verifies if the title is not empty or bigger than 40 chars
         if (newLogTitle.getText().toString().equals("")
                 || newLogTitle.getText().toString().length()>max_title_length){

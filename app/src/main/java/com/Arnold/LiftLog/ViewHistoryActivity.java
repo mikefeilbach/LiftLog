@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -161,6 +162,8 @@ public class ViewHistoryActivity extends ActionBarActivity {
 
                         //new button being created for log
                         final Button myButton = new Button(this);
+                        myButton.setTextColor(0xFFFFFFFF);
+                        myButton.getBackground().setColorFilter(0xFF0099FF, PorterDuff.Mode.MULTIPLY);
                         myButton.setText(logsByMonth.get(j).get(i).getLogTitle() + "\n" +
                                 logsByMonth.get(j).get(i).getLogDateString() + "\n\n\n");
 
@@ -219,18 +222,16 @@ public class ViewHistoryActivity extends ActionBarActivity {
 
                         //sets button parameters
                         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
                         //adds button to the layout
                         layout.addView(myButton, lp);
                     }
-
                 }
-
                 //if the month j is not the current month, just makes 1 bubble for the entire month
                 else {
-
                     //new button being created for the specific month
                     final Button myButton = new Button(this);
+                    myButton.setTextColor(0xFFFFFFFF);
+                    myButton.getBackground().setColorFilter(0xFF0099FF, PorterDuff.Mode.MULTIPLY);
 
                     //the month and year of the log button
                     String monthYear[] = logsByMonth.get(j).get(0).getLogDateString().split("/");
@@ -257,6 +258,8 @@ public class ViewHistoryActivity extends ActionBarActivity {
 
                                 //new button being created for log
                                 final Button myNewButton = new Button(ViewHistoryActivity.this);
+                                myButton.setTextColor(0xFFFFFFFF);
+                                myButton.getBackground().setColorFilter(0xFF0099FF, PorterDuff.Mode.MULTIPLY);
                                 myNewButton.setText(logsByMonth.get(test2).get(i).getLogTitle() + "\n" +
                                         logsByMonth.get(test2).get(i).getLogDateString() + "\n\n\n");
 

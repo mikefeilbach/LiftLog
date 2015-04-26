@@ -202,6 +202,8 @@ public class ViewHistoryDetailed extends ActionBarActivity {
         TextView oldBody = (TextView) findViewById(R.id.old_log_body);
         TextView oldTitle = (TextView) findViewById(R.id.old_log_title);
         View separator = (View) findViewById(R.id.separator);
+        View v = this.findViewById(R.id.view_history_detailed);
+        v.setBackgroundColor(0xFF000000);
 
         //gets the new (read/write) title and body views
         EditText newBody = (EditText) findViewById(R.id.new_log_body);
@@ -299,6 +301,7 @@ public class ViewHistoryDetailed extends ActionBarActivity {
 
             //new button being created for bubble
             final Button myButton = new Button(this);
+            myButton.setTextColor(0xFFFFFFFF);
 
             myButton.setText(curr_bubble.getBubbleContent());
 

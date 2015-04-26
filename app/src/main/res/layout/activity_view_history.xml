@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:id="@+id/VH_scrollview"
-    android:background="#0099FF">
+    android:background="#000000">
     <!--android:background="@drawable/bg"-->
 
 <LinearLayout

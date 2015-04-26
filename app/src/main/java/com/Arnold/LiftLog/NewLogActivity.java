@@ -338,6 +338,7 @@ public class NewLogActivity extends ActionBarActivity {
 
             //set the text of the log to be the logs title (will add date later)
             myButton.setText(curr_bubble.getBubbleContent());
+            myButton.setTextColor(0xFFFFFFFF);
 
             myButton.setClickable(true);
 

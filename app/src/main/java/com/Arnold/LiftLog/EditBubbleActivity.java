@@ -57,7 +57,6 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable,
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_bubble);
-
                                             //set focus layout for save_bubble_content(edit text box)
                                             //when receive focus, layout changes to drawable/focus_border_style.xml
                                             //when lost  focus, layout  changes to drawable/lost_focus_style.xml
@@ -85,7 +84,7 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable,
         // Initialize the 'Save Bubble' button
         final Button save_button = (Button) findViewById(R.id.save_bubble_button);
 
-        save_button.getBackground().setColorFilter(0xFF666666, PorterDuff.Mode.MULTIPLY);
+        save_button.getBackground().setColorFilter(0xFF0099FF, PorterDuff.Mode.MULTIPLY);
         save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,6 +143,7 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable,
 
             //new button being created for bubble
             final Button myButton = new Button(this);
+            myButton.setTextColor(0xFFFFFFFF);
 
             //set the text of the log to be the logs title (will add date later)
             myButton.setText(curr_bubble.getBubbleContent());

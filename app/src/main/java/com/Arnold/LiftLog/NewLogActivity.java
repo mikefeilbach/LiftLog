@@ -178,9 +178,11 @@ public class NewLogActivity extends ActionBarActivity {
 
                 //makes the button visible
                 resetButton.setVisibility(View.VISIBLE);
+                resetButton.getBackground().setColorFilter(0xffffffff,PorterDuff.Mode.MULTIPLY);
 
                 //makes the display visible
                 timerTextView.setVisibility(View.VISIBLE);
+                //timerTextView.getBackground().setColorFilter(0xffffffff,PorterDuff.Mode.MULTIPLY);
 
                 //gets the new value of the timer from the number-picker
                 timerLength = np.getValue()*1000;

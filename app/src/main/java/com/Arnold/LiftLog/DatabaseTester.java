@@ -56,15 +56,6 @@ public class DatabaseTester
         // Delete & recreate the database.
         db.recreateDatabase(this.context);
 
-        // Testing.
-        if (true)
-        {
-            db.addBubble(new Bubble("A", Bubble.BUBBLE_TYPE_WEIGHT));
-            db.addBubble(new Bubble("B", Bubble.BUBBLE_TYPE_EXERCISE));
-            db.addBubble(new Bubble("C", Bubble.BUBBLE_TYPE_SETS));
-            return;
-        }
-
         // Start test.
         Log.v(TAG, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
                 + "@@@@@@@@@@");

@@ -185,6 +185,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
         }
     }
 
+
     /**
      * Adds a single Bubble to the Bubble table. Adding a duplicate Bubble
      * is not allowed and will return false.

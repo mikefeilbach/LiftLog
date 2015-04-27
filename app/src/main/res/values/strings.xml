@@ -21,6 +21,14 @@
     <color name="black">#000000</color>
     <color name="background_color">#0099FF</color>
     <color name="hint_color">#AADDFF</color>
+    <color name="ripplecolor">#FFFFFF</color>
+    <color name="homescreenbutton_color">#0099FF</color>
+    <color name="viewhistorybutton_color">#0099FF</color>
+    <color name="bubble1_color">#00DD00</color>
+    <color name="bubble2_color">#FE5000</color>
+    <color name="bubble3_color">#FF0000</color>
+    <color name="bubble4_color">#00CCEE</color>
+    <color name="bubble5_color">#0000EE</color>
 
     <drawable name="load_screen_logo">@drawable/ab</drawable>
 

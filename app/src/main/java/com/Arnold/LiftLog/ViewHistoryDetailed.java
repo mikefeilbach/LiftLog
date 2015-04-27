@@ -327,23 +327,28 @@ public class ViewHistoryDetailed extends ActionBarActivity {
 
             // Adding color to the bubs and placing them in the right column
             if (curr_bubble.getBubbleType() == Bubble.BUBBLE_TYPE_EXERCISE) {
-                myButton.getBackground().setColorFilter(0xFF00DD00, PorterDuff.Mode.MULTIPLY);
+                //myButton.getBackground().setColorFilter(0xFF00DD00, PorterDuff.Mode.MULTIPLY);
+                myButton.setBackgroundResource(R.drawable.button_bubble1);
                 exercise_bubs.addView(myButton);
             } else if (curr_bubble.getBubbleType() == Bubble.BUBBLE_TYPE_REPS ||
                     curr_bubble.getBubbleType() == Bubble.BUBBLE_TYPE_SETS ) {
 
                 if (curr_bubble.getBubbleType() == Bubble.BUBBLE_TYPE_REPS) {
-                    myButton.getBackground().setColorFilter(0xFFFE5000, PorterDuff.Mode.MULTIPLY);
+                    //myButton.getBackground().setColorFilter(0xFFFE5000, PorterDuff.Mode.MULTIPLY);
+                    myButton.setBackgroundResource(R.drawable.button_bubble2);
                 } else {
-                    myButton.getBackground().setColorFilter(0xFFFF0000, PorterDuff.Mode.MULTIPLY);
+                    //myButton.getBackground().setColorFilter(0xFFFF0000, PorterDuff.Mode.MULTIPLY);
+                    myButton.setBackgroundResource(R.drawable.button_bubble3);
                 }
                 reps_sets_bubs.addView(myButton);
             } else {
 
                 if (curr_bubble.getBubbleType() == Bubble.BUBBLE_TYPE_WEIGHT) {
-                    myButton.getBackground().setColorFilter(0xFF00CCEE, PorterDuff.Mode.MULTIPLY);
+                    //myButton.getBackground().setColorFilter(0xFF00CCEE, PorterDuff.Mode.MULTIPLY);
+                    myButton.setBackgroundResource(R.drawable.button_bubble4);
                 } else {
-                    myButton.getBackground().setColorFilter(0xFF0000EE, PorterDuff.Mode.MULTIPLY);
+                    //myButton.getBackground().setColorFilter(0xFF0000EE, PorterDuff.Mode.MULTIPLY);
+                    myButton.setBackgroundResource(R.drawable.button_bubble5);
                 }
                 weight_rest_bubs.addView(myButton);
             }

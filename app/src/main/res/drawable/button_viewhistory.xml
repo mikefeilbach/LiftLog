@@ -2,6 +2,6 @@
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
     android:color="@color/ripplecolor">
     <item
-        android:drawable="@drawable/buttonshape_homescreen"
+        android:drawable="@drawable/buttonshape_viewhistory"
         />
 </ripple>

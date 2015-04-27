@@ -163,7 +163,8 @@ public class ViewHistoryActivity extends ActionBarActivity {
                         //new button being created for log
                         final Button myButton = new Button(this);
                         myButton.setTextColor(0xFFFFFFFF);
-                        myButton.getBackground().setColorFilter(0xFF0099FF, PorterDuff.Mode.MULTIPLY);
+                        //myButton.getBackground().setColorFilter(0xFF0099FF, PorterDuff.Mode.MULTIPLY);
+                        myButton.setBackgroundResource(R.drawable.button_viewhistory);
                         myButton.setText(logsByMonth.get(j).get(i).getLogTitle() + "\n" +
                                 logsByMonth.get(j).get(i).getLogDateString() + "\n\n\n");
 

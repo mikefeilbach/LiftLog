@@ -238,26 +238,20 @@ public class ViewHistoryDetailed extends ActionBarActivity {
      */
     private void saveLog() {
 
-        //no longer editing log, just viewing your changes
-        editLog = false;
-
         //gets the old (read only) title and body views and the new (R/W)body and title
-        TextView oldBody = (TextView) findViewById(R.id.old_log_body);
-        TextView oldTitle = (TextView) findViewById(R.id.old_log_title);
         EditText newLogBody = (EditText) findViewById(R.id.new_log_body);
         EditText newLogTitle = (EditText) findViewById(R.id.new_log_title);
-        View separator = (View) findViewById(R.id.separator);
-        LinearLayout bubs = (LinearLayout) findViewById(R.id.View_Bubs_Detailed);
 
-        View v = this.findViewById(R.id.view_history_detailed);
-        v.setBackgroundColor(0xFF0099FF);
         //verifies if the title is not empty or bigger than 40 chars
         if (newLogTitle.getText().toString().equals("")
                 || newLogTitle.getText().toString().length()>max_title_length){
             newLogTitle.setError("Log Title content cannot be empty or exceed 40 characters.");
-            newLogTitle.setText(oldLog.getLogTitle());
+            //newLogTitle.setText(oldLog.getLogTitle());
             return;
         }
+
+        //no longer editing log, just viewing your changes
+        editLog = false;
 
         //saves the old workout log in the database
         oldLog.setLogBody(newLogBody.getText().toString());

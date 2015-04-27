@@ -401,5 +401,11 @@ public class ViewHistoryActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        //Return to home screen
+        Intent intent = new Intent(ViewHistoryActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
 
 }

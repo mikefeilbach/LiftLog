@@ -36,6 +36,7 @@ public class RelativeLayoutButton extends RelativeLayout {
 		  	// to get standard button background and to get button text color
 
 		  	bt = new Button(context);
+            bt.setBackgroundResource(R.drawable.button_homescreen);
  		  	this.setBackgroundDrawable(bt.getBackground());
 
 		  	// copy all child from relative layout to this button

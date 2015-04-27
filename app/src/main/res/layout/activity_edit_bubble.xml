@@ -45,6 +45,7 @@
         android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:text="Save"
+        android:background="@drawable/button_homescreen"
         android:layout_below="@+id/type_spinner"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
@@ -54,10 +55,10 @@
         android:entries="@array/bubble_types"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_alignParentTop="true"
         android:layout_alignRight="@+id/save_bubble_button"
         android:layout_alignEnd="@+id/save_bubble_button"
+        android:layout_toRightOf="@+id/textView"
         android:layout_toEndOf="@+id/textView"
     />
 

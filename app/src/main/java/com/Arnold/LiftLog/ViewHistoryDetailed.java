@@ -316,9 +316,9 @@ public class ViewHistoryDetailed extends ActionBarActivity {
 
             // Set the appropriate padding so the text doesn't extend
             // beyond the boundary of the bubble button
-            myButton.setPadding(5,2,5,2);
+            myButton.setPadding(2,2,2,2);
 
-            myButton.setWidth(325);
+            myButton.setMaxWidth(325);
 
             // Any Click automatically deletes the first bubble, this will be fixed with Lauro's stuff
             myButton.setOnClickListener(new View.OnClickListener() {

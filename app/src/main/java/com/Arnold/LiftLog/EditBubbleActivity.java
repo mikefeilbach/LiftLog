@@ -84,7 +84,8 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable,
         // Initialize the 'Save Bubble' button
         final Button save_button = (Button) findViewById(R.id.save_bubble_button);
 
-        save_button.getBackground().setColorFilter(0xFF0099FF, PorterDuff.Mode.MULTIPLY);
+        //save_button.getBackground().setColorFilter(0xFF0099FF, PorterDuff.Mode.MULTIPLY);
+        //save_button.setBackgroundResource(R.drawable.button_homescreen);
         save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,7 +167,7 @@ public class EditBubbleActivity extends ActionBarActivity implements Comparable,
 
             myButton.setPadding(2, 2, 2, 2);
 
-            myButton.setWidth(325);
+            myButton.setMaxWidth(325);
 
             // Adding color to the bubs and placing them in the right column
             if (curr_bubble.getBubbleType() == Bubble.BUBBLE_TYPE_EXERCISE) {

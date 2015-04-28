@@ -10,7 +10,7 @@
 
         android:layout_height="110dp"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="50dp"
         android:id="@+id/test_button_image">
 
         </ImageView>
@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30sp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="35dp"
         android:layout_toRightOf="@+id/test_button_image"
         android:id="@+id/test_button_text2"
         android:textColor="@color/white"

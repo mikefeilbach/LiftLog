@@ -46,67 +46,8 @@ public class ViewHistoryActivity extends ActionBarActivity {
         // Get sorted (by date) ArrayList of WorkoutLogs.
         logHistory = (ArrayList<WorkoutLog>) db.getAllWorkoutLogs();
 
-        //************************logs for testing only*********************************************
-//        for(int i= 0; i < 36; i++) {
-//            String title = "Title: " + i;
-//            if ( i % 12 > 9) {
-//                WorkoutLog newLog = new WorkoutLog(title, "Test Body");
-//                String date = (i % 12) + "/01/15";
-//                newLog.setLogDateString(date);
-//
-//                WorkoutLog newLog1 = new WorkoutLog(title, "Test Body");
-//                String date1 = (i % 12) + "/05/15";
-//                newLog1.setLogDateString(date1);
-//
-//                WorkoutLog newLog2 = new WorkoutLog(title, "Test Body");
-//                String date2 = (i % 12) + "/13/15";
-//                newLog2.setLogDateString(date2);
-//
-//                WorkoutLog newLog3 = new WorkoutLog(title, "Test Body");
-//                String date3 = (i % 12) + "/23/15";
-//                newLog3.setLogDateString(date3);
-//
-//                WorkoutLog newLog4 = new WorkoutLog(title, "Test Body");
-//                String date4 = (i % 12) + "/30/15";
-//                newLog4.setLogDateString(date4);
-//
-//                logHistory.add(newLog);
-//                logHistory.add(newLog1);
-//                logHistory.add(newLog2);
-//                logHistory.add(newLog3);
-//                logHistory.add(newLog4);
-//            }
-//            else {
-//                WorkoutLog newLog = new WorkoutLog(title, "Test Body");
-//                String date = "0" + (i % 12) + "/01/15";
-//                newLog.setLogDateString(date);
-//
-//                WorkoutLog newLog1 = new WorkoutLog(title, "Test Body");
-//                String date1 = "0" + (i % 12) + "/05/15";
-//                newLog1.setLogDateString(date1);
-//
-//                WorkoutLog newLog2 = new WorkoutLog(title, "Test Body");
-//                String date2 = "0" + (i % 12) + "/13/15";
-//                newLog2.setLogDateString(date2);
-//
-//                WorkoutLog newLog3 = new WorkoutLog(title, "Test Body");
-//                String date3 = "0" + (i % 12) + "/23/15";
-//                newLog3.setLogDateString(date3);
-//
-//                WorkoutLog newLog4 = new WorkoutLog(title, "Test Body");
-//                String date4 = "0" + (i % 12) + "/30/15";
-//                newLog4.setLogDateString(date4);
-//
-//                logHistory.add(newLog);
-//                logHistory.add(newLog1);
-//                logHistory.add(newLog2);
-//                logHistory.add(newLog3);
-//                logHistory.add(newLog4);
-//            }
-//        }
-        //**********************************end testing data****************************************
-
-
+        //test View History detailed using dummy data, will override database data
+//        testViewHistory();
 
         if(logHistory.size() > 0) {
 
@@ -408,5 +349,71 @@ public class ViewHistoryActivity extends ActionBarActivity {
         Intent intent = new Intent(ViewHistoryActivity.this, MainActivity.class);
         startActivity(intent);
     }
+    /**
+     * This method is used to create dummy data in the log history to test the functionality
+     * of View History.  When called, it will override all previous logs from the database, and
+     * create 5 new logs for 37 months. While everything can be tested, do not attempt to delete/access
+     * the individual logs as it will error out.
+     */
+    private void testViewHistory() {
+        logHistory = new ArrayList<WorkoutLog>();
 
+        for(int i= 0; i < 36; i++) {
+            String title = "Title: " + i;
+            if ( i % 12 > 9) {
+                WorkoutLog newLog = new WorkoutLog(title, "Test Body");
+                String date = (i % 12) + "/01/15";
+                newLog.setLogDateString(date);
+
+                WorkoutLog newLog1 = new WorkoutLog(title, "Test Body");
+                String date1 = (i % 12) + "/05/15";
+                newLog1.setLogDateString(date1);
+
+                WorkoutLog newLog2 = new WorkoutLog(title, "Test Body");
+                String date2 = (i % 12) + "/13/15";
+                newLog2.setLogDateString(date2);
+
+                WorkoutLog newLog3 = new WorkoutLog(title, "Test Body");
+                String date3 = (i % 12) + "/23/15";
+                newLog3.setLogDateString(date3);
+
+                WorkoutLog newLog4 = new WorkoutLog(title, "Test Body");
+                String date4 = (i % 12) + "/30/15";
+                newLog4.setLogDateString(date4);
+
+                logHistory.add(newLog);
+                logHistory.add(newLog1);
+                logHistory.add(newLog2);
+                logHistory.add(newLog3);
+                logHistory.add(newLog4);
+            }
+            else {
+                WorkoutLog newLog = new WorkoutLog(title, "Test Body");
+                String date = "0" + (i % 12) + "/01/15";
+                newLog.setLogDateString(date);
+
+                WorkoutLog newLog1 = new WorkoutLog(title, "Test Body");
+                String date1 = "0" + (i % 12) + "/05/15";
+                newLog1.setLogDateString(date1);
+
+                WorkoutLog newLog2 = new WorkoutLog(title, "Test Body");
+                String date2 = "0" + (i % 12) + "/13/15";
+                newLog2.setLogDateString(date2);
+
+                WorkoutLog newLog3 = new WorkoutLog(title, "Test Body");
+                String date3 = "0" + (i % 12) + "/23/15";
+                newLog3.setLogDateString(date3);
+
+                WorkoutLog newLog4 = new WorkoutLog(title, "Test Body");
+                String date4 = "0" + (i % 12) + "/30/15";
+                newLog4.setLogDateString(date4);
+
+                logHistory.add(newLog);
+                logHistory.add(newLog1);
+                logHistory.add(newLog2);
+                logHistory.add(newLog3);
+                logHistory.add(newLog4);
+            }
+        }
+    }
 }

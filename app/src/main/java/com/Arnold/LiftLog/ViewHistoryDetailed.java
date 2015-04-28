@@ -390,7 +390,6 @@ public class ViewHistoryDetailed extends ActionBarActivity {
                 alertDialogBuilder.setTitle("Return");
                 alertDialogBuilder.setMessage("Do you want to return and lose your unsaved data?");
 
-
                 alertDialogBuilder.setPositiveButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
